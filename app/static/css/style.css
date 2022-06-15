@@ -1,0 +1,23 @@
+.cust-navyBlue{
+    background-color: #3776AB;
+}
+.text-navyBlue{
+    color: #245882;
+}
+.text-gold{
+    color: #bf6b03;
+}
+.oracom-logo{
+    width: 50px;
+    position:relative;
+}
+.oracom-logo img{
+    width: 100%;
+    display:block;
+}
+.bg-dradSilver{
+    background: linear-gradient(90deg, #e9edf1, #d0dae2);
+}
+.bg-opacity{
+    background: rgba(0, 0, 0, 0.2);
+}
