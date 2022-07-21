@@ -1,6 +1,14 @@
-
-@media screen and (max-width: 600px) {
-    h1{
-        font-size: 5vh;
+@media screen and (max-width: 768px) {
+    hn1 {
+        font-size: 5vw;
     }
+
+    .navbar-nav .nav-link::before {
+        display:none;
+    }
+    .navbar-light .navbar-nav .nav-link.active,
+    .navbar-light .navbar-nav .show>.nav-link,
+    .navbar-nav .nav-link:hover{
+        background: rgba(0, 0, 0, .1)
+}
 }

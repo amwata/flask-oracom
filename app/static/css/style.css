@@ -1,23 +1,134 @@
-.cust-navyBlue{
-    background-color: #3776AB;
+*{
+    list-style:none;
+    text-decoration:none;
+    transform: all .3s ease;
 }
-.text-navyBlue{
-    color: #2a618e;
+html {
+    --light: #DDE1E4;
+    --prim: hsl(217, 100%, 65%);
+    --dark: hwb(210 13% 84%);
+    --peach: hsl(30, 94%, 70%);
+    
 }
-.text-gold{
-    color: #cb740a;
+
+body {
+    font-family: "Montserrat", sans-serif;
 }
-.oracom-logo{
+
+.btn:focus{
+    outline: none;
+    box-shadow: none;
+}
+.navbar{
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+}
+
+.btn-brand {
+    background: var(--peach);
+}
+.btn-brand:hover {
+    background: hsl(30, 95%, 65%);
+}
+
+.navbar-nav .nav-link {
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-nav .nav-link::before {
+    width: 80%;
+    height: 2px;
+    background-color: var(--peach);
+    content: '';
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    transform: translateX(-150%);
+
+}
+
+.navbar-light .navbar-nav .nav-link.active::before,
+.navbar-light .navbar-nav .show>.nav-link::before,
+.navbar-nav .nav-link:hover::before {
+    transform: translateX(0%);
+    transition: all 0.3s ease;
+}
+
+.light {
+    background-color: var(--light);
+}
+
+.t-prim {
+    color: var(--prim);
+}
+
+.prim {
+    background-color: var(--prim);
+}
+
+.dark {
+    background-color: var(--dark);
+}
+
+.t-dark {
+    color: var(--dark);
+}
+
+.peach {
+    background-color: var(--peach);
+}
+
+.t-peach {
+    color: var(--peach);
+}
+
+.oracom-logo {
     width: 50px;
-    position:relative;
+    position: relative;
 }
-.oracom-logo img{
+
+.oracom-logo img {
     width: 100%;
-    display:block;
+    display: block;
 }
-.bg-dradSilver{
-    background: linear-gradient(90deg, #e9edf1, #d0dae2);
+
+.g-light {
+    background: linear-gradient(-90deg, #EDF1F4, #DDE1E4);
 }
-.bg-opacity{
-    background: rgba(0, 0, 0, 0.2);
+
+.hero-zlayer {
+    z-index: 2;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-zlayer::before {
+    z-index: -1;
+    transform: rotate(-45deg) translate(20%, 80%);
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    right: 0;
+    content: "";
+    position: absolute;
+    background-color: var(--prim);
+}
+footer{
+    background: #eee;
+}
+footer a{
+    text-decoration:none;
+    color: rgba(33, 37, 41, 0.8);
+    transition: color .2s ease;
+}
+footer a:hover{
+    color: hsl(30, 95%, 65%);
+}
+
+.footer-btm{
+    background: #ddd;
+    font-size: 12px;
+    border-top: 1px solid rgba(33, 37, 41, 0.2);
+    color: rgba(33, 37, 41, 0.7); 
 }
