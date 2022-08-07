@@ -1,0 +1,17 @@
+#hero h1,
+#hero p{
+	opacity:0;
+	transform:translateY(30px);
+	transition:all .6s ease;
+}
+#hero h1:nth-child(2){
+	transition-delay:.2s;
+}
+#hero p{
+	transition-delay:.3s;
+}
+#hero.inview h1,
+#hero.inview p{
+	opacity:1;
+	transform:translateY(0);
+}

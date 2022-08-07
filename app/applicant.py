@@ -1,10 +1,10 @@
+from flask import render_template
 from app import app
 
-@app.route("/applicant/<name>")
 @app.route("/applicant")
 @app.route("/applicant/dashboard")
-def applicant(name):
-    return f"<h1>applicant dashboard<br>{name}<?h1>"
+def applicant():
+    return "<h1>applicant dashboard<br><?h1>"
 
 @app.route("/applicant/profile")
 @app.route("/applicant/profile/<name>")
@@ -13,7 +13,7 @@ def applicantProfile(name):
 
 @app.route("/applicant/login")
 def applicantLogin():
-    return "<h1>Applicant sign in<?h1>"
+    return render_template("applicant-log-in.html", title="OraJobs | Applicant Login")
 
 @app.route("/applicant/logout")
 def applicantLogout():

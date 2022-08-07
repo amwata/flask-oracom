@@ -8,31 +8,36 @@
     <meta name="theme-color" content="#3776AB">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- favicon -->
     <link rel="mask-icon" href="{{url_for('static', filename='img/oracom.png')}}">
     <link rel="icon" href="{{url_for('static', filename='img/oracom.png')}}" type="image/png">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Bootstrap5 icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://use.fontawesome.com/4c109c920e.js"></script>
     <!-- custom css -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/queries.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/animate.css')}}">
     <title>{{ title }}</title>
 </head>
 
-<body class="text-dark">
-    <nav class="navbar sticky-top navbar-expand-md navbar-light bg-light">
+<body class="text-dark" >
+    <nav class="navbar navbar-expand-md navbar-light bg-light py-1">
         <div class="container">
-            <a class="navbar-brand " href="/"><img src="{{url_for('static', filename='img/oracom.png')}}" height="30"
-                    alt="Oracom"> <b>Ora<span class="t-peach">Jobs</span></b></a>
+            <a class="navbar-brand " href="/">
+                <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
+                <b>Ora<span class="t-prim">Jobs</span></b>
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            {% block navMenus %}
             <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li>
                         <a class="nav-link active" id="home" href="/">Home</a>
                     </li>
@@ -56,8 +61,8 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle ms-md-3 btn btn-sm btn-brand" href="#" id="navbarDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Register</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="/employer/registevr">Employer</a>
@@ -66,52 +71,73 @@
                     </li>
                 </ul>
             </div>
+            {% endblock %}
         </div>
     </nav>
-    
+
     {% block container %}{% endblock %}
 
     <!-- footer -->
-    <footer class=" pt-4 mt-5 text-sm-start">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <h2 class="py-3">
-                        <b><a class="text-dark" href="/">Ora<span class="t-peach">Jobs</span></a></b>
-                    </h2>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <ul class="">
-                                <li><a href="">Home</a></li>
-                                <li><a href="">Jobs</a></li>
-                                <li><a href="">Companies</a></li>
+    <footer class="">
+        <div class="container pt-5">
+            <h2 class="main-brand">
+                <a class="" href="/">
+                    <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
+                    <b>Ora<span class="t-prim">Jobs</span></b>
+                </a>
+            </h2>
+            <div class="row row-cols-md-2 row-cols-1 py-4">
+                <div class="col order-md-1  order-2">
+                    <ul class="foot-menu p-0">
+                        <li><a href="/jobs"><i class="fa fa-map-marker"></i>
+                                TRV Office Plaza, 7th Floor, Suite 7D, Muthithi Rd,<br> Westlands. Nairobi – Kenya.
+                            </a></li>
+                        <li><a href="/applicants"><i class="fa fa-envelope"></i>business@oracom.co.ke</a></li>
+                        <li><a href="/admin"><i class="fa fa-phone"></i>+254 729 990 583</a></li>
+                    </ul>
+                    <div class="social-icons d-lg-none my-3">
+                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="fa fa-twitter"></i></a>
+                        <a href=""><i class="fa fa-linkedin"></i></a>
+                        <a href=""><i class="fa fa-youtube-play"></i></a>
+                        <a href=""><i class="fa fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                <div class="col order-md-2  order-1 ps-sm-5">
+                    <div class="row row-cols-lg-2 row-cols-1">
+                        <div class="col">
+                            <ul class="foot-menu">
+                                <li><a href="/jobs">Jobs</a></li>
+                                <li><a href="/companies">Companies</a></li>
+                                <li><a href="/employer">Employer</a></li>
+                                <li><a href="/applicants">Applicants</a></li>
+                                <li><a href="/admin">Admin</a></li>
                             </ul>
                         </div>
-                        <div class="col-md-6">
-                            <ul class="">
-                                <li><a href="">Candidate</a></li>
-                                <li><a href="">Employer</a></li>
-                                <li><a href="">About Us</a></li>
+                        <div class="col">
+                            <ul class="foot-menu">
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/about-us">About Us</a></li>
+                                <li><a href="/about-us#services">Services</a></li>
+                                <li><a href="/about-us#contact">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-6 align-center">
-                    <h6><b>Connect With Us</b></h6>
-                    <ul class="d-flex">
-                        <li><a href=""><i class="bs-icon alarm">h</i></a></li>
-                        <li><a href=""><i class="bs-icon alarm">h</i></a></li>
-                        <li><a href=""><i class="bs-icon alarm">h</i></a></li>
-                        <li><a href=""><i class="bs-icon alarm">h</i></a></li>
-                    </ul>
-                </div>
             </div>
         </div>
         <div class="footer-btm">
-            <div class="container py-2">
-                <p class="text-center mb-0">
-                    Copyright &copy; <span id="ft-copy"></span>. All rights reserved
+            <div class="container py-3 d-lg-flex align-items-center justify-content-between">
+                <p class="mb-0 text-lg-start text-center">
+                    &copy; <span id="ft-copy"></span> OraJobs, Oracom.
                 </p>
+                <div class="social-icons d-lg-block d-none">
+                    <a href=""><i class="fa fa-facebook"></i></a>
+                    <a href=""><i class="fa fa-twitter"></i></a>
+                    <a href=""><i class="fa fa-linkedin"></i></a>
+                    <a href=""><i class="fa fa-youtube-play"></i></a>
+                    <a href=""><i class="fa fa-pinterest-p"></i></a>
+                </div>
             </div>
         </div>
     </footer>
@@ -124,6 +150,10 @@
         crossorigin="anonymous"></script>
     <!-- custom js -->
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+    {% block script %}
+    <script src="{{url_for('static', filename='js/home.js')}}"></script>
+    {% endblock %}
 </body>
 
 </html>

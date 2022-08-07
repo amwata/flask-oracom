@@ -2,57 +2,22 @@
     list-style:none;
     text-decoration:none;
     transform: all .3s ease;
+    box-sizing: border-box;
 }
 html {
     --light: #DDE1E4;
-    --prim: hsl(217, 100%, 65%);
-    --dark: hwb(210 13% 84%);
-    --peach: hsl(30, 94%, 70%);
+    --lighter:#f8f9fa;
+    --prim: #4d91ff;
+    --dark: #212529;
+    --gray: #6d6c6c;
+    --peach: #fab36b;
     
 }
-
-body {
+html,
+body{
+    overflow-x: hidden;
+    max-width: 100%;
     font-family: "Montserrat", sans-serif;
-}
-
-.btn:focus{
-    outline: none;
-    box-shadow: none;
-}
-.navbar{
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
-}
-
-.btn-brand {
-    background: var(--peach);
-}
-.btn-brand:hover {
-    background: hsl(30, 95%, 65%);
-}
-
-.navbar-nav .nav-link {
-    position: relative;
-    overflow: hidden;
-}
-
-.navbar-nav .nav-link::before {
-    width: 80%;
-    height: 2px;
-    background-color: var(--peach);
-    content: '';
-    border-radius: 20px;
-    position: absolute;
-    bottom: 0;
-    left: 10%;
-    transform: translateX(-150%);
-
-}
-
-.navbar-light .navbar-nav .nav-link.active::before,
-.navbar-light .navbar-nav .show>.nav-link::before,
-.navbar-nav .nav-link:hover::before {
-    transform: translateX(0%);
-    transition: all 0.3s ease;
 }
 
 .light {
@@ -83,14 +48,218 @@ body {
     color: var(--peach);
 }
 
-.oracom-logo {
-    width: 50px;
-    position: relative;
+a{
+    text-decoration:none;
+}
+.navbar{
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    z-index: 1000;
+}
+.navbar.header-scrolled{
+    position: fixed;
+}
+.navbar-nav li{
+    width: 100%;
+    padding: 4px 0;
 }
 
-.oracom-logo img {
+.navbar-nav .nav-link {
+    position: relative;
+    overflow: hidden;
+    padding: 4px 8px;
+}
+
+.navbar-nav .nav-link::before {
+    width: 80%;
+    height: 2px;
+    background-color: var(--peach);
+    content: '';
+    border-radius: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    transform: translateX(-150%);
+
+}
+
+.navbar-light .navbar-nav .nav-link.active::before,
+.navbar-light .navbar-nav .show>.nav-link::before,
+.navbar-nav .nav-link:hover::before {
+    transform: translateX(0%);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    padding: 0;
+}  
+.navbar-brand img {
+    width: 30px;
+}
+.main-brand a{
+    color: var(--dark);
+}
+.main-brand img {
+    width: 40px;
+}
+.section-header{
+    padding-bottom: 20px;
+}
+
+.btn:focus,
+.form-control:focus,
+.navbar-toggler:focus{
+    outline: none;
+    box-shadow: none;
+}
+.navbar-toggler{
+    border: none;
+}
+
+.h-hr{
+    display: grid;
+    grid-template-columns: auto 1fr;
     width: 100%;
+    margin-bottom: 50px;
+}
+.h-hr .h{
+    margin: 0;
+    padding: 0;
+}
+.h-hr .hr{
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 1px 0 0 var(--light);
+}
+#form-section .form-ctn{
+    width: 100%;
+    max-width: 400px;
+}
+#contact .form-ctn{
+    width: 100%;
+}
+
+.git{
+    padding-top: 16px;
+	padding-left: 16px;
+    height: 100%;
+}
+
+.git ul{
+	display:flex;
+	flex-direction:column;
+    padding: 0;
+}
+
+.git .user li a{
+    font-size:.85rem;
+    margin: 0;
+    color:var(--dark);
+}
+
+.git .user li a i{
+    padding-right:.5rem;
+    color:var(--peach);
+}
+
+.git .user li a:hover,
+.git .user li a:hover > i,
+.git .sm li a:hover{
+    color:var(--prim);
+}
+
+.git ul li a{
+    padding:8px 0;
+    display:block;
+    font-size:1rem;
+    transition:background .2s ease;
+}
+
+.git .sm{
+	border-radius:3px;
+	border:2px solid var(--light);
+    align-items: center;
+    justify-content: center;
+}
+
+.git .sm a{
+	color:var(--dark);
+    padding: 8px 4px;
+    font-size:1.3rem;
+}
+
+.form-control:focus,
+.form-control:valid {
+    border: 1px solid var(--prim);
+    box-shadow: 0 0 0 2px hsla(217, 100%, 65%, 0.3);
+}
+.field-ctn{
+    position:relative;
+    margin-bottom: 40px;
+}
+.field-ctn label{
+    color:var(--gray);
+    left: 10px;
+    top: 0;
+    font-weight: 500;
+    transform: translateY(-50%);
+    background: #fff;
+    font-size: .9rem;
+    position:absolute;
+    padding:0 5px;
+    transition: all .3s ease;
+}
+.form-control:focus ~ label,
+.form-control:valid ~ label{
+    transform: translateY(calc(-100% - 3px));
+    color:#000;
+    font-size: 1rem;
+}
+
+.btn-brand{
+    font-weight: 500;
+}
+.btn-brand.peach:hover {
+    background: var(--prim);
+    color:var(--lighter);
+}
+.btn-brand.prim:hover {
+    background: var(--peach);
+    color:var(--lighter);
+}
+
+
+.dropdown .dropdown-menu{
     display: block;
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50px);
+    transition: .2s;
+    z-index: -1;
+}
+.dropdown-menu::before{
+    position:absolute;
+	top:0;
+	left:40px;
+	background:white;
+	border-top:1px solid rgba(0, 0, 0, 0.15);
+	border-left:1px solid rgba(0, 0, 0, 0.15);
+	content:"";
+	transform:translateY(-50%) rotate(45deg);
+	height:10px;
+	width:10px;
+}
+.dropdown-menu.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+img {
+    width: 100%;
+    display: inline-block;
 }
 
 .g-light {
@@ -114,21 +283,67 @@ body {
     position: absolute;
     background-color: var(--prim);
 }
+#hero p{
+    color:rgb(93, 93, 93);
+    font-weight: 500;
+}
+
+.card{
+    padding: 20px;
+    height: 100%;
+}
+
+.card .card-icon{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin:20px auto;
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--light);
+}
+
 footer{
     background: #eee;
+    font-size: .8rem;
 }
-footer a{
-    text-decoration:none;
-    color: rgba(33, 37, 41, 0.8);
-    transition: color .2s ease;
+
+footer .foot-menu a{
+    display: inline-block;
+    color: rgba(33, 37, 41, 0.7);
+    border-bottom:2px solid transparent;
+    text-decoration-color: var(--peach);
+    transition: all .3s ease;
 }
-footer a:hover{
-    color: hsl(30, 95%, 65%);
+footer .foot-menu a i{
+    margin-right: 10px;
+}
+footer .foot-menu a:hover{
+    color:var(--prim);
+    text-decoration-line: underline;
+}
+
+.social-icons a{
+	width: 28px;
+	height: 28px;
+	font-size: 14px;
+	color:rgba(33, 37, 41, 0.7);
+    background: rgba(0, 0, 0, 0);
+	border-radius: 50%;
+    border: 1px solid rgba(33, 37, 41, 0.7);
+	display:inline-flex;
+	transition: all .3s ease;
+	align-items: center;
+	justify-content: center;
+}
+.social-icons a:hover{
+    background: var(--prim);
+    border: 1px solid var(--prim);
+	color:var(--lighter);
+
 }
 
 .footer-btm{
     background: #ddd;
-    font-size: 12px;
     border-top: 1px solid rgba(33, 37, 41, 0.2);
     color: rgba(33, 37, 41, 0.7); 
 }

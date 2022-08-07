@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block navMenus %}
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li>
+                        <a class="nav-link" id="home" href="/">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" id="home" href="/">Jobs</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" id="home" href="/">Companies</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Login</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
+                            <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Register</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/employer/registevr">Employer</a>
+                            <a class="dropdown-item" href="/applicant/register">Applicant</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            {% endblock %}
+
+{% block container %}
+
+    <section class="hero-form-section bg-light">
+        <div class="container-fluid prim text-light text-center">
+            <h3 class="py-4 m-0">Applicant Login</h3>
+        </div>
+        <div class="container py-5">
+            <div class="d-flex">
+                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between px-4 py-3">
+                    <div class="me-sm-5">
+                        <h4 class="text-white mb-1">Not Registered?</h4>
+                        <p class="m-0">Create an account and enjoy most of our services.</p>
+                    </div>
+                    <div class="sign-up-btn my-2">
+                        <a href="" class="btn btn-sm btn-brand peach text-light px-4">Sign Up <i class="fa fa-sign-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="form-section" class="pb-5 bg-light">
+        <div class="container">
+            <div class="d-flex">
+                <div class="form-ctn mx-auto">
+                    <form class="bg-white px-4 py-5" action="">
+                        <div class="">
+                            <div class="h-hr">
+                                <h4 class="h">Applicant Login</h4>
+                                <span class="hr"></span>
+                            </div>
+                            <div class="">
+                                <div class="field-ctn">
+                                    <input type="email" id="name1" class="form-control" required autofocus>
+                                    <label for="name1">Email</label>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="field-ctn">
+                                    <input type="password" id="name2" class="form-control" required>
+                                    <label for="name2">Password</label>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="mb-4">
+                                    <input type="checkbox" id="name3" class="">
+                                    <label for="name3">Remember Me</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-brand prim text-light d-inline px-4">Log In</button>
+                            <a class="ms-auto t-prim" href="">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}
