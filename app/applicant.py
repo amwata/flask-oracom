@@ -15,6 +15,6 @@ def applicantProfile(name):
 def applicantLogin():
     return render_template("applicant-log-in.html", title="OraJobs | Applicant Login")
 
-@app.route("/applicant/logout")
-def applicantLogout():
-    return "<h1>Applicant log out<?h1>"
+@app.route("/applicant/register")
+def applicantSignUp():
+    return render_template("applicant-signup.html", title="OraJobs | Applicant Registration")

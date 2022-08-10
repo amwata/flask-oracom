@@ -19,6 +19,9 @@ body{
     max-width: 100%;
     font-family: "Montserrat", sans-serif;
 }
+.reflect-px{
+    transform: rotateY(180deg);
+}
 
 .light {
     background-color: var(--light);
@@ -103,7 +106,7 @@ a{
     width: 40px;
 }
 .section-header{
-    padding-bottom: 20px;
+    margin-bottom:16px;
 }
 
 .btn:focus,
@@ -129,28 +132,36 @@ a{
 .h-hr .hr{
     margin: 0;
     padding: 0;
-    box-shadow: 0 1px 0 0 var(--light);
+    border-bottom: 1px solid var(--light);
+}
+#form-section .form-ctn-100{
+    width: 100%;
 }
 #form-section .form-ctn{
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 }
 #contact .form-ctn{
     width: 100%;
+    border: 2px solid var(--light);
 }
 
 .git{
-    padding-top: 16px;
-	padding-left: 16px;
     height: 100%;
+    border: 2px solid var(--light); 
+    width: calc(100% - 17px); 
+    padding: 20px 0;
 }
 
 .git ul{
 	display:flex;
 	flex-direction:column;
+    margin: 0;
     padding: 0;
 }
-
+.git .user {
+    padding: 0 20px;
+}
 .git .user li a{
     font-size:.85rem;
     margin: 0;
@@ -172,27 +183,30 @@ a{
     padding:8px 0;
     display:block;
     font-size:1rem;
-    transition:background .2s ease;
+    transition: .3s ease;
 }
 
 .git .sm{
 	border-radius:3px;
+    background: #fff;
 	border:2px solid var(--light);
+    transform: translateX(17px);
     align-items: center;
     justify-content: center;
 }
 
 .git .sm a{
 	color:var(--dark);
-    padding: 8px 4px;
+    padding: 4px;
     font-size:1.3rem;
 }
 
 .form-control:focus,
 .form-control:valid {
     border: 1px solid var(--prim);
-    box-shadow: 0 0 0 2px hsla(217, 100%, 65%, 0.3);
+    box-shadow: 0 0 0 2px var(--light);
 }
+
 .field-ctn{
     position:relative;
     margin-bottom: 40px;
@@ -201,7 +215,6 @@ a{
     color:var(--gray);
     left: 10px;
     top: 0;
-    font-weight: 500;
     transform: translateY(-50%);
     background: #fff;
     font-size: .9rem;
@@ -213,7 +226,6 @@ a{
 .form-control:valid ~ label{
     transform: translateY(calc(-100% - 3px));
     color:#000;
-    font-size: 1rem;
 }
 
 .btn-brand{
@@ -261,6 +273,15 @@ img {
     width: 100%;
     display: inline-block;
 }
+.image-ctn{
+    padding: 0;
+}
+.image-ctn img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 .g-light {
     background: linear-gradient(-90deg, #EDF1F4, #DDE1E4);
@@ -289,18 +310,80 @@ img {
 }
 
 .card{
-    padding: 20px;
     height: 100%;
 }
 
 .card .card-icon{
     width: 70px;
     height: 70px;
+    text-align: center;
+    padding: 4px;
     border-radius: 50%;
     margin:20px auto;
-    background: #fff;
+    margin-bottom: 40px;
     box-shadow: 0 0 0 1px var(--light);
 }
+.card .card-icon i{
+    font-size: 3rem;
+    line-height: 3.8rem;
+    color: var(--light);
+}
+.card .card-text{
+    padding:20px;
+}
+
+.card .card-text h3{
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+.card .card-text p{
+    font-size: 1rem;
+}
+.card .card-image{
+    margin-bottom: 40px;
+    width: 100%;
+    height: 250px;
+    cursor:pointer;
+    background: var(--light);
+    position: relative;
+    overflow: hidden;
+}
+.card .card-image .card-image-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: .3s ease;
+}
+.card .card-image .card-image-overlay::before{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    border: 2px solid var(--light);
+    content: "";
+    z-index: -1;
+}
+.card .card-image:hover > .card-image-overlay{
+    opacity: 1;
+    visibility: visible;
+}
+.card .card-image:hover > img{
+    transform: scale(1.05);
+}
+.card .card-image img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: .3s ease;
+}
+
 
 footer{
     background: #eee;

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block container %}
 
-<section id="hero" class="g-light text-center text-sm-start">
+<section id="hero" class="g-light text-center text-sm-start mb-5">
     <div class="container ">
         <div class="d-sm-flex hero-zlayer align-items-center justify-content-around position-relative">
             <div class="w-sm-50 pt-4 pt-sm-auto px-4 px-sm-0">
@@ -20,7 +20,7 @@
         </div>
     </div>
 </section>
-<section id="drive" class="section-padding py-5">
+<section id="drive" class="section-padding text-center py-5">
     <div class="container">
         <div class="row">
             <div class="col">
@@ -32,23 +32,30 @@
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
             <div class="col">
                 <div class="card">
-                    <span class="card-icon"></span>
-                    <h3>Best Online Solutions</h3>
-                    <p>Working with parastatals, Large Companies and SMEs to individuals to produce top notch web solutions</p>
+                    <span class="card-icon"><i class="fa fa-star"></i></span>
+                    <div class="card-text">
+                        <h3>Best Online Solutions</h3>
+                        <p>Working with parastatals, Large Companies and SMEs to individuals to produce top notch web
+                            solutions</p>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <span class="card-icon"></span>
-                    <h3>Creative</h3>
-                    <p>Highly creative web experts who share and implement ideas to produce masterpiece projects</p>
+                    <span class="card-icon"><i class="fa fa-modx"></i></span>
+                    <div class="card-text">
+                        <h3>Creative</h3>
+                        <p>Highly creative web experts who share and implement ideas to produce masterpiece projects</p>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <span class="card-icon"></span>
-                    <h3>Research & Innovation</h3>
-                    <p>Priviledged to have been listed amongst entreprenurship companies at the GES</p>
+                    <span class="card-icon"><i class="fa fa-cubes"></i></span>
+                    <div class="card-text">
+                        <h3>Research & Innovation</h3>
+                        <p>Priviledged to have been listed amongst entreprenurship companies at the GES</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,27 +74,140 @@
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
             <div class="col">
                 <div class="card">
-                    <img src="{{url_for('static', filename='img/oracom.png')}}" alt="">
-                    <h3>Best Online Solutions</h3>
-                    <p>Working with parastatals, Large Companies and SMEs to individuals to produce top notch web solutions</p>
+                    <div class="card-image">
+                        <div class="card-image-overlay">
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Start Now <i class="fa fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                        <img src="{{url_for('static', filename='img/fmale.png')}}" alt="">
+                    </div>
+                    <div class="card-text">
+                        <h3>Create an Account</h3>
+                        <p>
+                            Sign up by creating an account with required details and begin your job hunt.
+                        </p>
+                        <a class="btn btn-sm btn-brand prim text-light" href="#" role="button">
+                            Sign Up
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <img src="{{url_for('static', filename='img/oracom.png')}}" alt="">
-                    <h3>Creative</h3>
-                    <p>Highly creative web experts who share and implement ideas to produce masterpiece projects</p>
+                    <div class="card-image">
+                        <div class="card-image-overlay">
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Start Now <i class="fa fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                        <img class="" src="{{url_for('static', filename='img/manFmale.png')}}" alt="">
+                    </div>
+                    <div class="card-text">
+                        <h3>Search Desired Jobs</h3>
+                        <p>
+                            Browse our database of job opportunities from various companies. Narrow down by adding filters to your search.
+                        </p>
+                        <a class="btn btn-sm btn-brand prim text-light" href="#" role="button">
+                            Browse Jobs
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card">
-                    <img src="{{url_for('static', filename='img/oracom.png')}}" alt="">
-                    <h3>Research & Innovation</h3>
-                    <p>Priviledged to have been listed amongst entreprenurship companies at the GES</p>
+                    <div class="card-image">
+                        <div class="card-image-overlay">
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Start Now <i class="fa fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                        <img src="{{url_for('static', filename='img/hop.jpg')}}" alt="">
+                    </div>
+                    <div class="card-text">
+                        <h3>Send Your Application</h3>
+                        <p>
+                             Forward your updated resume to the optimal employers and gear up for the recruitment.
+                        </p>
+                        <a class="btn btn-sm btn-brand prim text-light" href="#" role="button">
+                            Apply for Jobs
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<section id="employer" class="g-light text-center text-sm-start py-5">
+    <div class="container">
+        <div class="row m-auto mb-5">
+            <div class="row m-0 p-0">
+                <div class="col-lg-6 col-md-6 col-12 pe-3 mb-3">
+                    <h2 class=" ">Are You an Employer? </h2>
+                    <p>
+                        We are here to help you manage your hiring process.
+                        Make your profile public, post jobs and connect with quality applicants.
+                    </p>
+                    <a class="btn btn-brand peach px-4 py-2 text-light" href="#" role="button">
+                        Post a Job
+                    </a>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-12 image-ctn bg-light mb-3 reflect-px">
+                    <img class="" src="{{url_for('static', filename='img/man.jpg')}}" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="section-header">
+            <h2 class=" ">Manage Your Hiring Process </h2>
+        </div>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
+            <div class="col">
+                <div class="card">
+                    <span class="card-icon"><i class="fa fa-address-card-o"></i></span>
+                    <div class="card-text">
+                        <h3>Register</h3>
+                        <p>
+                            Create an account with us to begin your hiring process.
+                        </p>
+                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="card-icon"><i class="fa fa-thumb-tack"></i></span>
+                    <div class="card-text">
+                        <h3>Post Jobs</h3>
+                        <p>
+                           Jumpstart your hiring by inviting candidates to apply for posted job opportunities.
+                        </p>
+                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <span class="card-icon"><i class="fa fa-users"></i></span>
+                    <div class="card-text">
+                        <h3>Find Candidates</h3>
+                        <p>
+                           Access applicants whose resumes meet your job requirements.
+                        </p>
+                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>    
+</section>
+
 
 {% endblock %}
