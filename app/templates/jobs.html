@@ -1,20 +1,140 @@
 {% extends 'base.html' %}
+
+{% block navMenus %}
+<div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav ms-auto align-items-center">
+        <li>
+            <a class="nav-link" id="home" href="/">Home</a>
+        </li>
+        <li>
+            <a class="nav-link" id="home" href="/">Jobs</a>
+        </li>
+        <li>
+            <a class="nav-link" id="home" href="/">Companies</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Login</a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
+                <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Register</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/employer/register">Employer</a>
+                <a class="dropdown-item" href="/applicant/register">Applicant</a>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block container %}
 
-    <section class="vh-100">
-        <div class="container d-flex align-items-center justify-content-center h-100">
-            <div class="row g-3">
-                <div class="col-6 bg-light">
-
-                </div>
-                <div class="col-6 text-center">
-                    <h3 class=" t-peach">Who We Are</h3>
-                    <p>
-                        Web design company in Kenya, Canada and Belgium. We offer website design and web development services, graphic design, mobile apps development, domain and web hosting, bulk SMS, Internet Marketing,and photography and videography
-                    </p>
-                </div>
+<section id="admin-login" class="">
+    <div class="container-fluid bg-teal-lgrad text-light text-center">
+        <h2 class="py-4 m-0">Find Jobs!!!</h2>
+        <div class="d-flex py-3">
+            <div class="mx-auto text-light bg-secondary px-5 py-3">
+                <form class="my-2 search-form">
+                    <input type="text" placeholder="Job Title" class="d-block d-sm-inline" required>
+                    <input type="text" placeholder="Location" class="d-block d-sm-inline my-2 ms-sm-1">
+                    <button type="submit" class="btn btn-sm btn-brand prim text-light px-3 d-block d-sm-inline ms-sm-1"> <i class="fa fa-search"></i> Search </button>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<section id="job-categories" class="bg-light py-5">
+    <div class="container">
+        <div class="section-header">
+            <h2 class=" ">Top Job Categories </h2>
+        </div>
+        
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-3 text-center">
+            <div class="col">
+                <a href="" class="category-card">
+                    <div class="category-img">
+                        <img src="{{url_for('static', filename='img/company1.png')}}" alt="">
+                    </div>
+                    <h5>IT Department</h5>
+                    <p>4</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="" class="category-card">
+                    <div class="category-img">
+                        <img src="{{url_for('static', filename='img/company1.png')}}" alt="">
+                    </div>
+                    <h5>IT Department</h5>
+                    <p>4</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="" class="category-card">
+                    <div class="category-img">
+                        <img src="{{url_for('static', filename='img/company1.png')}}" alt="">
+                    </div>
+                    <h5>IT Department</h5>
+                    <p>4</p>
+                </a>
+            </div>
+            <div class="col">
+                <a href="" class="category-card">
+                    <div class="category-img">
+                        <img src="{{url_for('static', filename='img/company1.png')}}" alt="">
+                    </div>
+                    <h5>IT Department</h5>
+                    <p>4</p>
+                </a>
+            </div>
+        </div>
+        <a href="" type="submit" class="btn btn-sm btn-brand prim text-light px-3 mt-3">View All</a>
+
+    </div>
+</section>
+
+<section id="jobs-list" class="py-5">
+    <div class="container">
+        <div class="section-header">
+            <h2 class=" ">Recent Jobs</h2>
+        </div>
+        
+        <div class="row row-cols-1 g-3">
+            <div class="col">
+                <div class="list-card">
+                    <div class=" d-flex align-items-center">
+                        <a href="" class="list-img">
+                            <img src="{{url_for('static', filename='img/company2.png')}}" alt="">
+                        </a>
+                        <div class="ps-3">
+                            <h5>Job Title</h5>
+                            <p class="text-muted m-0">Company Name</p>
+                            <small class="text-muted"><i class="fa fa-map-marker"></i> Location</small>
+                            <small class="text-muted"><i class="fa fa-send"></i> 2022-2-12</small>
+                        </div>
+                    </div>
+                    <div class="bg-danger">
+                        <small class="text-muted d-block"><i class="fa fa-money"></i> KSh. 12000 - 15000</small>
+                        <a href="" class="btn btn-sm btn-brand prim m-auto text-light">Internship</a>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+
+    </div>
+</section>
 
 {% endblock %}
+{% block script %}{% endblock %}

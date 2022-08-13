@@ -11,6 +11,8 @@ html {
     --dark: #212529;
     --gray: #6d6c6c;
     --peach: #fab36b;
+    --teal1: #006070;
+    --teal2: #0090a0;
     
 }
 html,
@@ -21,6 +23,15 @@ body{
 }
 .reflect-px{
     transform: rotateY(180deg);
+}
+.bg-teal-lgrad{
+    background: linear-gradient(to right, var(--teal1), var(--teal2));
+}
+.bg-w-opac{
+    background: rgba(255, 255, 255, 0.5);
+}
+.bg-d-opac{
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .light {
@@ -105,9 +116,6 @@ a{
 .main-brand img {
     width: 40px;
 }
-.section-header{
-    margin-bottom:16px;
-}
 
 .btn:focus,
 .form-control:focus,
@@ -139,7 +147,13 @@ a{
 }
 #form-section .form-ctn{
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
+    margin: 20px auto;
+}
+#form-section .form-ctn form{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }
 #contact .form-ctn{
     width: 100%;
@@ -200,6 +214,13 @@ a{
     padding: 4px;
     font-size:1.3rem;
 }
+.search-form {
+    margin: 0;
+}
+.search-form input{
+    padding:4px  4px;
+    border: none;
+}
 
 .form-control:focus,
 .form-control:valid {
@@ -227,7 +248,6 @@ a{
     transform: translateY(calc(-100% - 3px));
     color:#000;
 }
-
 .btn-brand{
     font-weight: 500;
 }
@@ -309,6 +329,53 @@ img {
     font-weight: 500;
 }
 
+#job-categories .category-card,
+#jobs-list .list-card {
+    background: white;
+    color: var(--dark);
+    display: block;
+    padding: 20px;    
+}
+
+#job-categories .category-card{
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15);
+}
+
+#jobs-list .list-card {
+    display: flex;   
+    align-items: stretch;
+    justify-content: space-between;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.15);
+
+}
+
+#job-categories .category-card .category-img,
+#jobs-list .list-card .list-img{
+    background: var(--light);
+    width: 80px;
+    height: 80px;
+}
+
+#job-categories .category-card .category-img{
+    margin: 20px auto;
+    border-radius: 50%;   
+ 
+}
+
+#jobs-list .list-card .list-img{
+    background: var(--light);
+    width: 90px;
+    height: 90px;
+    display: block; 
+}
+
+#jobs-list .list-card .list-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .card{
     height: 100%;
 }
@@ -319,8 +386,7 @@ img {
     text-align: center;
     padding: 4px;
     border-radius: 50%;
-    margin:20px auto;
-    margin-bottom: 40px;
+    margin:30px auto;
     box-shadow: 0 0 0 1px var(--light);
 }
 .card .card-icon i{

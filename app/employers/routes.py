@@ -15,3 +15,4 @@ def employerLogin():
 @app.route("/employer/logout")
 def employerLogout():
     return "<h1>Employer log out<?h1>"
+
