@@ -1,42 +1,45 @@
 {% extends 'base.html' %}
 
 {% block navMenus %}
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto align-items-center">
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ms-auto align-items-center">
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Login</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
                     <li>
-                        <a class="nav-link" id="home" href="/">Home</a>
+                        <hr class="dropdown-divider">
                     </li>
-                    <li>
-                        <a class="nav-link" id="home" href="/">Jobs</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" id="home" href="/">Companies</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Login</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
-                            <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Register</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/employer/register">Employer</a>
-                            <a class="dropdown-item" href="/applicant/register">Applicant</a>
-                        </div>
-                    </li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
                 </ul>
-            </div>
-            {% endblock %}
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Register</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
+                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
+                </div>
+            </li>
+        </ul>
+    </div>     
+{% endblock %}
 
 {% block container %}
 
@@ -49,10 +52,11 @@
                 <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between px-4 py-3">
                     <div class="me-sm-5">
                         <h4 class="text-white mb-1">Not Registered?</h4>
+                        <p class="m-0">Begin your job hunt!</p>
                         <p class="m-0">Create an account to apply for available job vacancies.</p>
                     </div>
                     <div class="sign-up-btn my-2">
-                        <a href="/applicant/register" class="btn btn-sm btn-brand peach text-light px-4">Sign Up <i class="fa fa-sign-in"></i></a>
+                        <a href="{{url_for('applicant.applicant_signup')}}" class="btn btn-sm btn-brand peach text-light px-4">Sign Up <i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
             </div>
@@ -63,34 +67,63 @@
         <div class="container">
             <div class="d-flex">
                 <div class="form-ctn mx-auto">
-                    <form class="bg-white px-4 py-5" action="">
+                    <form class="bg-white px-4 py-5" method="POST" action="">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
                         <div class="h-hr">
                             <h4 class="h">Login</h4>
                             <span class="hr"></span>
                         </div>
                         <div class="">
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="email" id="name1" class="form-control" required autofocus>
-                                    <label for="name1">Email</label>
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="password" id="name2" class="form-control" required>
-                                    <label for="name2">Password</label>
+                                    <!-- input validation -->
+                                    {% if form.password.errors %}
+                                        {{form.password(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.password.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.password(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.password.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-check">
                                 <div class="mb-4">
-                                    <input type="checkbox" id="name3" class="">
-                                    <label for="name3">Remember Me</label>
+                                    <!-- Checkbox -->
+                                    {{form.remember(class="form-check-input")}}
+                                    <!-- Checkbox label -->
+                                    {{form.remember.label(class="form-check-label")}}
                                 </div>
                             </div>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <button class="btn btn-brand prim text-light d-inline px-4">Log In</button>
-                            <a class="ms-auto t-prim" href="">Forgot Password?</a>
+                        <div class="">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                            <small class="text-muted">
+                                <a class="ms-3 t-prim" href="">Forgot Password?</a>
+                            </small>
                         </div>
                     </form>
                 </div>

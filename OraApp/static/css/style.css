@@ -372,13 +372,6 @@ img {
  
 }
 
-#jobs-list .list-card .list-img{
-    background: var(--light);
-    width: 90px;
-    height: 90px;
-    display: block; 
-}
-
 #jobs-list .list-card .list-img img{
     width: 100%;
     height: 100%;

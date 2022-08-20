@@ -1,42 +1,5 @@
 {% extends 'base.html' %}
 
-{% block navMenus %}
-<div class="collapse navbar-collapse" id="navbar">
-    <ul class="navbar-nav ms-auto align-items-center">
-        <li>
-            <a class="nav-link" id="home" href="/">Home</a>
-        </li>
-        <li>
-            <a class="nav-link" id="home" href="/">Jobs</a>
-        </li>
-        <li>
-            <a class="nav-link" id="home" href="/">Companies</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Login</a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
-                <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Register</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/employer/register">Employer</a>
-                <a class="dropdown-item" href="/applicant/register">Applicant</a>
-            </div>
-        </li>
-    </ul>
-</div>
-{% endblock %}
 
 {% block container %}
 
@@ -47,7 +10,7 @@
             We are experiencing trouble on our end.
             Please Try Again Later.
         </p>
-        <a href="/" class="btn btn-sm btn-brand prim text-light">Home Page</a>
+        <a href="{{url_for('main.home')}}" class="btn btn-sm btn-brand prim text-light">Home Page</a>
     </div>
 </section>
 

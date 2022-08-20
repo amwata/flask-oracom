@@ -28,7 +28,7 @@
 <body class="text-dark" >
     <nav class="navbar navbar-expand-md navbar-light bg-light py-1">
         <div class="container">
-            <a class="navbar-brand " href="/">
+            <a class="navbar-brand " href="{{url_for('main.home')}}">
                 <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
                 <b>Ora<span class="t-prim">Jobs</span></b>
             </a>
@@ -39,49 +39,69 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li>
-                        <a class="nav-link active" id="home" href="/">Home</a>
+                        <a class="nav-link active" href="{{url_for('main.home')}}">Home</a>
                     </li>
                     <li>
-                        <a class="nav-link" id="home" href="/jobs">Jobs</a>
+                        <a class="nav-link" href="{{url_for('jobs.job_list')}}">Jobs</a>
                     </li>
                     <li>
-                        <a class="nav-link" id="home" href="/companies-list">Companies</a>
+                        <a class="nav-link" href="{{url_for('company.company_list')}}">Companies</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Login</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
-                            <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
-                        </ul>
+                    <li>
+                        <a class="nav-link" href="{{url_for('main.about')}}">About</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Register</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/employer/register">Employer</a>
-                            <a class="dropdown-item" href="/applicant/register">Applicant</a>
-                        </div>
-                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li>
+                            <a class="nav-link" href="{{url_for('main.logout')}}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Login</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                                <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                                id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Register</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
+                                <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             {% endblock %}
         </div>
     </nav>
-
+    <div class="container p-0">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissable fade show d-flex align-items-center" role="alert">
+                        {{ message }}
+                        <button class="btn btn-close ms-auto" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
     {% block container %}{% endblock %}
 
     <!-- footer -->
     <footer class="">
         <div class="container pt-5">
             <h2 class="main-brand">
-                <a class="" href="/">
+                <a class="" href="{{url_for('main.home')}}">
                     <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
                     <b>Ora<span class="t-prim">Jobs</span></b>
                 </a>
@@ -89,37 +109,37 @@
             <div class="row row-cols-md-2 row-cols-1 py-4">
                 <div class="col order-md-1  order-2">
                     <ul class="foot-menu p-0">
-                        <li><a href="/jobs"><i class="fa fa-map-marker"></i>
+                        <li><a href="#"><i class="fa fa-map-marker"></i>
                                 TRV Office Plaza, 7th Floor, Suite 7D, Muthithi Rd,<br> Westlands. Nairobi – Kenya.
                             </a></li>
-                        <li><a href="/applicants"><i class="fa fa-envelope"></i>business@oracom.co.ke</a></li>
-                        <li><a href="/admin"><i class="fa fa-phone"></i>+254 729 990 583</a></li>
+                        <li><a href="#"><i class="fa fa-envelope"></i>business@oracom.co.ke</a></li>
+                        <li><a href="#"><i class="fa fa-phone"></i>+254 729 990 583</a></li>
                     </ul>
                     <div class="social-icons d-lg-none my-3">
-                        <a href=""><i class="fa fa-facebook"></i></a>
-                        <a href=""><i class="fa fa-twitter"></i></a>
-                        <a href=""><i class="fa fa-linkedin"></i></a>
-                        <a href=""><i class="fa fa-youtube-play"></i></a>
-                        <a href=""><i class="fa fa-pinterest-p"></i></a>
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
                     </div>
                 </div>
                 <div class="col order-md-2  order-1 ps-sm-5">
                     <div class="row row-cols-lg-2 row-cols-1">
                         <div class="col">
                             <ul class="foot-menu">
-                                <li><a href="/jobs">Jobs</a></li>
-                                <li><a href="/companies">Companies</a></li>
-                                <li><a href="/employer/login">Employer</a></li>
-                                <li><a href="/applicant/login">Applicants</a></li>
-                                <li><a href="/">Admin</a></li>
+                                <li><a href="{{url_for('jobs.job_list')}}">Jobs</a></li>
+                                <li><a href="{{url_for('company.company_list')}}">Companies</a></li>
+                                <li><a href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                                <li><a href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                                <li><a href="{{url_for('admin.admin_login')}}">Admin</a></li>
                             </ul>
                         </div>
                         <div class="col">
                             <ul class="foot-menu">
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/about-us">About Us</a></li>
-                                <li><a href="/about-us#services">Services</a></li>
-                                <li><a href="/about-us#contact">Contact Us</a></li>
+                                <li><a href="{{url_for('main.home')}}">Home</a></li>
+                                <li><a href="{{url_for('main.about')}}">About Us</a></li>
+                                <li><a href="{{url_for('main.about')}}#services">Services</a></li>
+                                <li><a href="{{url_for('main.about')}}#contact">Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -132,11 +152,11 @@
                     &copy; <span id="ft-copy"></span> OraJobs, Oracom.
                 </p>
                 <div class="social-icons d-lg-block d-none">
-                    <a href=""><i class="fa fa-facebook"></i></a>
-                    <a href=""><i class="fa fa-twitter"></i></a>
-                    <a href=""><i class="fa fa-linkedin"></i></a>
-                    <a href=""><i class="fa fa-youtube-play"></i></a>
-                    <a href=""><i class="fa fa-pinterest-p"></i></a>
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-linkedin"></i></a>
+                    <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    <a href="#"><i class="fa fa-pinterest-p"></i></a>
                 </div>
             </div>
         </div>

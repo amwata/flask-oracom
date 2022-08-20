@@ -1,42 +1,45 @@
 {% extends 'base.html' %}
 
 {% block navMenus %}
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav ms-auto align-items-center">
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ms-auto align-items-center">
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Login</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
                     <li>
-                        <a class="nav-link" id="home" href="/">Home</a>
+                        <hr class="dropdown-divider">
                     </li>
-                    <li>
-                        <a class="nav-link" id="home" href="/">Jobs</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" id="home" href="/">Companies</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Login</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/employer/login">Employer</a></li>
-                            <li><a class="dropdown-item" href="/applicant/login">Applicant</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="/admin/login">Admin</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                            id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Register</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/employer/register">Employer</a>
-                            <a class="dropdown-item" href="/applicant/register">Applicant</a>
-                        </div>
-                    </li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
                 </ul>
-            </div>
-            {% endblock %}
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Register</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
+                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
+                </div>
+            </li>
+        </ul>
+    </div>     
+{% endblock %}
 
 {% block container %}
 
@@ -52,7 +55,7 @@
                         <p class="m-0">Login to your account if you're already registered.</p>
                     </div>
                     <div class="sign-up-btn my-2">
-                        <a href="/applicant/login" class="btn btn-sm btn-brand peach text-light px-4">Log In <i class="fa fa-sign-in"></i></a>
+                        <a href="{{url_for('applicant.applicant_login')}}" class="btn btn-sm btn-brand peach text-light px-4">Log In <i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
             </div>
@@ -63,7 +66,9 @@
         <div class="container">
             <div class="d-flex">
                 <div class="form-ctn-100 mx-auto w-100">
-                    <form class="bg-white px-4 py-5" action="">
+                    <form class="bg-white px-4 py-5" method='POST' action="">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
                         <div class="h-hr">
                             <h4 class="h">Register</h4>
                             <span class="hr"></span>
@@ -72,56 +77,145 @@
                             
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="text" id="fname" name="fname" class="form-control" required autofocus>
-                                    <label for="fname">First Name</label>
+                                    <!-- input validation -->
+                                    {% if form.f_name.errors %}
+                                        {{form.f_name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.f_name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.f_name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.f_name.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="text" id="lname" name="lname" class="form-control" required>
-                                    <label for="lname">Last Name</label>
+                                    <!-- input validation -->
+                                    {% if form.l_name.errors %}
+                                        {{form.l_name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.l_name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.l_name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.l_name.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="email" id="email" name="email" class="form-control" required >
-                                    <label for="email">Email</label>
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="number" id="phone" name="phone" class="form-control" required >
-                                    <label for="phone">Phone Number</label>
+                                    <!-- input validation -->
+                                    {% if form.phone.errors %}
+                                        {{form.phone(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.phone(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.phone.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="password" id="password1" name="password1" class="form-control" required>
-                                    <label for="password1">Password</label>
+                                    <!-- input validation -->
+                                    {% if form.password.errors %}
+                                        {{form.password(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.password.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.password(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.password.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="password" id="password2" name="password2" class="form-control" required>
-                                    <label for="password2">Confirm Password</label>
+                                    <!-- input validation -->
+                                    {% if form.confirm_password.errors %}
+                                        {{form.confirm_password(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.confirm_password.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.confirm_password(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.confirm_password.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="file" id="resume" name="resume" class="form-control" required >
-                                    <label for="resume">Upload Resume(only pdf and doc files)</label>
+                                    <!-- input validation -->
+                                    {% if form.resume.errors %}
+                                        {{form.resume(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.resume.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.resume(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.resume.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="">
                                 <div class="field-ctn">
-                                    <input type="file" id="photo" name="photo" class="form-control" placeholder="Optional">
-                                    <label for="photo">Upload Photo (Optional)</label>
+                                    <!-- input validation -->
+                                    {% if form.image.errors %}
+                                        {{form.image(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.image.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.image(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.image.label(class="form-control-label")}}
                                 </div>
                             </div>
                             
                         </div>
                         <div class="d-flex align-items-center">
-                            <input type="submit" class="btn btn-brand prim text-light d-inline px-4" value="Sign Up">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
                         </div>
                     </form>
                 </div>

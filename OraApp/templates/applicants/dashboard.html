@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block navMenus %}
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav ms-auto align-items-center">
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+            </li>
+            <li>
+                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Login</a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
+                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Register</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
+                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
+                </div>
+            </li>
+        </ul>
+    </div>     
+{% endblock %}
+
+{% block container %}
+
+    <section class="hero-form-section bg-light">
+        <div class="container-fluid prim text-light text-center">
+            <h3 class="py-4 m-0">Applicant Dashboard</h3>
+            <p>Hello {{name}}! Welcom to OraJobs, We are Happy to have you with us ; )</p>
+        </div>
+    </section>
+
+    <section id="profile" class="pb-5 ">
+        <div class="container">
+            
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}
