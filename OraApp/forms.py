@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, FileField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from flask_wtf.file import FileField, FileAllowed
 from OraApp.models import Applicant
 
 
@@ -17,10 +18,10 @@ class Applicant_Signup(FlaskForm):
     l_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     phone = IntegerField('Phone Number', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
-    resume = FileField('Resume(pdf and doc files only)', validators=[DataRequired()])
-    image = FileField('Photo')
+    resume = FileField('Resume (pdf and doc files)', validators=[DataRequired(), FileAllowed(['pdf', 'doc'])])
+    image = FileField('Photo (jpg and png files)', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):

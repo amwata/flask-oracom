@@ -66,7 +66,7 @@
         <div class="container">
             <div class="d-flex">
                 <div class="form-ctn-100 mx-auto w-100">
-                    <form class="bg-white px-4 py-5" method='POST' action="">
+                    <form class="bg-white px-4 py-5" method='POST' action="" enctype="multipart/form-data">
                         <!-- cross site request forgery token -->
                         {{form.hidden_tag()}}
                         <div class="h-hr">
@@ -75,7 +75,7 @@
                         </div>
                         <div class="row row-cols-md-2 row-cols-1">
                             
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.f_name.errors %}
@@ -92,7 +92,7 @@
                                     {{form.f_name.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.l_name.errors %}
@@ -109,7 +109,7 @@
                                     {{form.l_name.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.email.errors %}
@@ -126,7 +126,7 @@
                                     {{form.email.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.phone.errors %}
@@ -143,7 +143,7 @@
                                     {{form.phone.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.password.errors %}
@@ -160,7 +160,7 @@
                                     {{form.password.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.confirm_password.errors %}
@@ -177,39 +177,27 @@
                                     {{form.confirm_password.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="field-ctn">
-                                    <!-- input validation -->
-                                    {% if form.resume.errors %}
-                                        {{form.resume(class="form-control is-invalid")}}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.resume.errors %}
-                                                <span>{{error}}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{form.resume(class="form-control")}}
-                                    {% endif %}
-                                    <!-- input label -->
-                                    {{form.resume.label(class="form-control-label")}}
-                                </div>
+                            <div class="form-group">
+                                <!-- Resume file field -->
+                                {{form.resume.label()}} <br>
+                                {{form.resume(class="form-control-file")}}
+                                {% if form.resume.errors %}
+                                    {% for error in form.resume.errors %}
+                                        <span class="text-danger">{{error}}</span><br>
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
                             </div>
-                            <div class="">
-                                <div class="field-ctn">
-                                    <!-- input validation -->
-                                    {% if form.image.errors %}
-                                        {{form.image(class="form-control is-invalid")}}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.image.errors %}
-                                                <span>{{error}}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{form.image(class="form-control")}}
-                                    {% endif %}
-                                    <!-- input label -->
-                                    {{form.image.label(class="form-control-label")}}
-                                </div>
+                            <div class="form-group">
+                                <!-- image file field -->
+                                {{form.image.label()}} <br>
+                                {{form.image(class="form-control-file")}}
+                                {% if form.image.errors %}
+                                    {% for error in form.image.errors %}
+                                        <span class="text-danger">{{error}}</span><br>
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
                             </div>
                             
                         </div>

@@ -4,9 +4,9 @@ from OraApp.forms import Employer_Signup, User_Login, Applicant_Signup
 employer = Blueprint('employer', __name__)
 
 @employer.route("/employer")
-@employer.route("/employer/dashboard")
-def employer_dashboard():
-    return "<h1>Employer dashboard<?h1>"
+@employer.route("/employer/account")
+def employer_account():
+    return "<h1>Employer account<?h1>"
 
 @employer.route("/employer/profile")
 def employer_profile():

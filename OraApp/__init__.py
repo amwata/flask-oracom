@@ -7,7 +7,7 @@ from os import path
 dir = 'OraApp'
 bcrypt = Bcrypt()
 db = SQLAlchemy()
-login_manager=LoginManager()
+login_manager = LoginManager()
 db_name = 'OraDB.db'
 
 
@@ -47,7 +47,7 @@ def create_app():
 
 def create_db(app):
     if not path.exists(f'{dir}/{db_name}'):
-    db.create_all(app=app)
+        db.create_all(app=app)
 
 
 

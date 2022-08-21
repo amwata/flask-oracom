@@ -360,7 +360,8 @@ img {
 }
 
 #job-categories .category-card .category-img,
-#jobs-list .list-card .list-img{
+#jobs-list .list-card .list-img,
+.profile-img-ctn{
     background: var(--light);
     width: 80px;
     height: 80px;
@@ -372,7 +373,8 @@ img {
  
 }
 
-#jobs-list .list-card .list-img img{
+#jobs-list .list-card .list-img img,
+.profile-img-ctn img{
     width: 100%;
     height: 100%;
     object-fit: cover;
