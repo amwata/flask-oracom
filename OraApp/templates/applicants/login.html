@@ -10,7 +10,7 @@
                 <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
             </li>
             <li>
-                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
             </li>
             <li>
                 <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
@@ -44,15 +44,15 @@
 {% block container %}
 
     <section class="hero-form-section bg-light">
-        <div class="container-fluid prim text-light text-center">
-            <h3 class="py-4 m-0">Applicant Login</h3>
+        <div class="container-fluid prim text-light text-center py-5">
+            <h3 class="m-0">Applicant Login</h3>
         </div>
-        <div class="container py-5">
+        <div class="container py-3">
             <div class="d-flex">
-                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between px-4 py-3">
+                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between p-3">
                     <div class="me-sm-5">
-                        <h4 class="text-white mb-1">Not Registered?</h4>
-                        <p class="m-0">Begin your job hunt! Find and apply for available job vacancies.</p>
+                        <h4 class="text-white">Not Registered?</h4>
+                        <p class="m-0">Begin your job hunt! Find and apply for job vacancies.</p>
                     </div>
                     <div class="sign-up-btn my-2">
                         <a href="{{url_for('applicant.applicant_signup')}}" class="btn btn-sm btn-brand peach text-light px-4">Sign Up <i class="fa fa-sign-in"></i></a>

@@ -23,4 +23,53 @@
         min-width: 100%;
     }
     
+    .admin-nav{
+		left:-300px;
+	}
+	.admin-nav.active{
+		left:0;
+		width:300px;
+	}
+    .admin-nav.active .admin-user-ctn {
+        display:block;
+        padding:16px 0;
+        margin: 8px auto;
+    }
+    .admin-nav.active .admin-user-icon {
+        display:inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width:80px;
+        height:80px;
+        background: rgba(255,255,255,0.15);
+    }
+    .admin-nav.active .admin-user-icon .fa{
+        font-size: 3rem;
+    }
+    .admin-nav.active .admin-user-ctn p {
+        margin: 0;
+        padding:0;
+        margin-top: 16px;
+    }
+    .admin-main{
+		width:100%;
+		left:0;
+	}
+	.admin-main.active{
+		left:300px;
+		width:calc(100% - 300px);
+	}
+	.admin-main .admin-top-bar{
+        position:fixed;
+        width:100%;
+    }
+    
+    .admin-search-box{
+		width:80%;
+	}
+
+    .admin-search-box{
+        max-width: 300px;
+    }
 }

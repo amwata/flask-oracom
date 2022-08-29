@@ -10,7 +10,7 @@
                 <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
             </li>
             <li>
-                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
             </li>
             <li>
                 <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
@@ -44,14 +44,14 @@
 {% block container %}
 
     <section class="hero-form-section bg-light">
-        <div class="container-fluid prim text-light text-center">
-            <h3 class="py-4 m-0">Applicant Registration</h3>
+        <div class="container-fluid prim text-light text-center py-5">
+            <h3 class="m-0">Applicant Registration</h3>
         </div>
-        <div class="container py-5">
+        <div class="container py-3">
             <div class="d-flex">
-                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between px-4 py-3">
+                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between p-3">
                     <div class="me-sm-5">
-                        <h4 class="text-white mb-1">Have an Account?</h4>
+                        <h4 class="text-white">Have an Account?</h4>
                         <p class="m-0">Login to your account if you're already registered.</p>
                     </div>
                     <div class="sign-up-btn my-2">
@@ -174,30 +174,34 @@
                                         {{form.confirm_password(class="form-control")}}
                                     {% endif %}
                                     <!-- input label -->
-                                    {{form.confirm_password.label(class="form-control-label")}}
+                                    {{form.confirm_password.label(class="form-label")}}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <!-- Resume file field -->
-                                {{form.resume.label()}} <br>
-                                {{form.resume(class="form-control-file")}}
-                                {% if form.resume.errors %}
-                                    {% for error in form.resume.errors %}
-                                        <span class="text-danger">{{error}}</span><br>
-                                    {% endfor %}
-                                {% else %}
-                                {% endif %}
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- Resume file field -->
+                                    {{form.resume.label(class="form-label")}}
+                                    {{form.resume(class="form-control form-control-sm")}}
+                                    {% if form.resume.errors %}
+                                        {% for error in form.resume.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <!-- image file field -->
-                                {{form.image.label()}} <br>
-                                {{form.image(class="form-control-file")}}
-                                {% if form.image.errors %}
-                                    {% for error in form.image.errors %}
-                                        <span class="text-danger">{{error}}</span><br>
-                                    {% endfor %}
-                                {% else %}
-                                {% endif %}
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- image file field -->
+                                    {{form.image.label(class="form-label")}}
+                                    {{form.image(class="form-control form-control-sm")}}
+                                    {% if form.image.errors %}
+                                        {% for error in form.image.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
                             </div>
                             
                         </div>

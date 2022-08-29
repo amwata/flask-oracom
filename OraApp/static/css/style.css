@@ -17,8 +17,6 @@ html {
 }
 html,
 body{
-    overflow-x: hidden;
-    max-width: 100%;
     font-family: "Montserrat", sans-serif;
 }
 .reflect-px{
@@ -66,10 +64,11 @@ a{
     text-decoration:none;
 }
 .navbar{
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
     width: 100%;
     z-index: 1000;
 }
+
 .navbar.header-scrolled{
     position: fixed;
 }
@@ -248,8 +247,27 @@ a{
     transform: translateY(calc(-100% - 3px));
     color:#000;
 }
+.form-file-group .field-ctn label{
+    transform: translateY(calc(-100% - 3px));
+    left: 0;
+    color: var(--dark);
+}
+.pwd-vissibility{
+    right: 0;
+    top:0;
+    height: 100%;
+    position:absolute;
+    display: inline-flex;
+    cursor:pointer;
+    align-items: center;
+    pointer-events:auto;
+    color: var(--dark);
+}
+
 .btn-brand{
     font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-bottom: 2px solid rgba(0,0,0,0.15);
 }
 .btn-brand.peach:hover {
     background: var(--prim);

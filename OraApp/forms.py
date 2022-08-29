@@ -1,15 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, HiddenField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, URL
 from flask_wtf.file import FileField, FileAllowed
-from OraApp.models import Applicant
+from OraApp.models import User
 
 
 class User_Login(FlaskForm):
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    password = PasswordField('Password',
-                        validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    role = HiddenField(default='applicant')
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
@@ -21,33 +20,33 @@ class Applicant_Signup(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
     resume = FileField('Resume (pdf and doc files)', validators=[DataRequired(), FileAllowed(['pdf', 'doc'])])
-    image = FileField('Photo (jpg and png files)', validators=[FileAllowed(['jpg', 'png'])])
+    image = FileField('Optional Photo (jpg and png files)', validators=[FileAllowed(['jpg', 'png'])])
+    role = HiddenField(default='applicant')
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        exists = Applicant.query.filter_by(email=email.data).first()  
+        exists = User.query.filter_by(email=email.data).first()  
         if exists:
             raise ValidationError('This email is Taken! Sign in instead.') 
 
 
 class Employer_Signup(FlaskForm):
-    concern_name = StringField('Concern Person Name',
-                        validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone Number',
-                            validators=[DataRequired()])
-    tagline = StringField('Tagline (Advertising Slogan)',
-                        validators=[DataRequired(), Length(min=5, max=120)])
-    description = StringField('Description',
-                        validators=[DataRequired(), Length(min=5, max=1000)])
-    web_url = StringField('Website', validators=[Length(min=2, max=120)])
-    password = PasswordField('Password',
-                            validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                    validators=[DataRequired(), EqualTo('password')]) 
-    logo = FileField('Logo', validators=[DataRequired()])
+    name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    location = StringField('Location', validators=[DataRequired()])
+    phone = IntegerField('Phone Number', validators=[DataRequired()])
+    tagline = StringField('Tagline (Advertising Slogan)', validators=[DataRequired(), Length(min=5, max=120)])
+    description = TextAreaField('Company Description', validators=[DataRequired(), Length(min=5, max=1000)])
+    website = StringField('Company Website (Optional)')
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+    logo = FileField('Logo (jpg and png files)', validators=[FileAllowed(['jpg', 'png'])])
+    role = HiddenField(default='employer')
     submit = SubmitField('Sign Up')
+
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists:
+            raise ValidationError('This email is Taken! Sign in instead.')
 
 class Job_Search(FlaskForm):
     pass

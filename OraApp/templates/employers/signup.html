@@ -10,7 +10,7 @@
                 <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
             </li>
             <li>
-                <a class="nav-link" id="home" href="{{url_for('company.company_list')}}">Companies</a>
+                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
             </li>
             <li>
                 <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
@@ -44,14 +44,14 @@
 {% block container %}
 
     <section class="hero-form-section bg-light">
-        <div class="container-fluid bg-teal-lgrad text-light text-center">
-            <h3 class="py-4 m-0">Employer Registration</h3>
+        <div class="container-fluid bg-teal-lgrad text-light text-center py-5">
+            <h3 class="m-0">Employer Registration</h3>
         </div>
-        <div class="container py-5">
+        <div class="container py-3">
             <div class="d-flex">
-                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between px-4 py-3">
+                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between p-3">
                     <div class="me-sm-5">
-                        <h4 class="text-white mb-1">Have an Account?</h4>
+                        <h4 class="text-white">Have an Account?</h4>
                         <p class="m-0">Login to your account if you're already registered.</p>
                     </div>
                     <div class="sign-up-btn my-2">
@@ -66,65 +66,171 @@
         <div class="container">
             <div class="d-flex">
                 <div class="form-ctn-100 mx-auto w-100">
-                    <form class="bg-white px-4 py-5" action="">
+                    <form class="bg-white px-4 py-5" method='POST' action="" enctype="multipart/form-data">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
                         <div class="h-hr">
                             <h4 class="h">Register</h4>
                             <span class="hr"></span>
                         </div>
                         <div class="row row-cols-md-2 row-cols-1">
                             
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="text" id="fname" name="fname" class="form-control" required autofocus>
-                                    <label for="fname">First Name</label>
+                                    <!-- input validation -->
+                                    {% if form.name.errors %}
+                                        {{form.name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.name.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="text" id="lname" name="lname" class="form-control" required>
-                                    <label for="lname">Last Name</label>
+                                    <!-- input validation -->
+                                    {% if form.location.errors %}
+                                        {{form.location(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.location.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.location(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.location.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="email" id="email" name="email" class="form-control" required >
-                                    <label for="email">Email</label>
+                                    <!-- input validation -->
+                                    {% if form.phone.errors %}
+                                        {{form.phone(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.phone(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.phone.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="number" id="phone" name="phone" class="form-control" required >
-                                    <label for="phone">Phone Number</label>
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
-                                <div class="field-ctn">
-                                    <input type="password" id="password1" name="password1" class="form-control" required>
-                                    <label for="password1">Password</label>
+                            <div class="form-group">
+                                <div class="field-ctn pwrd-field">
+                                    <!-- input validation -->
+                                    {% if form.password.errors %}
+                                        {{form.password(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.password.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.password(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.password.label(class="form-control-label")}}
+                                    <span class="pwd-vissibility px-3" onclick="togglePasswd(this, `.pwrd-field input`)">
+                                        <i class="fa fa-eye"></i>
+                                    </span>
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="password" id="password2" name="password2" class="form-control" required>
-                                    <label for="password2">Confirm Password</label>
+                                    <!-- input validation -->
+                                    {% if form.tagline.errors %}
+                                        {{form.tagline(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tagline.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.tagline(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.tagline.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="file" id="resume" name="resume" class="form-control" required >
-                                    <label for="resume">Upload Resume(only pdf and doc files)</label>
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <input type="file" id="photo" name="photo" class="form-control" placeholder="Optional">
-                                    <label for="photo">Upload Photo (Optional)</label>
+                                    <!-- input validation -->
+                                    {% if form.website.errors %}
+                                        {{form.website(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.website.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.website(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.website.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- logo file field -->
+                                    {{form.logo.label(class="form-label")}}
+                                    {{form.logo(class="form-control form-control-sm")}}
+                                    {% if form.logo.errors %}
+                                        {% for error in form.logo.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                         <div class="d-flex align-items-center">
-                            <input type="submit" class="btn btn-brand prim text-light d-inline px-4" value="Sign Up">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
                         </div>
                     </form>
                 </div>
