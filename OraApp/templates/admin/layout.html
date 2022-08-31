@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="{{url_for('static', filename='css/queries.css')}}">
         <title>{{ title }}</title>
     </head>
-    <body class="text-dark">
+    <body class="">
         
         <div class="admin-container">
             <div class="admin-nav">
@@ -32,54 +32,24 @@
                         <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
                         <b>Ora<span class="t-prim">Jobs</span></b>
                     </a>
-                    <div class="text-center text-light admin-user-ctn">
-                        <a href="" class="admin-user-icon"><i class="fa fa-user-o" aria-hidden="true"></i></a>
-                        <p class="">
-                            ADMIN
-                            <span><i class="fa fa-light"></i> <input type="checkbox" name="" id=""></span>
+                    <div class="text-center admin-user-ctn">
+                        <a href="" class="admin-user-icon"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                        <p class="ms-5">
+                            <span class="">ADMIN</span>
+                            <span class="theme-toggler">
+                                <i class="fa fa-moon-o ms-2 me-1"></i>
+                                <input type="checkbox" id="check" onchange="toggleTheme()">
+                                <label for="check"></label>
+                            </span>
                         </p>
                     </div>
-                    <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    <a href=""><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
+                    <a href="" class="admin-nav-item"><i class="fa fa-rocket" aria-hidden="true"></i> Dashboard</a>
+                    <a href="" class="admin-nav-item"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Job Categories</a>
+                    <a href="" class="admin-nav-item"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
+                    <a href="" class="admin-nav-item"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
+                    <a href="" class="admin-nav-item"><i class="fa fa-comments-o" aria-hidden="true"></i> Notifications</a>
+                    <a href="{{ url_for('main.logout') }}" class="admin-nav-item"><i class="fa fa-sign-out reflect-px" aria-hidden="true"></i> Sign Out</a>
                 </div>
-                <!-- <ul claas="p-0 m-0 bg-info">
-                    <li claas="adm-dash">
-                        <input type="checkbox" id="check">
-                        <label for="check"></label>
-                        <a href=""><span class="adm-imgbx"><img src="" alt="&sigma;"></span><h1>Admin</h1></a>
-                    </li>
-                    <li class="li dash-active">
-                        <a href=""><i class="fa fa-home" aria-hidden="true"></i> Dashboard</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-cubes" aria-hidden="true"></i> Products</a>
-                    </li>
-                    <li class="li adm-prds">
-                        <a href=""><i class="fa fa-shopping-basket" aria-hidden="true"></i> Order List</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-users" aria-hidden="true"></i> Customers</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-line-chart" aria-hidden="true"></i> Analytics</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-cube" aria-hidden="true"></i> Stock</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-comments" aria-hidden="true"></i> Responses</a>
-                    </li>
-                    <li class="li">
-                        <a href=""><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>
-                    </li>
-                    <li class="li">
-                        <a href="" ><i class="fa fa-arrow-left" aria-hidden="true" ></i> Sign Out</a>
-                    </li>
-                </ul> -->
             </div>
             <div class="admin-main">
                 <div class="admin-top-bar pe-3">
@@ -91,156 +61,47 @@
                             <span><i class="fa fa-search"></i><input type="search" placeholder="Search..."></span>
                         </form>
                     </div>
-                    <a href="" class="d-sm-none d-block"><i class="fa fa-sign-out"></i></a>
-                    <a href="" class="btn btn-sm btn-brand prim text-light d-sm-block d-none">Sign Out <i class="fa fa-sign-out"></i></a>
+                    <a href="{{ url_for('main.logout') }}" class=" t-prim d-sm-none d-block"><i class="fa fa-sign-out"></i></a>
+                    <a href="{{ url_for('main.logout') }}" class="btn btn-sm btn-brand prim text-light d-sm-block d-none">Sign Out <i class="fa fa-sign-out"></i></a>
                 </div>
                 
-                <div class ="admin-content-box bg-teal-lgrad">
+                <div class ="admin-content-box">
+                    <div class="container">
+                        <div class="container p-0">
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                    {% for category, message in messages %}
+                                        <div class="alert alert-{{ category }} alert-dismissable fade show d-flex align-items-center" role="alert">
+                                            {{ message }}
+                                            <button class="btn btn-close ms-auto" data-bs-dismiss="alert"></button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                    </div>
+
                     {% block container %}{% endblock %}
                 </div>
             </div>
-            <!-- <div class="main">
-                <div class="toggle" onClick="toggleMn()">
-                    <i class="fa fa-bars"></i>
-                </div>
-                <div class="top-bar">
-                    <div class="adm-srch">
-                        <form class="adm-srch-frm">
-                            <span><i class="fa fa-search"></i><input type="search" placeholder="Search..."></span>
-                        </form>
-                    </div>
-                </div>
-                
-                <div class ="card-box">
-                    <div class ="card">
-                        <div class ="views">
-                            <div class ="no">999</div>
-                            <div class ="name">Daily Visits</div>
-                        </div>
-                        <div class ="icon-box">
-                            <i class="fa fa-eye" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    
-                    <div class ="card">
-                        <div class ="views">
-                            <div class ="no">999</div>
-                            <div class ="name">Sales</div>
-                        </div>
-                        <div class ="icon-box">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    
-                    <div class ="card">
-                        <div class ="views">
-                            <div class ="no">999</div>
-                            <div class ="name">Responses</div>
-                        </div>
-                        <div class ="icon-box">
-                            <i class="fa fa-comments" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    
-                    <div class ="card">
-                        <div class ="views">
-                            <div class ="no">999</div>
-                            <div class ="name">Earnings</div>
-                        </div>
-                        <div class ="icon-box">
-                            <i class="fa fa-dollar" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="details">
-                   <div class="orders adm-box">
-                        <h2>Recent Orders</h2>
-                        <table>
-                            <thead>
-                              <tr>
-                                <td>Order#</td>
-                                <td>Qty</td>
-                                <td>Total</td>
-                                <td>Status</td>
-                              </tr> 
-                             </thead>
-                             <tbody>
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status pending">Pending</span></td>
-                              </tr>  
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status returned">Returned</span></td>
-                              </tr>  
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status delivered">Delivered</span></td>
-                              </tr>  
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status returned">Returned</span></td>
-                              </tr>  
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status processing">In Progress</span></td>
-                              </tr>  
-                              <tr>
-                                <td>Item</td>
-                                <td>Customer</td>
-                                <td>Price</td>
-                                <td><span class="status delivered">Delivered</span></td>
-                              </tr>   
-                            </tbody>
-                        </table>
-                        <a href="" class="rec-ords-btn link">View All</a>
-                    </div>
-                    <div class="top-sales adm-box">
-                        <h2>Most Viewed</h2>
-                        <table>
-                            <tbody>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/it6.png" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/it4.png" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/it5.png" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/it1.png" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/it2.png" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                              <tr>
-                                <td><div class="sale-imgbox"><img src="imgs/slider2.jpg" alt="&sigma;"></div></td>
-                                <td><h4>Item Name and Desc<br><span>Price</span></h4></td> 
-                              </tr>
-                             </tbody>
-                            </table>
-                        <a href="" class="top-sales-btn link">View All</a>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+        <script>
+
+            // Initial theme setter 
+            const pref = localStorage.getItem('data-theme'),
+                lbl = document.querySelector(".theme-toggler .fa")
+
+            if (pref !=='light'){
+                lbl.classList.remove("fa-moon-o")
+                lbl.classList.add("fa-sun-o")
+                toDark()
+            }else{
+                lbl.classList.remove("fa-sun-o")
+                lbl.classList.add("fa-moon-o")
+                toLight()
+            }
+            
+        </script>
     </body>
 </html>

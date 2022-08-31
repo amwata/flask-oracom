@@ -6,13 +6,15 @@
 }
 html {
     --light: #DDE1E4;
+    --white: #FFF;
     --lighter:#f8f9fa;
     --prim: #4d91ff;
     --dark: #212529;
-    --gray: #6d6c6c;
+    --gray: #6c6d6f;
     --peach: #fab36b;
     --teal1: #006070;
     --teal2: #0090a0;
+    --faint-light: rgba(0, 0, 0, 0.15);
     
 }
 html,

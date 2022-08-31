@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+import os
 from os import path
 from sqlalchemy import create_engine
 
@@ -11,13 +12,17 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 db_name = 'orajobs.db'
 
+db_user = os.environ.get('DB_USER')
+db_pwd = os.environ.get('DB_PWD')
+secret_key = os.environ.get('SECRET_KEY')
+xmp_soc = 'xampp mysql socket... ?unix_socket=/opt/lampp/var/mysql/mysql.sock'
+
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = "7739bb95607822a2c3a07f6ad3d02dd"
+    app.config['SECRET_KEY'] = secret_key
     # sqlite db uri...app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_name}"
-    #xampp mysql socket... ?unix_socket=/opt/lampp/var/mysql/mysql.sock
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:#nother0NE@localhost/orajobs"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_pwd}@localhost/orajobs"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.init_app(app)
     bcrypt.init_app(app)

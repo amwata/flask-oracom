@@ -31,8 +31,9 @@ def applicant_login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.user_role == 'applicant' and bcrypt.check_password_hash(user.password, form.password.data):
+            match = Applicant.query.filter_by(user_id=user.id).first()
             login_user(user, remember=form.remember.data)
-
+            flash(f'Logged in as {match.l_name}!', 'success')
             return redirect(request.args.get('next') or url_for('.applicant_account'))
         else:
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
