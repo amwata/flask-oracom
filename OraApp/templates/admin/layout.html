@@ -1,107 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="theme-color" content="#3776AB">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <!-- google fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
-        <!-- favicon -->
-        <link rel="mask-icon" href="{{url_for('static', filename='img/oracom.png')}}">
-        <link rel="icon" href="{{url_for('static', filename='img/oracom.png')}}" type="image/png">
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <!-- font awesome icons -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://use.fontawesome.com/4c109c920e.js"></script>
-        <!-- custom css -->
-        <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/admin.css')}}">
-        <link rel="stylesheet" href="{{url_for('static', filename='css/queries.css')}}">
-        <title>{{ title }}</title>
-    </head>
-    <body class="">
-        
-        <div class="admin-container">
-            <div class="admin-nav">
-                <div class="container">
-                    <a class="admin-nav-logo " href="{{url_for('main.home')}}">
-                        <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
-                        <b>Ora<span class="t-prim">Jobs</span></b>
-                    </a>
-                    <div class="text-center admin-user-ctn">
-                        <a href="" class="admin-user-icon"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-                        <p class="ms-5">
-                            <span class="">ADMIN</span>
-                            <span class="theme-toggler">
-                                <i class="fa fa-moon-o ms-2 me-1"></i>
-                                <input type="checkbox" id="check" onchange="toggleTheme()">
-                                <label for="check"></label>
-                            </span>
-                        </p>
-                    </div>
-                    <a href="" class="admin-nav-item"><i class="fa fa-rocket" aria-hidden="true"></i> Dashboard</a>
-                    <a href="" class="admin-nav-item"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Job Categories</a>
-                    <a href="" class="admin-nav-item"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
-                    <a href="" class="admin-nav-item"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
-                    <a href="" class="admin-nav-item"><i class="fa fa-comments-o" aria-hidden="true"></i> Notifications</a>
-                    <a href="{{ url_for('main.logout') }}" class="admin-nav-item"><i class="fa fa-sign-out reflect-px" aria-hidden="true"></i> Sign Out</a>
-                </div>
-            </div>
-            <div class="admin-main">
-                <div class="admin-top-bar pe-3">
-                    <div class="admin-nav-toggler" onClick="toggleNav()">
-                        <i class="fa fa-bars"></i>
-                    </div>
-                    <div class="admin-search-box">
-                        <form class="admin-search-form">
-                            <span><i class="fa fa-search"></i><input type="search" placeholder="Search..."></span>
-                        </form>
-                    </div>
-                    <a href="{{ url_for('main.logout') }}" class=" t-prim d-sm-none d-block"><i class="fa fa-sign-out"></i></a>
-                    <a href="{{ url_for('main.logout') }}" class="btn btn-sm btn-brand prim text-light d-sm-block d-none">Sign Out <i class="fa fa-sign-out"></i></a>
-                </div>
-                
-                <div class ="admin-content-box">
-                    <div class="container">
-                        <div class="container p-0">
-                            {% with messages = get_flashed_messages(with_categories=true) %}
-                                {% if messages %}
-                                    {% for category, message in messages %}
-                                        <div class="alert alert-{{ category }} alert-dismissable fade show d-flex align-items-center" role="alert">
-                                            {{ message }}
-                                            <button class="btn btn-close ms-auto" data-bs-dismiss="alert"></button>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                            {% endwith %}
-                        </div>
-                    </div>
 
-                    {% block container %}{% endblock %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#3776AB">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- favicon -->
+    <link rel="mask-icon" href="{{url_for('static', filename='img/oracom.png')}}">
+    <link rel="icon" href="{{url_for('static', filename='img/oracom.png')}}" type="image/png">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://use.fontawesome.com/4c109c920e.js"></script>
+    <!-- custom css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/admin.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/queries.css')}}">
+    <title>{{ title }}</title>
+</head>
+
+<body class="">
+
+    <div class="admin-container">
+        <div class="admin-nav">
+            <div class="container">
+                <a class="admin-nav-logo " href="{{url_for('main.home')}}">
+                    <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
+                    <b>Ora<span class="t-prim">Jobs</span></b>
+                </a>
+                <div class="text-center admin-user-ctn">
+                    <div class="profile-img-ctn prof-sm my-2 mx-auto">
+                        <a href="{{ url_for('.admin_settings') }}" class="p-0">
+                            <img src="{{ url_for('static', filename='admin/image/' + user.image) }}" alt="">
+                        </a>
+                    </div>
+                    <p class="ms-5 mt-2">
+                        <span class="">ADMIN</span>
+                        <span class="theme-toggler">
+                            <i class="fa fa-moon-o ms-2 me-1"></i>
+                            <input type="checkbox" id="check" onchange="toggleTheme()">
+                            <label for="check"></label>
+                        </span>
+                    </p>
                 </div>
+                {% block dashboard %}
+                    <a href="{{ url_for('admin.admin_account') }}" class="admin-nav-item"><i class="fa fa-rocket" aria-hidden="true"></i> Dashboard</a>
+                {% endblock %}
+                {% block categories %}
+                    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-nav-item"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Job
+                    Categories</a>
+                {% endblock %}
+                {% block companies %}
+                    <a href="{{ url_for('admin.admin_companies') }}" class="admin-nav-item"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
+                {% endblock %}
+                {% block applicants %}
+                    <a href="{{ url_for('admin.admin_applicants') }}" class="admin-nav-item"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
+                {% endblock %}
+                {% block notifications %}
+                    <a href="{{ url_for('admin.admin_notifications') }}" class="admin-nav-item"><i class="fa fa-comments-o" aria-hidden="true"></i> Notifications</a>
+                {% endblock %}
+                {% block settings %}
+                    <a href="{{ url_for('admin.admin_settings') }}" class="admin-nav-item"><i class="fa fa-wrench reflect-px"
+                    aria-hidden="true"></i> Settings</a>
+                {% endblock %}
+                <a href="{{ url_for('main.logout') }}" class="admin-nav-item"><i class="fa fa-sign-out reflect-px"
+                        aria-hidden="true"></i> Sign Out</a>
             </div>
         </div>
-        <script src="{{url_for('static', filename='js/utils.js')}}"></script>
-        <script>
+        <div class="admin-main">
+            <div class="admin-top-bar pe-2">
+                <div class="admin-nav-toggler" onClick="toggleNav()">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <div class="admin-search-box mx-2">
+                    <form class="admin-search-form">
+                        <span><i class="fa fa-search"></i><input type="search" placeholder="Search..."></span>
+                    </form>
+                </div>
+                <a href="" class=" ms-auto"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+                <a href="{{ url_for('main.logout') }}" class="d-sm-none d-block mx-2"><i
+                        class="fa fa-sign-out"></i></a>
+                <a href="{{ url_for('main.logout') }}"
+                    class="btn btn-sm btn-brand prim text-light d-sm-block d-none mx-2">Sign Out <i
+                        class="fa fa-sign-out"></i></a>
+            </div>
 
-            // Initial theme setter 
-            const pref = localStorage.getItem('data-theme'),
-                lbl = document.querySelector(".theme-toggler .fa")
+            <div class="admin-content-box">
+                <div class="container">
+                    <div class="container p-0">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible fade show d-flex align-items-center"
+                                        role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn btn-close ms-auto" data-bs-dismiss="alert"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </div>
 
-            if (pref !=='light'){
-                lbl.classList.remove("fa-moon-o")
-                lbl.classList.add("fa-sun-o")
-                toDark()
-            }else{
-                lbl.classList.remove("fa-sun-o")
-                lbl.classList.add("fa-moon-o")
-                toLight()
-            }
-            
-        </script>
-    </body>
+                {% block container %}{% endblock %}
+            </div>
+        </div>
+    </div>
+    <!--Bootstrap5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <!-- Custom javascript -->
+    <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+    <script>
+
+        // Initial theme setter 
+        const pref = localStorage.getItem('data-theme'),
+            lbl = document.querySelector(".theme-toggler .fa")
+
+        if (pref !== 'light') {
+            lbl.classList.remove("fa-moon-o")
+            lbl.classList.add("fa-sun-o")
+            toDark()
+        } else {
+            lbl.classList.remove("fa-sun-o")
+            lbl.classList.add("fa-moon-o")
+            toLight()
+        }
+
+    </script>
+</body>
+
 </html>

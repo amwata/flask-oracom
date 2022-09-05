@@ -42,6 +42,8 @@ class Employer(db.Model):
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    image = db.Column(db.String(20),  nullable=False, default='anony.png')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Job(db.Model):

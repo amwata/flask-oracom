@@ -48,6 +48,20 @@ class Employer_Signup(FlaskForm):
         if exists:
             raise ValidationError('This email is Taken! Sign in instead.')
 
+class Admin_Info_Update(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = IntegerField('Phone', validators=[DataRequired()])
+    password = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=8)])
+    image = FileField('Image (jpg and png files)', validators=[FileAllowed(['jpg', 'png'])])
+    role = HiddenField(default='admin')
+    submit = SubmitField('Update Information')
+
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists:
+            raise ValidationError('This email is Taken! Sign in instead.')
+
 class Job_Search(FlaskForm):
     pass
 

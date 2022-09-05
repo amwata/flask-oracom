@@ -22,6 +22,10 @@ def save_file(dir, file):
 
     return file_name
 
+def remove_file(file):
+    file_path = os.path.join(current_app.root_path, f'static/{file}')
+    os.remove(file_path)
+
 
 def user_role_required(role):
     def decorator(f):

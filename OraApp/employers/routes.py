@@ -8,7 +8,7 @@ from flask_login import login_user, current_user
 
 employer = Blueprint('employer', __name__)
 
-@employer.route("/employer")
+# @employer.route("/employer")
 @employer.route("/employer/account")
 @user_role_required('employer')
 def employer_account():

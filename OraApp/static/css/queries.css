@@ -33,10 +33,6 @@
         box-shadow:0 0 0 1px var(--faint-light);
         height: auto;        
     }
-    
-    .admin-nav.active .admin-user-icon .fa{
-        font-size: 4rem;
-    }
 
     .admin-main{
 		width:100%;
@@ -45,6 +41,7 @@
 	.admin-main.active{
 		left:300px;
 		width:calc(100% - 300px);
+        white-space:nowrap;
 	}
 	.admin-main .admin-top-bar{
         position:fixed;

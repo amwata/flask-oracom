@@ -9,7 +9,7 @@ from flask_login import login_user, current_user
 
 applicant = Blueprint('applicant', __name__)
 
-@applicant.route("/applicant")
+# @applicant.route("/applicant")
 @applicant.route("/applicant/account")
 @user_role_required('applicant')
 def applicant_account():
@@ -18,7 +18,7 @@ def applicant_account():
     name =str(f'{user.f_name} {user.l_name}')
     return render_template("applicants/account.html", title="OraJobs | Applicant account", image = image, name = name)
 
-@applicant.route("/applicant/profile")
+# @applicant.route("/applicant/profile")
 @applicant.route("/applicant/profile/<name>")
 def applicant_profile(name):
     return f"<h1>Applicant profile<br>{name}<?h1>"

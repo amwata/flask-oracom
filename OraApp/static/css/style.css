@@ -12,14 +12,17 @@ html {
     --dark: #212529;
     --gray: #6c6d6f;
     --peach: #fab36b;
-    --teal1: #006070;
-    --teal2: #0090a0;
+    --teal1: #006080;
+    --teal2: #0090b0;
     --faint-light: rgba(0, 0, 0, 0.15);
     
 }
 html,
 body{
     font-family: "Montserrat", sans-serif;
+}
+.text-bold{
+    font-weight: bold;
 }
 .reflect-px{
     transform: rotateY(180deg);
@@ -119,6 +122,7 @@ a{
 }
 
 .btn:focus,
+.btn:active,
 .form-control:focus,
 .navbar-toggler:focus{
     outline: none;
@@ -141,7 +145,7 @@ a{
 .h-hr .hr{
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid var(--light);
+    border-bottom: 1px solid var(--faint-light);
 }
 #form-section .form-ctn-100{
     width: 100%;
@@ -154,7 +158,7 @@ a{
 #form-section .form-ctn form{
     width: 100%;
     border-radius: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--faint-light);
 }
 #contact .form-ctn{
     width: 100%;
@@ -222,11 +226,13 @@ a{
     padding:4px  4px;
     border: none;
 }
-
+.form-control {
+    border: 1.250px solid var(--faint-light);
+}
 .form-control:focus,
 .form-control:valid {
     border: 1px solid var(--prim);
-    box-shadow: 0 0 0 2px var(--light);
+    box-shadow: 0 0 0 2px var(--faint-light);
 }
 
 .field-ctn{
@@ -242,12 +248,12 @@ a{
     font-size: .9rem;
     position:absolute;
     padding:0 5px;
-    transition: all .3s ease;
+    transition: transform .3s ease;
 }
 .form-control:focus ~ label,
 .form-control:valid ~ label{
     transform: translateY(calc(-100% - 3px));
-    color:#000;
+    color:var(--dark);
 }
 .form-file-group .field-ctn label{
     transform: translateY(calc(-100% - 3px));
@@ -354,13 +360,14 @@ img {
     background: white;
     color: var(--dark);
     display: block;
-    padding: 20px;    
+    padding: 16px;    
 }
 
 #job-categories .category-card{
     border-bottom: 3px solid rgba(0, 0, 0, 0.15);
     border-right: 1px solid rgba(0, 0, 0, 0.15);
     transition: .3s ease;
+    position: relative;
 }
 #job-categories .category-card:hover{
     border-bottom: 3px solid var(--prim);
@@ -379,18 +386,54 @@ img {
     color: var(--prim);
 }
 
-#job-categories .category-card .category-img,
 #jobs-list .list-card .list-img,
 .profile-img-ctn{
     background: var(--light);
     width: 80px;
     height: 80px;
 }
+.prof-sm{
+    width: 60px;
+    height: 60px;
+}
+
+.profile-img-ctn{
+    border-radius: 50%;
+    overflow: hidden;
+}
 
 #job-categories .category-card .category-img{
-    margin: 20px auto;
-    border-radius: 50%;   
- 
+    margin: 8px auto;
+    width: 70px;
+    height: 70px;
+}
+#job-categories .category-card span{
+    position: absolute;
+    background: var(--light);
+    --wd: 1.5rem;
+    width: var(--wd);
+    height: var(--wd);
+    font-size: .85rem;
+    font-weight: bold;
+    color: var(--gray);
+    top: 0;
+    right: 20px;
+    z-index: 5;
+}
+#job-categories .category-card span:before,
+#job-categories .category-card span:after{
+    position: absolute;
+    content:'';
+    width: 0;
+    height: 0;
+    top: calc(var(--wd) / 2);
+    left: 0;
+    border: calc(var(--wd) / 2) solid transparent;
+    border-left: calc(var(--wd) / 2) solid var(--light);
+    z-index: -1;
+}
+#job-categories .category-card span:after{
+    border-right: calc(var(--wd) / 2) solid var(--light);
 }
 
 #jobs-list .list-card .list-img img,
