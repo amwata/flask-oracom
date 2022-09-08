@@ -12,14 +12,16 @@ def save_file(dir, file):
     file_name = rand_hex + file_ext
     file_path = os.path.join(current_app.root_path, f'static/{dir}', file_name)
 
-    if file_ext == '.jpg' or file_ext == '.png':
-        img_size = (125, 125)
-        img = Image.open(file)
-        img.thumbnail(img_size)
-        img.save(file_path)
-    else:
-        file.save(file_path)
-
+    try:
+        if file_ext == '.jpg' or file_ext == '.png':
+            img_size = (125, 125)
+            img = Image.open(file)
+            img.thumbnail(img_size)
+            img.save(file_path)
+        else:
+            file.save(file_path)
+    except FileNotFoundError:
+        flash(message='Inappropriate File or Directory!', category='danger')
     return file_name
 
 def remove_file(file):

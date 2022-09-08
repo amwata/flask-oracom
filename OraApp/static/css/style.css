@@ -171,7 +171,12 @@ a{
     width: calc(100% - 17px); 
     padding: 20px 0;
 }
-
+.prof-update{
+    display:flex;
+	flex-direction:column;
+    align-items: center;
+    white-space: nowrap;
+}
 .git ul{
 	display:flex;
 	flex-direction:column;
@@ -437,6 +442,7 @@ img {
 }
 
 #jobs-list .list-card .list-img img,
+.profile-img-ctn a,
 .profile-img-ctn img{
     width: 100%;
     height: 100%;

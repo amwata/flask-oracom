@@ -8,7 +8,7 @@
 
     <div class="container">
         <div class="content">
-            <h5 class="bg-teal-lgrad text-light p-2 px-3 my-3">Update Account</h5>
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Update Account</h5>
             <div class=" ">
                 <div class="img-box bg-c-white p-3">
                     <p class="p-0 text-bold">{{ user.name }}</p>
@@ -115,23 +115,6 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="field-ctn">
-                                    <!-- input validation -->
-                                    {% if form.password.errors %}
-                                        {{form.password(class="form-control is-invalid")}}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.password.errors %}
-                                                <span>{{error}}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{form.password(class="form-control")}}
-                                    {% endif %}
-                                    <!-- input label -->
-                                    {{form.password.label(class="form-label")}}
-                                </div>
-                            </div>
                         </div>
                         <div class="">
                             <!-- submit button  -->
@@ -145,109 +128,8 @@
                         <span class="hr"></span>
                     </div>
                     <div class="bg-c-lighter my-3 p-3 d-flex">
-                        <h4>Manage <b>Admin</b> </h4>
-                        <button class="btn btn-sm btn-success ms-auto" data-bs-toggle="modal" data-bs-target="#add-admin" >Add new Admin</button>
-                    </div>
-                    <!-- Modals for adding and editing user -->
-                    <div class="modal fade" id="add-admin" tabindex="-1" aria-labelledby="" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-md">
-                            <div class="modal-content bg-c-white t-dark">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="">New Admin</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    
-                                    <div class="form-ctn mx-auto">
-                                        <form class="p-3" method="POST" action="">
-                                            <!-- cross site request forgery token -->
-                                            {{form.hidden_tag()}}
-                                            <div class="">
-                                                <div class="form-group">
-                                                    <div class="field-ctn">
-                                                        <!-- input validation -->
-                                                        {% if form.name.errors %}
-                                                            {{form.name(class="form-control is-invalid")}}
-                                                            <div class="invalid-feedback">
-                                                                {% for error in form.name.errors %}
-                                                                    <span>{{error}}</span>
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% else %}
-                                                            {{form.name(class="form-control")}}
-                                                        {% endif %}
-                                                        <!-- input label -->
-                                                        {{form.name.label(class="form-control-label")}}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="field-ctn">
-                                                        <!-- input validation -->
-                                                        {% if form.email.errors %}
-                                                            {{form.email(class="form-control is-invalid")}}
-                                                            <div class="invalid-feedback">
-                                                                {% for error in form.email.errors %}
-                                                                    <span>{{error}}</span>
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% else %}
-                                                            {{form.email(class="form-control")}}
-                                                        {% endif %}
-                                                        <!-- input label -->
-                                                        {{form.email.label(class="form-control-label")}}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="field-ctn">
-                                                        <!-- input validation -->
-                                                        {% if form.phone.errors %}
-                                                            {{form.phone(class="form-control is-invalid")}}
-                                                            <div class="invalid-feedback">
-                                                                {% for error in form.phone.errors %}
-                                                                    <span>{{error}}</span>
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% else %}
-                                                            {{form.phone(class="form-control")}}
-                                                        {% endif %}
-                                                        <!-- input label -->
-                                                        {{form.phone.label(class="form-control-label")}}
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="field-ctn pwrd-field">
-                                                        <!-- input validation -->
-                                                        {% if form.password.errors %}
-                                                            {{form.password(class="form-control is-invalid")}}
-                                                            <div class="invalid-feedback">
-                                                                {% for error in form.password.errors %}
-                                                                    <span>{{error}}</span>
-                                                                {% endfor %}
-                                                            </div>
-                                                        {% else %}
-                                                            {{form.password(class="form-control")}}
-                                                        {% endif %}
-                                                        <!-- input label -->
-                                                        {{form.password.label(class="form-control-label")}}
-                                                        <span class="pwd-vissibility px-3" onclick="togglePasswd(this, `.pwrd-field input`)">
-                                                            <i class="fa fa-eye"></i>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="">
-                                                    <!-- submit button  -->
-                                                    {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="m-0">Manage <b>Admin</b> </h4>
+                        <a href="{{ url_for('admin.admin_add') }}" class="btn btn-sm btn-success ms-auto" >Add new Admin</a>
                     </div>
 
                     <table class="table table-hover bg-c-lighter t-dark">
@@ -266,10 +148,26 @@
                                     <td>{{ admin.admin.email }}</td>
                                     <td>{{ admin.phone }}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#edit-admin"> <i class="fa fa-pencil"></i> </a>
-                                        <a href="" class="btn btn-sm btn-danger" onclick="return confirm('Delete this User?')" > <i class="fa fa-trash"></i> </a>
+                                        <a href="{{ url_for('admin.admin_update', admin_id=admin.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
+                                        <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-admin{{admin.id}}"> <i class="fa fa-trash"></i> </a>
                                     </td>
                                 </tr>
+                                <div class="modal fade" id="remove-admin{{admin.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content bg-c-white t-dark">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="">Remove Admin?</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <form action="{{ url_for('admin.admin_remove', admin_id=admin.id) }}" method="post">
+                                                    <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endif %}
                         {% endfor %}
                     </table>

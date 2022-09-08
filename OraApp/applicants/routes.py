@@ -50,15 +50,14 @@ def applicant_signup():
 
         user = User(email=form.email.data, user_role='applicant', password=pw_hash)
         db.session.add(user)
-        db.session.commit()
 
         if form.image.data:
             image = save_file('applicant/image/', form.image.data) 
-            applicant = Applicant(f_name=form.f_name.data, l_name=form.l_name.data, phone=form.phone.data, resume=resume, image=image, applicant=user)
+            applicant = Applicant(f_name=form.f_name.data.strip().capitalize(), l_name=form.l_name.data.strip().capitalize(), phone=form.phone.data, resume=resume, image=image, applicant=user)
             db.session.add(applicant)
             db.session.commit()
         else:
-            applicant = Applicant(f_name=form.f_name.data, l_name=form.l_name.data, phone=form.phone.data, resume=resume, applicant=user)
+            applicant = Applicant(f_name=form.f_name.data.strip().capitalize(), l_name=form.l_name.data.strip().capitalize(), phone=form.phone.data, resume=resume, applicant=user)
             db.session.add(applicant)
             db.session.commit()
 

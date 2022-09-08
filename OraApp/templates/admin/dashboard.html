@@ -7,12 +7,12 @@
 
     <div class="container">
         <div class="content">
-            <h5 class="bg-teal-lgrad text-light p-2 my-3">Dashboard</h5>
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Dashboard</h5>
             <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
                 <div class="col">
-                    <a href="" class="admin-card">
+                    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-card">
                         <div class ="views">
-                            <div class ="no">999</div>
+                            <div class ="no">{{ dash.get('jobs')}}</div>
                             <div class ="name">Job Categories</div>
                         </div>
                         <div class ="icon-box">
@@ -21,9 +21,9 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="" class="admin-card">
+                    <a href="{{ url_for('admin.admin_companies') }}" class="admin-card">
                         <div class ="views">
-                            <div class ="no">999</div>
+                            <div class ="no">{{ dash.get('employers')}}</div>
                             <div class ="name">Employers</div>
                         </div>
                         <div class ="icon-box">
@@ -32,9 +32,9 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="" class="admin-card">
+                    <a href="{{ url_for('admin.admin_applicants') }}" class="admin-card">
                         <div class ="views">
-                            <div class ="no">999</div>
+                            <div class ="no">{{ dash.get('applicants')}}</div>
                             <div class ="name">Applicants</div>
                         </div>
                         <div class ="icon-box">
@@ -43,9 +43,9 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="" class="admin-card">
+                    <a href="{{ url_for('admin.admin_jobs') }}" class="admin-card">
                         <div class ="views">
-                            <div class ="no">999</div>
+                            <div class ="no">{{ dash.get('jobs')}}</div>
                             <div class ="name">Total Jobs</div>
                         </div>
                         <div class ="icon-box">

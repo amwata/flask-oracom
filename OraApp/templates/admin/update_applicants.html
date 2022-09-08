@@ -1,0 +1,126 @@
+{% extends 'admin/layout.html' %}
+{% block applicants %}
+    <a href="{{ url_for('admin.admin_applicants') }}" class="admin-nav-item active"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Update Applicant</h5>
+            <div class=" ">
+                <div class="form-ctn mx-auto mb-3 bg-c-white d-md-flex">
+
+
+                    
+                    <div class="p-3 prof-update">
+                        <div class="profile-img-ctn">
+                            <img src="{{ url_for('static', filename='applicant/image/' + updated.image) }}" alt="">
+                        </div>
+                        <p class="p-0 text-bold mt-2">{{ updated.f_name }} {{ updated.l_name }}</p>
+                    </div>
+
+
+                    <form class="p-3" method="POST" action="">
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
+                        <div class="h-hr">
+                            <h2 class="h">Update Applicant</h2>
+                            <span class="hr"></span>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.f_name.errors %}
+                                        {{form.f_name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.f_name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.f_name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.f_name.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.l_name.errors %}
+                                        {{form.l_name(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.l_name.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.l_name(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.l_name.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.email.errors %}
+                                        {{form.email(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.email.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.email(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.email.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.phone.errors %}
+                                        {{form.phone(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.phone.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.phone(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.phone.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group form-file-group">
+                                <div class="field-ctn">
+                                    <!-- resume file field -->
+                                    {{form.resume.label(class="form-label")}}
+                                    {{form.resume(class="form-control form-control-sm")}}
+                                    {% if form.resume.errors %}
+                                        {% for error in form.resume.errors %}
+                                            <span class="text-danger">{{error}}</span><br>
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

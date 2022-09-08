@@ -17,5 +17,5 @@ def about():
 @main.route("/logout")
 def logout():
     logout_user()
-    flash(f'Logged Out successfully.', 'info')
+    flash(f'Logged Out successfully.', 'primary')
     return redirect(url_for('.home'))

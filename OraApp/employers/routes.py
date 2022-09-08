@@ -50,15 +50,14 @@ def employer_signup():
 
         user = User(email=form.email.data, user_role='employer', password=pw_hash)
         db.session.add(user)
-        db.session.commit()
 
         if form.logo.data:
             logo = save_file('employer/logo/', form.logo.data) 
-            employer = Employer(name=form.name.data, phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, employer=user)
             db.session.add(employer)
             db.session.commit()
         else:
-            employer = Employer(name=form.name.data, phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, employer=user)
             db.session.add(employer)
             db.session.commit()
 

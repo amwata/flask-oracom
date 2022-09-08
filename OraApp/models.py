@@ -20,8 +20,8 @@ class Applicant(db.Model):
     f_name = db.Column(db.String(20), nullable=False)
     l_name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
-    resume = db.Column(db.String(20), nullable=False)
-    image = db.Column(db.String(20),  nullable=False, default='anony.png')
+    resume = db.Column(db.String(25), nullable=False)
+    image = db.Column(db.String(25),  nullable=False, default='anony.png')
     date_joined = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
@@ -34,7 +34,7 @@ class Employer(db.Model):
     tagline = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text, nullable=False)
     website = db.Column(db.String(20))
-    logo = db.Column(db.String(20),  nullable=False, default='company.png')
+    logo = db.Column(db.String(25),  nullable=False, default='company.png')
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 

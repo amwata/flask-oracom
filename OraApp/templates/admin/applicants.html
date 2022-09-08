@@ -1,0 +1,65 @@
+{% extends 'admin/layout.html' %}
+{% block applicants %}
+    <a href="{{ url_for('admin.admin_applicants') }}" class="admin-nav-item active"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Applicants</h5>
+            <div class=" ">
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h4 class="m-0" >Manage <b>Applicants</b> </h4>
+                        <a href="{{ url_for('admin.admin_applicant_add') }}" class="btn btn-sm btn-success ms-auto" >Add New Applicant</a>
+                    </div>
+
+                    <table class="table table-hover bg-c-lighter t-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for applicant in applicants %}
+                            <tr>
+                                <td>{{ applicant.id }}</td>
+                                <td>
+                                    {{ applicant.f_name }}
+                                    {{ applicant.l_name }}
+                                </td>
+                                <td>{{ applicant.applicant.email }}</td>
+                                <td>{{ applicant.phone }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.admin_applicant_update', applicant_id=applicant.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
+                                    <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-applicant{{applicant.id}}"> <i class="fa fa-trash"></i> </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="remove-applicant{{applicant.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Remove Applicant?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('admin.admin_applicant_remove', applicant_id=applicant.id) }}" method="post">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}
