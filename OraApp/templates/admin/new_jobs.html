@@ -1,0 +1,120 @@
+{% extends 'admin/layout.html' %}
+{% block categories %}
+    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-nav-item active"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Job
+    Categories</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Add Jobs</h5>
+            <div class=" ">
+                <div class="form-ctn-100 mx-auto w-100 mb-3 bg-c-white">
+                    <form class="px-3 py-4" method='POST' action="" >
+                        <!-- cross site request forgery token -->
+                        {{form.hidden_tag()}}
+                        <div class="h-hr">
+                            <h2 class="h">New Job</h2>
+                            <span class="hr"></span>
+                        </div>
+                        <div class="row row-cols-md-2 row-cols-1">
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.company_id.errors %}
+                                        {{form.company_id(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.company_id.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.company_id(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.company_id.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.title.errors %}
+                                        {{form.title(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.title.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.title(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.title.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.category.errors %}
+                                        {{form.category(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.category.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.category(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.category.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.type.errors %}
+                                        {{form.type(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.type.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.type(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.type.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.salary.errors %}
+                                        {{form.salary(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.salary.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.salary(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.salary.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <!-- submit button  -->
+                            {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}
