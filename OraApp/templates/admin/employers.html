@@ -1,0 +1,66 @@
+{% extends 'admin/layout.html' %}
+{% block companies %}
+    <a href="{{ url_for('admin.admin_companies') }}" class="admin-nav-item active"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Employers</h5>
+            <div class=" ">
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h4 class="m-0" >Manage <b>Employers</b> </h4>
+                        <a href="{{ url_for('admin.admin_company_add') }}" class="btn btn-sm btn-success ms-auto" >Add New Employer</a>
+                    </div>
+
+                    <table class="table table-hover bg-c-lighter t-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for company in companies %}
+                            <tr>
+                                <td>{{ company.id }}</td>
+                                <td>
+                                    {{ company.name }}
+                                </td>
+                                <td>{{ company.employer.email }}</td>
+                                <td>{{ company.phone }}</td>
+                                <td>{{ company.location }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.admin_company_update', company_id=company.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
+                                    <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-company{{company.id}}"> <i class="fa fa-trash"></i> </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="remove-company{{ company.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Remove Employer?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('admin.admin_company_remove', company_id=company.id) }}" method="post">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

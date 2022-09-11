@@ -48,7 +48,7 @@ def applicant_signup():
         resume = save_file('applicant/resume/', form.resume.data)
         pw_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
-        user = User(email=form.email.data, user_role='applicant', password=pw_hash)
+        user = User(email=form.email.data.lower(), user_role='applicant', password=pw_hash)
         db.session.add(user)
 
         if form.image.data:

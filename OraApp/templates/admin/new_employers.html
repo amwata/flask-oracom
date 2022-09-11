@@ -1,76 +1,20 @@
-{% extends 'base.html' %}
-
-{% block navMenus %}
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ms-auto align-items-center">
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Login</a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Register</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
-                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
-                </div>
-            </li>
-        </ul>
-    </div>     
+{% extends 'admin/layout.html' %}
+{% block companies %}
+    <a href="{{ url_for('admin.admin_companies') }}" class="admin-nav-item active"><i class="fa fa-building-o" aria-hidden="true"></i> Companies</a>
 {% endblock %}
 
 {% block container %}
 
-    <section class="hero-form-section bg-light">
-        <div class="container-fluid bg-teal-lgrad text-light text-center py-5">
-            <h3 class="m-0">Employer Registration</h3>
-        </div>
-        <div class="container py-3">
-            <div class="d-flex">
-                <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between p-3">
-                    <div class="me-sm-5">
-                        <h4 class="text-white">Have an Account?</h4>
-                        <p class="m-0">Login to your account if you're already registered.</p>
-                    </div>
-                    <div class="sign-up-btn my-2">
-                        <a href="{{url_for('employer.employer_login')}}" class="btn btn-sm btn-brand peach text-light px-4">Log In <i class="fa fa-sign-in"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="form-section" class="pb-5 bg-light">
-        <div class="container">
-            <div class="d-flex">
-                <div class="form-ctn-100 mx-auto w-100">
-                    <form class="bg-white px-4 py-5" method='POST' action="" enctype="multipart/form-data">
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Add Employers</h5>
+            <div class=" ">   
+                <div class="form-ctn-100 mx-auto w-100 mb-3 bg-c-white">
+                    <form class="px-3 py-4" method='POST' action="" enctype="multipart/form-data">
                         <!-- cross site request forgery token -->
                         {{form.hidden_tag()}}
                         <div class="h-hr">
-                            <h4 class="h">Register</h4>
+                            <h2 class="h">New Employer</h2>
                             <span class="hr"></span>
                         </div>
                         <div class="row row-cols-md-2 row-cols-1">
@@ -162,6 +106,7 @@
                                     <span class="pwd-vissibility px-3" onclick="togglePasswd(this, `.pwrd-field input`)">
                                         <i class="fa fa-eye"></i>
                                     </span>
+                                    
                                 </div>
                             </div>
                             <div class="form-group">
@@ -237,7 +182,8 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
 
 {% endblock %}
 {% block script %}

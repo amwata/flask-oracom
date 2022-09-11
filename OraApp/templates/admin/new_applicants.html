@@ -7,14 +7,14 @@
 
     <div class="container">
         <div class="content">
-            <h5 class="bg-teal-lgrad text-light p-3 my-3">New Applicant</h5>
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">add Applicants</h5>
             <div class=" ">   
                 <div class="form-ctn-100 mx-auto w-100 mb-3 bg-c-white">
                     <form class="px-3 py-4" method='POST' action="" enctype="multipart/form-data">
                         <!-- cross site request forgery token -->
                         {{form.hidden_tag()}}
                         <div class="h-hr">
-                            <h2 class="h">Add Applicant</h2>
+                            <h2 class="h">New Applicant</h2>
                             <span class="hr"></span>
                         </div>
                         <div class="row row-cols-md-2 row-cols-1">
@@ -113,6 +113,7 @@
                                     {% else %}
                                         {{form.password(class="form-control")}}
                                     {% endif %}
+                                    <div id="pwd-info"></div>
                                     <!-- input label -->
                                     {{form.password.label(class="form-control-label")}}
                                     <span class="pwd-vissibility px-3" onclick="togglePasswd(this, `.pwrd-field input`)">
@@ -133,4 +134,8 @@
 
 
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script>
+        checkPwd()
+    </script>
+{% endblock %}

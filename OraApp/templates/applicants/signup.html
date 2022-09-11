@@ -156,6 +156,7 @@
                                     {% else %}
                                         {{form.password(class="form-control")}}
                                     {% endif %}
+                                    <div id="pwd-info"></div>
                                     <!-- input label -->
                                     {{form.password.label(class="form-control-label")}}
                                 </div>
@@ -216,4 +217,8 @@
     </section>
 
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+    <script>
+        checkPwd()
+    </script>
+{% endblock %}

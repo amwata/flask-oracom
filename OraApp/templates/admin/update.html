@@ -8,28 +8,23 @@
 
     <div class="container">
         <div class="content">
-            <h5 class="bg-teal-lgrad text-light p-3 my-3">Update Admin</h5>
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Update Other Admin</h5>
             <div class=" ">
-                <div class="form-ctn mx-auto mb-3 bg-c-white d-md-flex">
-
-
-                    
+                <div class="form-ctn-100 mx-auto mb-3 bg-c-white d-md-flex">
                     <div class="p-3 prof-update">
                         <div class="profile-img-ctn">
                             <img src="{{ url_for('static', filename='admin/image/' + updated.image) }}" alt="">
                         </div>
                         <p class="p-0 text-bold mt-2">{{ updated.name }}</p>
                     </div>
-
-
                     <form class="p-3" method="POST" action="">
                         <!-- cross site request forgery token -->
                         {{form.hidden_tag()}}
                         <div class="h-hr">
-                            <h2 class="h">Update Admin</h2>
+                            <h2 class="h">Update Information</h2>
                             <span class="hr"></span>
                         </div>
-                        <div class="row">
+                        <div class="row row-cols-1">
                             <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->

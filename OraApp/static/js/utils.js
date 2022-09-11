@@ -85,4 +85,33 @@ const toggleTheme = () => {
 
 }
 
+// Password validator
+
+const checkPwd = () => {
+    pwd = document.querySelector('#password')
+    info = document.querySelector('#pwd-info')
+    pwd.addEventListener("input", (e) =>{
+        if(e.target.value.length < 8){
+            msg =`<span class="text-danger">Pasword is too short.</span>`
+            e.target.setCustomValidity("Password must have at least 8 characters")
+        }else if(!/[a-z]/.test(e.target.value)){
+            msg =`<span class="text-danger">Include a lowercase letter.</span>`
+            e.target.setCustomValidity("Include a lowercase letter.")
+        }else if(!/[0-9]/.test(e.target.value)){
+            msg =`<span class="text-danger">Include a number.</span>`
+            e.target.setCustomValidity("Include a number.")
+        }else if(!/[A-Z]/.test(e.target.value)){
+            msg =`<span class="text-danger">Include an uppercase letter.</span>`
+            e.target.setCustomValidity("Include an uppercase letter.")
+        }else if(!/[^0-9a-zA-Z]/.test(e.target.value)){
+            msg =`<span class="text-danger">Include a special character.</span>`
+            e.target.setCustomValidity("Include a special character.")
+        }else{
+            msg =`<span class="text-success">Password is good.</span>`
+            e.target.setCustomValidity("")
+        }
+        
+        info.innerHTML = e.target.value.length !== 0 ? msg : ""
+    })
+}
 

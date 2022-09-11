@@ -13,13 +13,45 @@ class User_Login(FlaskForm):
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-class Applicant_Signup(FlaskForm):
+class Admin(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = IntegerField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update Information')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            exists = User.query.filter_by(email=email.data).first()  
+            if exists:
+                raise ValidationError('This email already in use!')
+
+class Admin_Update(Admin):
+    image = FileField('Image (jpg and png files)', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
+
+class Admins_Add(Admin):
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+    submit = SubmitField('Add Admin')
+
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists:
+            raise ValidationError('This email is already registered!')
+
+class Admins_Edit(Admin):
+    id = HiddenField()
+    submit = SubmitField('Update Admin')
+
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists and exists.admins[0].id != int(self.id.data):
+            raise ValidationError(f'Email ({email.data}) already in use!')
+
+class Applicant(FlaskForm):
     f_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
     l_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     phone = IntegerField('Phone Number', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
     resume = FileField('Resume (pdf and doc files)', validators=[DataRequired(), FileAllowed(['pdf', 'doc', 'docx'])])
     image = FileField('Optional Photo (jpg and png files)', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     role = HiddenField(default='applicant')
@@ -30,9 +62,27 @@ class Applicant_Signup(FlaskForm):
         if exists:
             raise ValidationError('This email is Taken! Sign in instead.') 
 
+class Applicant_Signup(Applicant):
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
 
+class Applicant_Add(Applicant):
+    submit = SubmitField('Add')
 
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists:
+            raise ValidationError('This email is Taken!') 
 
+class Applicant_Update(Applicant):
+    id = HiddenField()
+    resume = FileField('Resume (pdf and doc files)', validators=[FileAllowed(['pdf', 'doc', 'docx'])])
+    password = None
+    submit = SubmitField('Update')
+
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if exists and exists.applicants[0].id != int(self.id.data):
+            raise ValidationError(f'Email ({email.data}) already in use!')
 
 class Employer_Signup(FlaskForm):
     name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])
@@ -52,57 +102,7 @@ class Employer_Signup(FlaskForm):
         if exists:
             raise ValidationError('This email is Taken! Sign in instead.')
 
-
-
-
-
-
-
-
-class Admin_Update(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone', validators=[DataRequired()])
-    image = FileField('Image (jpg and png files)', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
-    submit = SubmitField('Update Information')
-
-    def validate_email(self, email):
-        if email.data != current_user.email:
-            exists = User.query.filter_by(email=email.data).first()  
-            if exists:
-                raise ValidationError('This email already in use!')
-
-class Admin_Add(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
-    submit = SubmitField('Add Admin')
-
-    def validate_email(self, email):
-        exists = User.query.filter_by(email=email.data).first()  
-        if exists:
-            raise ValidationError('This email is already registered!')
-
-class Admin_Edit(FlaskForm):
-    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone', validators=[DataRequired()])
-    id = HiddenField()
-    submit = SubmitField('Update Admin')
-
-    def validate_email(self, email):
-        exists = User.query.filter_by(email=email.data).first()  
-        if exists and exists.admins[0].id != int(self.id.data):
-            raise ValidationError(f'Email ({email.data}) already in use!')
-
-class Admin_Applicant_Add(FlaskForm):
-    f_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
-    l_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone Number', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
-    resume = FileField('Resume (pdf and doc files)', validators=[DataRequired(), FileAllowed(['pdf', 'doc', 'docx'])])
+class Employer_Add(Employer_Signup):
     submit = SubmitField('Add')
 
     def validate_email(self, email):
@@ -110,19 +110,17 @@ class Admin_Applicant_Add(FlaskForm):
         if exists:
             raise ValidationError('This email is Taken!') 
 
-class Admin_Applicant_Update(FlaskForm):
-    f_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
-    l_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    phone = IntegerField('Phone Number', validators=[DataRequired()])
-    resume = FileField('Resume (pdf and doc files)', validators=[DataRequired(), FileAllowed(['pdf', 'doc', 'docx'])])
+class Employer_Update(Employer_Signup):
     id = HiddenField()
+    password = None
     submit = SubmitField('Update')
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
-        if exists and exists.applicants[0].id != int(self.id.data):
+        if exists and exists.employers[0].id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
+
+
 
 
 

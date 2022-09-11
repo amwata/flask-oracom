@@ -204,6 +204,10 @@ html[data-theme="dark"] .admin-nav a.admin-nav-item:hover{
     width:100%;
     text-align:center;
 }
+.form-ctn form,
+.form-ctn-100 form{
+    width: 100%;
+}
 .admin-search-box form span .fa{
     position:absolute;
     left:0;
@@ -255,11 +259,14 @@ html[data-theme="dark"] .admin-nav a.admin-nav-item:hover{
     background: var(--light);
 }
 .admin-container form .form-group input,
+.admin-container form .form-group textarea,
 .admin-container form .form-group input:focus,
+.admin-container form .form-group textarea:focus,
 .admin-container form .form-group label{
     background: var(--white);
     color: var(--dark);
 }
+
 .admin-card .no{
     position:relative;
     font-size:2rem;
