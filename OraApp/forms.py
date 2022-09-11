@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, HiddenField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, HiddenField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, URL
 from flask_wtf.file import FileField, FileAllowed
 from OraApp.models import User
@@ -120,9 +120,17 @@ class Employer_Update(Employer_Signup):
         if exists and exists.employers[0].id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
+class Job_Add(FlaskForm):
+    title = StringField('Job Title', validators=[DataRequired(), Length(min=2, max=100)])
+    category = StringField('Job Category', validators=[DataRequired(), Length(min=2, max=100)])
+    type = SelectField('Job Type', validators=[DataRequired(), Length(min=2, max=20)], choices=['Long-Term', 'Short-Term', 'Full Time', 'Part Time', 'Contract', 'Internship'])
+    salary = IntegerField('Salary (Optional) KSh.', validators=[])
+    company_id = IntegerField('Company ID', validators=[DataRequired()])
+    submit = SubmitField('Post Job')
 
-
-
+class Job_Update(Job_Add):
+    company_id = None
+    submit = SubmitField('Update Job')
 
 class Job_Search(FlaskForm):
     pass

@@ -1,7 +1,7 @@
 
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
-from OraApp.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit
+from OraApp.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit, Job_Add, Job_Update
 from OraApp.models import Admin, User, Job, Employer, Applicant
 from OraApp.utils import user_role_required, save_file, remove_file
 from flask_login import login_user, current_user
@@ -25,13 +25,64 @@ def admin_account():
 @user_role_required('admin')
 def admin_job_categories():
     user = Admin.query.filter_by(user_id=current_user.id).first()
-    return render_template("admin/dashboard.html", title="Admin | Job Categories", user=user)
+    jobs = Job.query.all()
+    return render_template("admin/dashboard.html", title="Admin | Jobs List", user=user)
 
 @admin.route("/admin/jobs-list/")
 @user_role_required('admin')
 def admin_jobs():
     user = Admin.query.filter_by(user_id=current_user.id).first()
-    return render_template("admin/dashboard.html", title="Admin | Lists of Jobs", user=user)
+    jobs = Job.query.all()
+    return render_template("admin/jobs.html", title="Admin | Jobs List", user=user, jobs=jobs)
+
+@admin.route("/admin/jobs/new-job/", methods=['GET', 'POST'])
+@user_role_required('admin')
+def admin_job_add():
+    user = Admin.query.filter_by(user_id=current_user.id).first()
+    form = Job_Add()
+    if form.validate_on_submit():
+        job = Job(title=form.title.data.strip().capitalize(), category=form.category.data, type=form.type.data, salary=form.salary.data)
+        db.session.add(job)
+        db.session.commit()
+        
+        flash(f'New Job Added Successfully!', 'success')
+        return redirect(url_for('.admin_jobs'))
+    return render_template("admin/new_jobs.html", title="Admin | Add Job", user=user, form=form)
+
+@admin.route("/admin/jobs/<int:job_id>/update-job/", methods=['GET', 'POST'])
+@user_role_required('admin')
+def admin_job_update(job_id):
+    user = Admin.query.filter_by(user_id=current_user.id).first()
+    updated = Job.query.get_or_404(job_id)
+    form = Job_Update()
+
+    if form.validate_on_submit():
+        updated.title = form.title.data.strip().capitalize()
+        updated.category = form.category.data.strip().capitalize()
+        updated.type = form.type.data 
+        updated.salary = form.salary.data
+
+        db.session.commit()
+        flash(f'Job Updated Successfully.', 'success')
+        return redirect(url_for('.admin_jobs'))
+  
+    form.title.data = updated.title 
+    form.category.data = updated.category
+    form.salary.data = updated.salary
+    form.type.data = updated.type
+    
+    return render_template("admin/update_jobs.html", title="Admin | Update Job", form=form, user=user, updated=updated)
+
+@admin.route("/admin/<int:job_id>/remove-job/", methods=['POST'])
+@user_role_required('admin')
+def admin_job_remove(job_id):
+    job = Job.query.get_or_404(job_id)
+
+    db.session.delete(job)
+    db.session.commit()
+            
+    flash(f'Job Removed Successfully!', 'success')
+    return redirect(url_for('.admin_jobs'))
 
 @admin.route("/admin/notifications/")
 @user_role_required('admin')

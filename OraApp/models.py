@@ -36,6 +36,7 @@ class Employer(db.Model):
     website = db.Column(db.String(20))
     logo = db.Column(db.String(25),  nullable=False, default='company.png')
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    jobs = db.relationship('Job', backref='company', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
@@ -50,10 +51,10 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=False)
     category = db.Column(db.String(20), nullable=False)
-    location = db.Column(db.String(20), nullable=False)
     salary = db.Column(db.String(20), nullable=False)
     type = db.Column(db.String(20), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    company_id = db.Column(db.Integer, db.ForeignKey('employer.id'), nullable=False)
 
 class Notification(db.Model):
     id = db.Column(db.Integer, primary_key=True)
