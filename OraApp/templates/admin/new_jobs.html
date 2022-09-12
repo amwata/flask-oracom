@@ -73,18 +73,38 @@
                             <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
                                     {% if form.type.errors %}
-                                        {{form.type(class="form-control is-invalid")}}
+                                        {{form.type(class="form-control form-select is-invalid")}}
                                         <div class="invalid-feedback">
                                             {% for error in form.type.errors %}
                                                 <span>{{error}}</span>
                                             {% endfor %}
                                         </div>
                                     {% else %}
-                                        {{form.type(class="form-control")}}
+                                        {{form.type(class="form-control form-select")}}
                                     {% endif %}
                                     <!-- input label -->
                                     {{form.type.label(class="form-control-label")}}
+                                    <span class="pwd-vissibility px-3">
+                                        <i class="fa fa-angle-down"></i>
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">

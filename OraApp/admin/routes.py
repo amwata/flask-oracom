@@ -41,12 +41,17 @@ def admin_job_add():
     user = Admin.query.filter_by(user_id=current_user.id).first()
     form = Job_Add()
     if form.validate_on_submit():
-        job = Job(title=form.title.data.strip().capitalize(), category=form.category.data, type=form.type.data, salary=form.salary.data)
-        db.session.add(job)
-        db.session.commit()
-        
-        flash(f'New Job Added Successfully!', 'success')
-        return redirect(url_for('.admin_jobs'))
+        company = Employer.query.filter_by(id=form.company_id.data).first()
+        if company:    
+            salary = form.salary.data if form.salary.data else 0
+            job = Job(title=form.title.data.strip().capitalize(), category=form.category.data, type=form.type.data, description=form.description.data, salary=salary, company=company)
+            db.session.add(job)
+            db.session.commit()
+            
+            flash(f'New Job Added Successfully!', 'success')
+            return redirect(url_for('.admin_jobs'))
+        else:
+            flash(f'Company does not exist!', 'danger')
     return render_template("admin/new_jobs.html", title="Admin | Add Job", user=user, form=form)
 
 @admin.route("/admin/jobs/<int:job_id>/update-job/", methods=['GET', 'POST'])
@@ -60,7 +65,8 @@ def admin_job_update(job_id):
         updated.title = form.title.data.strip().capitalize()
         updated.category = form.category.data.strip().capitalize()
         updated.type = form.type.data 
-        updated.salary = form.salary.data
+        updated.description = form.description.data
+        updated.salary = form.salary.data if form.salary.data else 0
 
         db.session.commit()
         flash(f'Job Updated Successfully.', 'success')
@@ -70,6 +76,7 @@ def admin_job_update(job_id):
     form.category.data = updated.category
     form.salary.data = updated.salary
     form.type.data = updated.type
+    form.description.data = updated.description
     
     return render_template("admin/update_jobs.html", title="Admin | Update Job", form=form, user=user, updated=updated)
 
@@ -126,7 +133,11 @@ def admin_company_add():
 @user_role_required('admin')
 def admin_company_remove(company_id):
     user = Employer.query.get_or_404(company_id)
+    jobs = user.jobs
 
+    for job in jobs:
+         db.session.delete(job)
+         
     db.session.delete(user)
     db.session.delete(user.employer)
     db.session.commit()
@@ -147,6 +158,7 @@ def admin_company_remove(company_id):
 def admin_company_update(company_id):
     user = Admin.query.filter_by(user_id=current_user.id).first()
     updated = Employer.query.get_or_404(company_id)
+    jobs = len(updated.jobs)
     form = Employer_Update()
 
     form.id.data = int(company_id)
@@ -181,7 +193,7 @@ def admin_company_update(company_id):
     form.website.data = updated.website
 
     
-    return render_template("admin/update_employers.html", title="Admin | Update Employer", form=form, user=user, updated=updated)
+    return render_template("admin/update_employers.html", title="Admin | Update Employer", form=form, user=user, jobs=jobs, updated=updated)
 
 @admin.route("/admin/applicants/")
 @user_role_required('admin')
@@ -240,7 +252,7 @@ def admin_applicant_remove(applicant_id):
 @admin.route("/admin/applicants/<int:applicant_id>/update-applicant/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_applicant_update(applicant_id):
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins[0]
     updated = Applicant.query.get_or_404(applicant_id)
     form = Applicant_Update()
 

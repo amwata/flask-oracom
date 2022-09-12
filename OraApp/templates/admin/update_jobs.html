@@ -12,12 +12,13 @@
             <div class=" ">
                 <div class="img-box bg-c-white p-3">
                     <div class="d-flex align-items-center">
-                        <div class="profile-img-ctn">
-                            <img src="{{ url_for('static', filename='admin/image/') }}" alt="">
-                        </div>
-                        <div>
-                            <h3>Job Title (Category)</h3>
-                            <p>Company + Location</p>
+                        <a href="{{ url_for('admin.admin_company_update', company_id=updated.company.id) }}" class="profile-img-ctn" >
+                            <img src="{{ url_for('static', filename='employer/logo/' + updated.company.logo) }}" alt="">
+                        </a>
+                        <div class="ms-2">
+                            <h4 class="mb-1">{{ updated.title }}</h4>
+                            <p class="text-muted m-0">{{ updated.company.name }} <i class="fa fa-map-marker t-prim" aria-hidden="true"></i> {{ updated.company.location }}</p>
+                            <small class="text-muted"><i class="fa fa-calendar t-prim" aria-hidden="true"></i> {{ updated.date_posted.strftime("%d %b, %Y") }}</small>
                         </div>
                     </div>
                 </div>    
@@ -69,17 +70,37 @@
                                 <div class="field-ctn">
                                     <!-- input validation -->
                                     {% if form.type.errors %}
-                                        {{form.type(class="form-control is-invalid")}}
+                                        {{form.type(class="form-control form-select is-invalid")}}
                                         <div class="invalid-feedback">
                                             {% for error in form.type.errors %}
                                                 <span>{{error}}</span>
                                             {% endfor %}
                                         </div>
                                     {% else %}
-                                        {{form.type(class="form-control")}}
+                                        {{form.type(class="form-control form-select")}}
                                     {% endif %}
                                     <!-- input label -->
                                     {{form.type.label(class="form-control-label")}}
+                                    <span class="pwd-vissibility px-3">
+                                        <i class="fa fa-angle-down"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="form-group">

@@ -124,9 +124,17 @@ class Job_Add(FlaskForm):
     title = StringField('Job Title', validators=[DataRequired(), Length(min=2, max=100)])
     category = StringField('Job Category', validators=[DataRequired(), Length(min=2, max=100)])
     type = SelectField('Job Type', validators=[DataRequired(), Length(min=2, max=20)], choices=['Long-Term', 'Short-Term', 'Full Time', 'Part Time', 'Contract', 'Internship'])
-    salary = IntegerField('Salary (Optional) KSh.', validators=[])
+    description = TextAreaField('Job Description', validators=[DataRequired(), Length(min=5, max=1000)])
+    salary = StringField('Salary (Optional) KSh.')
     company_id = IntegerField('Company ID', validators=[DataRequired()])
     submit = SubmitField('Post Job')
+
+    def validate_salary(self, salary):
+        if salary.data != '':
+            try:
+                float(salary.data)
+            except ValueError:
+                raise ValidationError(f'Invalid Salary value!')
 
 class Job_Update(Job_Add):
     company_id = None

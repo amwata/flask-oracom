@@ -14,7 +14,8 @@
                         <div class="profile-img-ctn">
                             <img src="{{ url_for('static', filename='employer/logo/' + updated.logo) }}" alt="">
                         </div>
-                        <p class="p-0 text-bold mt-2">{{ updated.name }}</p>
+                        <p class="p-0 text-bold mt-2 mb-0">{{ updated.name }}</p>
+                        <p class="text-muted m-0">Posted Jobs: {{ jobs }}</p>
                     </div>
                     <form class="p-3" method="POST" action="" enctype="multipart/form-data">
                         <!-- cross site request forgery token -->
