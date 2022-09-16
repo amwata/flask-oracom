@@ -1,0 +1,46 @@
+{% extends 'admin/layout.html' %}
+{% block categories %}
+    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-nav-item active"><i class="fa fa-puzzle-piece" aria-hidden="true"></i> Job
+    Categories</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Job Categories</h5>
+            <div class=" ">     
+                <div class="bg-c-white p-3 mb-2 d-flex align-items-center">
+                    <p class="m-0">Top <b>Categories</b></p>
+                    <a href="{{ url_for('admin.admin_jobs') }}" class="btn btn-sm prim btn-brand text-light ms-auto"> See All Jobs</a>
+                </div>              
+                <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
+                    {% if categories %}
+                        {% for category in categories %}
+                            <div class="col">
+                                <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-card category-card">
+                                    <p class="h6"><i class="fa fa-bookmark t-prim"></i> {{category}}</p>
+                                    <div class="category-img-box">
+                                        <div class ="image-box my-3">
+                                            <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
+                                        </div>
+                                        
+                                        <div class ="views">
+                                            <p class="h5 m-0 p-0">55</p>
+                                            <small class="text-muted p-0 m-0" >Total Jobs</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No available Job Categories</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

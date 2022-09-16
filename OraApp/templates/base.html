@@ -35,39 +35,93 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            {% block navMenus %}
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li>
-                        <a class="nav-link active" href="{{url_for('main.home')}}">Home</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{url_for('jobs.job_list')}}">Jobs</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{url_for('employer.company_list')}}">Companies</a>
-                    </li>
-                    <li>
-                        <a class="nav-link" href="{{url_for('main.about')}}">About</a>
-                    </li>
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated and current_user.applicants %}
+                        {% block logged_applicant %}
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Account</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+                            </li>
+                        {% endblock %}
                         <li>
-                            <a class="nav-link" href="{{url_for('main.logout')}}">Logout</a>
+                            <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('applicant.notifications')}}">Notifications</a>
                         </li>
+                        <li>
+                            <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('applicant.settings')}}">Settings</a>
+                        </li>
+                        <li>
+                            <a class="text-dark ms-3 d-none d-sm-block" href="{{url_for('applicant.notifications')}}"><i class="fa fa-bell-o"></i></a>
+                        </li>
+                        <li>
+                            <a class="text-dark d-none d-sm-block" href="{{url_for('applicant.settings')}}"><i class="fa fa-wrench"></i></a>
+                        </li>    
+                        <li>
+                            <a class="d-block btn btn-sm btn-brand prim text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
+                        </li>
+                    {% elif current_user.is_authenticated and current_user.employers %}
+                        {% block logged_employer %}
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Account</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Posted Jobs</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
+                            </li>
+                        {% endblock %} 
+                        <li>
+                            <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('employer.notifications')}}">Notifications</a>
+                        </li>
+                        <li>
+                            <a class="nav-link ps-sm-auto ps-2 d-block d-sm-none" href="{{url_for('employer.settings')}}">Settings</a>
+                        </li>
+                        <li>
+                            <a class="text-dark ms-3 d-none d-sm-block" href="{{url_for('employer.notifications')}}"><i class="fa fa-bell-o"></i></a>
+                        </li>
+                        <li>
+                            <a class="text-dark d-none d-sm-block" href="{{url_for('employer.settings')}}"><i class="fa fa-wrench"></i></a>
+                        </li>  
+                        <li>
+                            <a class="d-block btn btn-sm btn-brand prim text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
+                        </li>    
                     {% else %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Login</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                                <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                            </ul>
-                        </li>
+                        {% block logged_out %}
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Home</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    Login</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                                </ul>
+                            </li>
+                        {% endblock %}
                         <li class="nav-item dropdown">
                             <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
                                 id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,7 +134,6 @@
                     {% endif %}
                 </ul>
             </div>
-            {% endblock %}
         </div>
     </nav>
     <div class="container p-0">
@@ -127,11 +180,24 @@
                     <div class="row row-cols-lg-2 row-cols-1">
                         <div class="col">
                             <ul class="foot-menu">
-                                <li><a href="{{url_for('jobs.job_list')}}">Jobs</a></li>
-                                <li><a href="{{url_for('employer.company_list')}}">Companies</a></li>
-                                <li><a href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                                <li><a href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                                <li><a href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                                {% if current_user.is_authenticated and current_user.applicants %}
+                                    <li><a href="{{url_for('main.logout')}}">Account</a></li>
+                                    <li><a href="{{url_for('jobs.job_list')}}">Jobs</a></li>
+                                    <li><a href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a></li>
+                                    <li><a href="{{url_for('employer.company_list')}}">Companies</a></li>
+                                    <li><a href="{{url_for('main.logout')}}">Logout</a></li>
+                                {% elif current_user.is_authenticated and current_user.employers %}
+                                    <li><a href="{{url_for('main.home')}}">Account</a></li>
+                                    <li><a href="{{url_for('employer.posted_jobs')}}">Jobs Posted</a></li>
+                                    <li><a href="{{url_for('employer.applicants')}}">Applicants</a></li>
+                                    <li><a href="{{url_for('main.logout')}}">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{{url_for('jobs.job_list')}}">Jobs</a></li>
+                                    <li><a href="{{url_for('employer.company_list')}}">Companies</a></li>
+                                    <li><a href="{{url_for('employer.employer_login')}}">Employer</a></li>
+                                    <li><a href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+                                    <li><a href="{{url_for('admin.admin_login')}}">Admin</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="col">

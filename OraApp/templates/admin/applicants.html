@@ -30,7 +30,7 @@
                                     {{ applicant.f_name }}
                                     {{ applicant.l_name }}
                                 </td>
-                                <td>{{ applicant.applicant.email }}</td>
+                                <td>{{ applicant.user.email }}</td>
                                 <td>{{ applicant.phone }}</td>
                                 <td>
                                     <a href="{{ url_for('admin.admin_applicant_update', applicant_id=applicant.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>

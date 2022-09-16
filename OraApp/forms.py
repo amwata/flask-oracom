@@ -43,7 +43,7 @@ class Admins_Edit(Admin):
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
-        if exists and exists.admins[0].id != int(self.id.data):
+        if exists and exists.admins.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
 class Applicant(FlaskForm):
@@ -77,11 +77,11 @@ class Applicant_Update(Applicant):
     id = HiddenField()
     resume = FileField('Resume (pdf and doc files)', validators=[FileAllowed(['pdf', 'doc', 'docx'])])
     password = None
-    submit = SubmitField('Update')
+    submit = SubmitField('Update Account')
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
-        if exists and exists.applicants[0].id != int(self.id.data):
+        if exists and exists.applicants.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
 class Employer_Signup(FlaskForm):
@@ -117,7 +117,7 @@ class Employer_Update(Employer_Signup):
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
-        if exists and exists.employers[0].id != int(self.id.data):
+        if exists and exists.employers.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
 class Job_Add(FlaskForm):

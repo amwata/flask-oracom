@@ -146,7 +146,7 @@
                                 <tr>
                                     <td>{{ admin.id }}</td>
                                     <td>{{ admin.name }}</td>
-                                    <td>{{ admin.admin.email }}</td>
+                                    <td>{{ admin.user.email }}</td>
                                     <td>{{ admin.phone }}</td>
                                     <td>
                                         <a href="{{ url_for('admin.admin_update', admin_id=admin.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>

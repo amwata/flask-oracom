@@ -1,51 +1,53 @@
 {% extends 'base.html' %}
 
-{% block navMenus %}
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ms-auto align-items-center">
+{% block logged_applicant %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+{% endblock %}
+                          
+{% block logged_out %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
             <li>
-                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
+                <hr class="dropdown-divider">
             </li>
-            <li>
-                <a class="nav-link active" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Login</a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Register</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
-                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
-                </div>
-            </li>
+            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
         </ul>
-    </div>
+    </li>
 {% endblock %}
 
 {% block container %}
 
 <section id=" " class="">
-    <div class="container-fluid bg-teal-lgrad text-light text-center">
-        <h2 class="py-4 m-0">Find Jobs!!!</h2>
+    <div class="container-fluid bg-teal-lgrad text-light text-center py-3">
+        <h2 class="m-0">Find Jobs!!!</h2>
         <div class="d-flex py-3">
             <div class="mx-auto text-light bg-secondary px-5 py-3">
                 <form class="my-2 search-form">
@@ -60,104 +62,67 @@
 
 <section id="job-categories" class="bg-light py-5">
     <div class="container">
-        <div class="section-header">
-            <h2 class=" ">Top Job Categories </h2>
-        </div>
+        <div class="p-3 mb-2 d-flex align-items-center">
+            <p class="h2">Top Job Categories</p>
+            <a href="{{ url_for('admin.admin_jobs') }}" class="btn btn-sm prim btn-brand text-light ms-auto "> View All</a>
+        </div> 
         
-        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2 text-center">
+        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
             <div class="col">
-                <a href="" class="category-card">
-                    <div class="category-img">
-                        <img src="{{url_for('static', filename='img/job_search.png')}}" alt="">
+                <a href="{{ url_for('admin.admin_job_categories') }}" class="bg-white d-block p-3 category-card">
+                    <p class="h6"><i class="fa fa-bookmark t-prim"></i> categoty</p>
+                    <div class="category-img-box">
+                        <div class ="image-box my-3">
+                            <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
+                        </div>
+                        
+                        <div class ="views">
+                            <p class="m-0 p-0 h5">22</p>
+                            <p class="text-muted p-0 m-0" >Total Jobs</p>
+                        </div>
                     </div>
-                    <p class="m-0">IT Department</p>
-                    <span class="px-2">4</span>
-                </a>
-            </div>
-            <div class="col">
-                <a href="" class="category-card">
-                    <div class="category-img">
-                        <img src="{{url_for('static', filename='img/job_search.png')}}" alt="">
-                    </div>
-                    <h5>IT Department</h5>
-                    <p>4</p>
-                </a>
-            </div>
-            <div class="col">
-                <a href="" class="category-card">
-                    <div class="category-img">
-                        <img src="{{url_for('static', filename='img/job_search.png')}}" alt="">
-                    </div>
-                    <h5>IT Department</h5>
-                    <p>4</p>
-                </a>
-            </div>
-            <div class="col">
-                <a href="" class="category-card">
-                    <div class="category-img">
-                        <img src="{{url_for('static', filename='img/job_search.png')}}" alt="">
-                    </div>
-                    <h5>HR Department</h5>
-                    <p class="text-muted">4</p>
                 </a>
             </div>
         </div>
-        <a href="" type="submit" class="btn btn-sm btn-brand prim text-light px-3 mt-3">View All</a>
-
     </div>
 </section>
 
-<section id="jobs-list" class="py-5">
+<section id="jobs-list" class="bg-light py-5">
     <div class="container">
         <div class="section-header">
             <h2 class=" ">Recent Jobs</h2>
         </div>
         
-        <div class="row row-cols-1 g-3 m-0 p-0">
-            <div class="col">
-                <div class="list-card d-sm-flex">
-                    <div class="d-flex">
-                        <a href="" class="list-img">
-                            <img src="{{url_for('static', filename='img/company.png')}}" alt="">
-                        </a>
-                        <div class="ps-3">
-                            <h5 class="m-0 mb-1">Job Title</h5>
-                            <p class="m-0 mb-1">Company Name</p>
-                            <small class="text-muted"><i class="fa fa-map-marker"></i> Location</small>
-                            <small class="text-muted"><i class="fa fa-send"></i> 2022-2-12</small>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="col">
+                        <div class="bg-white p-3 jobs-card">
+                            <div class="text-end border-bottom mb-1">
+                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                            </div>
+                            <div class="my-2">
+                                <a href="" class="profile-img-ctn prof-sm">
+                                    <img src="{{ url_for('static', filename='employer/logo/' + job.company.logo) }}" alt="">
+                                </a>
+                            </div>
+                            <div class="">
+                                <p class="text-muted m-0">{{ job.company.name }}</p>
+                                <h4 class="d-block text-dark m-0">{{ job.title }}</h4>
+                                <small class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small>
+                                <p class="d-flex m-0 align-items-end">
+                                    <small class="text-muted"><i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not specified' }}</small>
+                                    <a href="" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <div class="list-right my-3">
-                        <p class="m-0">Internship</p>
-                        <small class="text-muted d-block"><i class="fa fa-money"></i>KSh. 12000-15000</small>
-                        <a href="" class="btn btn-sm btn-brand prim m-auto text-light mt-3">Apply Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="list-card d-sm-flex">
-                    <div class="d-flex">
-                        <a href="" class="list-img">
-                            <img src="{{url_for('static', filename='img/company.png')}}" alt="">
-                        </a>
-                        <div class="ps-3">
-                            <h5 class="m-0 mb-1">Job Title</h5>
-                            <p class="text-muted m-0 mb-2">Company Name</p>
-                            <small class="text-muted"><i class="fa fa-map-marker"></i> Location</small>
-                            <small class="text-muted"><i class="fa fa-send"></i> 2022-2-12</small>
-                        </div>
-                    </div>
-                    <div class="list-right my-3">
-                        <p class="bg-light mb-1 d-inline px-2 py-1">Internship</p>
-                        <small class="text-muted d-block"><i class="fa fa-money"></i>KSh. 12000-15000</small>
-                        <a href="" class="btn btn-sm btn-brand prim m-auto text-light mt-3">Apply Now</a>
-                    </div>
-                </div>
-            </div>
-        
+                {% endfor %}
+            {% else %}
+                <p>No Posted Jobs yet. Check later.</p>
+            {% endif %}
         </div>
-        <div class="my-2">
+        <div class="my-3">
             <a href="" class="btn btn-sm btn-outline-primary">1</a>
             ...
             <a href="" class="btn btn-sm btn-primary">2</a>

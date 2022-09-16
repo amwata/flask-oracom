@@ -82,10 +82,11 @@ a{
     padding: 4px 0;
 }
 
-.navbar-nav .nav-link {
+.navbar-nav li a {
     position: relative;
     overflow: hidden;
     padding: 4px 8px;
+    white-space: nowrap;
 }
 
 .navbar-nav .nav-link::before {
@@ -355,40 +356,34 @@ img {
     position: absolute;
     background-color: var(--prim);
 }
+.section-header{
+    margin-bottom: 16px;
+}
 #hero p{
     color:rgb(93, 93, 93);
     font-weight: 500;
 }
+.category-card{
+    height: 100%;
+}
+#jobs-list .jobs-card{
+    box-shadow: 0 0 10px 0 var(--faint-light);
 
-#job-categories .category-card,
-#jobs-list .list-card {
-    background: white;
+}
+.category-img-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.category-card p{
     color: var(--dark);
-    display: block;
-    padding: 16px;    
 }
-
-#job-categories .category-card{
-    border-bottom: 3px solid rgba(0, 0, 0, 0.15);
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-    transition: .3s ease;
-    position: relative;
+.category-img-box p{
+    text-align: center;
+    margin: 0;
 }
-#job-categories .category-card:hover{
-    border-bottom: 3px solid var(--prim);
-}
-
-#jobs-list .list-card {
-    align-items: flex-end;
-    justify-content: space-between;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-
-}
-
-
-#jobs-list .list-card .fa {
-    color: var(--prim);
+.image-box{
+    width: 70px;  
 }
 
 #jobs-list .list-card .list-img,
@@ -396,6 +391,7 @@ img {
     background: var(--light);
     width: 80px;
     height: 80px;
+    display: block;
 }
 .paper{
     width: 70px;
@@ -414,41 +410,6 @@ img {
     overflow: hidden;
 }
 
-#job-categories .category-card .category-img{
-    margin: 8px auto;
-    width: 70px;
-    height: 70px;
-}
-#job-categories .category-card span{
-    position: absolute;
-    background: var(--light);
-    --wd: 1.5rem;
-    width: var(--wd);
-    height: var(--wd);
-    font-size: .85rem;
-    font-weight: bold;
-    color: var(--gray);
-    top: 0;
-    right: 20px;
-    z-index: 5;
-}
-#job-categories .category-card span:before,
-#job-categories .category-card span:after{
-    position: absolute;
-    content:'';
-    width: 0;
-    height: 0;
-    top: calc(var(--wd) / 2);
-    left: 0;
-    border: calc(var(--wd) / 2) solid transparent;
-    border-left: calc(var(--wd) / 2) solid var(--light);
-    z-index: -1;
-}
-#job-categories .category-card span:after{
-    border-right: calc(var(--wd) / 2) solid var(--light);
-}
-
-#jobs-list .list-card .list-img img,
 .profile-img-ctn a,
 .profile-img-ctn img{
     width: 100%;

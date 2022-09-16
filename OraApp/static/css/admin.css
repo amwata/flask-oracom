@@ -248,6 +248,9 @@ html[data-theme="dark"] .admin-nav a.admin-nav-item:hover{
     align-items: center;
     justify-content:space-between;
 }
+.admin-card.category-card{
+    display: block;
+}
 .admin-card:hover,
 .bg-c-white{
     background: var(--white);
@@ -284,6 +287,7 @@ html[data-theme="dark"] .admin-nav a.admin-nav-item:hover{
     font-size:2rem;
     color:var(--faint-light);  
 }
+
 .modal-header,
 .table tr th,
 .table tr td{

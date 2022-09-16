@@ -164,6 +164,52 @@
                         </div>
                     </form>
                 </div>
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h4 class="m-0" > <b>Posted Jobs</b> </h4>
+                        <a href="{{ url_for('admin.admin_job_add') }}" class="btn btn-sm btn-success ms-auto" >Add New Job</a>
+                    </div>
+
+                    <table class="table table-hover bg-c-lighter t-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Type</th>
+                            <th>Salary (KSh)</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for job in updated.jobs %}
+                            <tr>
+                                <td>{{ job.id }}</td>
+                                <td>{{ job.title }}</td>
+                                <td>{{ job.category }}</td>
+                                <td>{{ job.type }}</td>
+                                <td>{{ job.salary or 'Not Specified'}}</td>
+                                <td>
+                                    <a href="{{ url_for('admin.admin_job_update', job_id=job.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
+                                    <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"> <i class="fa fa-trash"></i> </a>
+                                </td>
+                            </tr>
+                            <div class="modal fade" id="remove-job{{job.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Remove Job?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('admin.admin_job_remove', job_id=job.id) }}" method="post">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
     </div>

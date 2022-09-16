@@ -1,212 +1,188 @@
-{% extends 'base.html' %}
 
-<nav class="navbar navbar-expand-md navbar-light bg-light py-1">
-    <div class="container">
-        <a class="navbar-brand " href="{{url_for('main.home')}}">
-            <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
-            <b>Ora<span class="t-prim">Jobs</span></b>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        {% block navMenus %}
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li>
-                    <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
-                </li>
-                <li>
-                    <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
-                </li>
-                <li>
-                    <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
-                </li>
-                <li>
-                    <a class="nav-link active" id="home" href="{{url_for('main.about')}}">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Login</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                        <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                        id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Register</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
-                        <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        {% endblock %}
-    </div>
-</nav>
+{% extends 'base.html' %}
+                          
+{% block logged_out %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.about')}}">About Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+        </ul>
+    </li>
+{% endblock %}
 
 {% block container %}
-
-<section id="about" class="py-5 text-center">
-    <div class="container">
-        <div class="row m-auto">
-            <div class="row m-0 p-0">
-                <div class="col-lg-4 col-md-4 col-12 image-ctn bg-light mb-3">
-                    <img class="" src="{{url_for('static', filename='img/hop.jpg')}}" alt="">
-                </div>
-                <div class="col-lg-8 col-md-8 col-12 ">
-                    <h2 class=" ">Who We Are</h2>
-                    <p>
-
-                        We are proudly part of Oracom Group. Oracom offers outstanding Web Design in Kenya, We are the
-                        best Web Design company in Kenya, Canada and Belgium. From Website Builders, Software & Mobile
-                        App Development. We stand out in the local and international market to be the best provider of
-                        Web Solutions with over 6 Years experience. Always guided by Creative Teams of Web Developers
-                        working in both day and night shift arrangement.
-
-                        We are fully charged with the responsibility of developing Quality, Affordable, Effective,
-                        Efficient and Reliable Web Solutions to our ever growing wide category of clients. Get the best
-                        of our services. <a href="#contact">Contact Us</a> NOW!
-
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="services" class="py-5 text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="section-header">
-                    <h2 class=" ">What We Do</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
-            <div class="col">
-                <div class="card">
-                    <span class="card-icon"><i class="fa fa-code"></i></span>
-                    <div class="card-text">
-                        <h3>Web Design</h3>
-                        <p>
-                            Are you searching for Web Design in Kenya? then search no further. Website design and
-                            development is our specialty. Do you want out of the box designs, or need an E-Commerce
-                            website or a custom web design? Looking for the best Web Design Company in Kenya, then
-                            Oracom Web Solutions is your best fit.
-                        </p>
-                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                            Learn More
-                        </a>
+    <section id="about" class="py-5 text-center">
+        <div class="container">
+            <div class="row m-auto">
+                <div class="row m-0 p-0">
+                    <div class="col-lg-4 col-md-4 col-12 image-ctn bg-light mb-3">
+                        <img class="" src="{{url_for('static', filename='img/hop.jpg')}}" alt="">
                     </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <span class="card-icon"><i class="fa fa-ioxhost"></i></span>
-                    <div class="card-text">
-                        <h3>Internet Marketing Agency</h3>
+                    <div class="col-lg-8 col-md-8 col-12 ">
+                        <h2 class=" ">Who We Are</h2>
                         <p>
-                            Arm yourself with the essential principles and practices of marketing in this digital
-                            economy by enrolling for our digital marketing courses today. We offer the Best Digital
-                            Marketing Training in Kenya
+
+                            We are proudly part of Oracom Group. Oracom offers outstanding Web Design in Kenya, We are the
+                            best Web Design company in Kenya, Canada and Belgium. From Website Builders, Software & Mobile
+                            App Development. We stand out in the local and international market to be the best provider of
+                            Web Solutions with over 6 Years experience. Always guided by Creative Teams of Web Developers
+                            working in both day and night shift arrangement.
+
+                            We are fully charged with the responsibility of developing Quality, Affordable, Effective,
+                            Efficient and Reliable Web Solutions to our ever growing wide category of clients. Get the best
+                            of our services. <a href="#contact">Contact Us</a> NOW!
+
                         </p>
-                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                            Learn More
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <span class="card-icon"><i class="fa fa-server"></i></span>
-                    <div class="card-text">
-                        <h3>Domain Hosting</h3>
-                        <p>
-                            Oracom Kenya Web Solutions gives you the best combination of power, speed, reliability,
-                            security and availability in all domain registration and Web Hosting plans. For the best
-                            Domain and Hosting in Kenya
-                        </p>
-                        <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
-                            Learn More
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="contact" class="py-5 bg-ligvht">
-    <div class="container">
-        <div class="d-md-flex">
-
-            <div class="social-contact bg-white me-md-2 mb-md-0 mb-3">
-                <div class="git d-flex align-items-center justify-content-between">
-                    <ul class="user">
-                        <li><a href="tel:+254729990583" target="_blank"><i class="fa fa-phone"></i>+254 729 990 583</a>
-                        </li>
-                        <li><a href="mailto:business@oracom.co.ke" target="_blank"><i
-                                    class="fa fa-envelope-o"></i>business@oracom.co.ke</a></li>
-                        <li><a href="https://www.google.co.ke/maps/place/1%C2%B017'31.6%22S+36%C2%B049'18.8%22E/@-1.2921111,36.8218889,17z"
-                                target="_blank"><i class="fa fa-map-marker"></i> TRV Office Plaza, 7th Floor, Suite 7D,
-                                Muthithi Rd,<br> Westlands. Nairobi – Kenya.</a></li>
-                    </ul>
-                    <ul class="sm">
-                        <li><a href="https://wa.me/254718097171" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
-                        <li><a href="http://instagram.com/gs_dynasty07" target="_blank"><i
-                                    class="fa fa-instagram"></i></a></li>
-                        <li><a href="https://facebook.com/handbagonlineshopp" target="_blank"><i
-                                    class="fa fa-facebook"></i></a></li>
-                        <li><a href="https://youtube.com/shorts/Q1XSmmlW2j0" target="_blank"><i
-                                    class="fa fa-youtube-play"></i></a></li>
-                    </ul>
+    <section id="services" class="py-5 text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="section-header">
+                        <h2 class=" ">What We Do</h2>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-ctn mx-auto">
-                <form class="bg-white px-4 py-5" action="">
-                    <div class="h-hr">
-                        <h4 class="h">Contact Us</h4>
-                        <span class="hr"></span>
+            <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
+                <div class="col">
+                    <div class="card">
+                        <span class="card-icon"><i class="fa fa-code"></i></span>
+                        <div class="card-text">
+                            <h3>Web Design</h3>
+                            <p>
+                                Are you searching for Web Design in Kenya? then search no further. Website design and
+                                development is our specialty. Do you want out of the box designs, or need an E-Commerce
+                                website or a custom web design? Looking for the best Web Design Company in Kenya, then
+                                Oracom Web Solutions is your best fit.
+                            </p>
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Learn More
+                            </a>
+                        </div>
                     </div>
-                    <div class="">
-                        <div class="">
-                            <div class="field-ctn">
-                                <input type="text" id="name2" class="form-control" required>
-                                <label for="name2">Name</label>
-                            </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <span class="card-icon"><i class="fa fa-ioxhost"></i></span>
+                        <div class="card-text">
+                            <h3>Internet Marketing Agency</h3>
+                            <p>
+                                Arm yourself with the essential principles and practices of marketing in this digital
+                                economy by enrolling for our digital marketing courses today. We offer the Best Digital
+                                Marketing Training in Kenya
+                            </p>
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <span class="card-icon"><i class="fa fa-server"></i></span>
+                        <div class="card-text">
+                            <h3>Domain Hosting</h3>
+                            <p>
+                                Oracom Kenya Web Solutions gives you the best combination of power, speed, reliability,
+                                security and availability in all domain registration and Web Hosting plans. For the best
+                                Domain and Hosting in Kenya
+                            </p>
+                            <a class="btn btn-sm btn-brand peach text-light" href="#" role="button">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-5 bg-ligvht">
+        <div class="container">
+            <div class="d-md-flex">
+
+                <div class="social-contact bg-white me-md-2 mb-md-0 mb-3">
+                    <div class="git d-flex align-items-center justify-content-between">
+                        <ul class="user">
+                            <li><a href="tel:+254729990583" target="_blank"><i class="fa fa-phone"></i>+254 729 990 583</a>
+                            </li>
+                            <li><a href="mailto:business@oracom.co.ke" target="_blank"><i
+                                        class="fa fa-envelope-o"></i>business@oracom.co.ke</a></li>
+                            <li><a href="https://www.google.co.ke/maps/place/1%C2%B017'31.6%22S+36%C2%B049'18.8%22E/@-1.2921111,36.8218889,17z"
+                                    target="_blank"><i class="fa fa-map-marker"></i> TRV Office Plaza, 7th Floor, Suite 7D,
+                                    Muthithi Rd,<br> Westlands. Nairobi – Kenya.</a></li>
+                        </ul>
+                        <ul class="sm">
+                            <li><a href="https://wa.me/254718097171" target="_blank"><i class="fa fa-whatsapp"></i></a></li>
+                            <li><a href="http://instagram.com/gs_dynasty07" target="_blank"><i
+                                        class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://facebook.com/handbagonlineshopp" target="_blank"><i
+                                        class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://youtube.com/shorts/Q1XSmmlW2j0" target="_blank"><i
+                                        class="fa fa-youtube-play"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-ctn mx-auto">
+                    <form class="bg-white px-4 py-5" action="">
+                        <div class="h-hr">
+                            <h4 class="h">Contact Us</h4>
+                            <span class="hr"></span>
                         </div>
                         <div class="">
-                            <div class="field-ctn">
-                                <input type="email" id="name1" class="form-control" required>
-                                <label for="name1">Email</label>
+                            <div class="">
+                                <div class="field-ctn">
+                                    <input type="text" id="name2" class="form-control" required>
+                                    <label for="name2">Name</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="">
-                            <div class="field-ctn">
-                                <textarea name="message" class="form-control" id="msg" required></textarea>
-                                <label for="name2">Message</label>
+                            <div class="">
+                                <div class="field-ctn">
+                                    <input type="email" id="name1" class="form-control" required>
+                                    <label for="name1">Email</label>
+                                </div>
                             </div>
-                        </div>
+                            <div class="">
+                                <div class="field-ctn">
+                                    <textarea name="message" class="form-control" id="msg" required></textarea>
+                                    <label for="name2">Message</label>
+                                </div>
+                            </div>
 
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <input type="submit" class="btn btn-brand prim text-light d-inline px-4" value="Submit">
-                    </div>
-                </form>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <input type="submit" class="btn btn-brand prim text-light d-inline px-4" value="Submit">
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
+    </section>
 {% endblock %}
+
 {% block script %}{% endblock %}

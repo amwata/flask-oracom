@@ -8,7 +8,6 @@ from flask_login import login_user, current_user
 
 employer = Blueprint('employer', __name__)
 
-# @employer.route("/employer")
 @employer.route("/employer/account")
 @user_role_required('employer')
 def employer_account():
@@ -17,11 +16,27 @@ def employer_account():
 @employer.route("/companies")
 @employer.route("/company/list")
 def company_list():
-    return "<h1>Companies List<h1>"
+    return render_template("employers/list.html", title="OraJobs | Companies List")
 
-@employer.route("/employer/profile")
-def employer_profile():
-    return "<h1>Employer profile<?h1>"
+@employer.route("/employer/posted-jobs")
+@user_role_required('employer')
+def posted_jobs():
+    pass
+
+@employer.route("/employer/applicants")
+@user_role_required('employer')
+def applicants():
+    pass
+
+@employer.route("/employer/notifications")
+@user_role_required('employer')
+def notifications():
+    pass
+
+@employer.route("/employer/settings")
+@user_role_required('employer')
+def settings():
+    pass
 
 @employer.route("/employer/login", methods=['GET', 'POST'])
 def employer_login():
@@ -53,11 +68,11 @@ def employer_signup():
 
         if form.logo.data:
             logo = save_file('employer/logo/', form.logo.data) 
-            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, user=user)
             db.session.add(employer)
             db.session.commit()
         else:
-            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, user=user)
             db.session.add(employer)
             db.session.commit()
 

@@ -13,38 +13,48 @@ admin = Blueprint('admin', __name__)
 @admin.route("/admin/dashboard/")
 @user_role_required('admin')
 def admin_account():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     jobs = len(Job.query.all())
     employers = len(Employer.query.all())
     applicants = len(Applicant.query.all())
+    jobs_applied = 0
 
-    dash = {'jobs': jobs, 'employers': employers, 'applicants': applicants}
+    query = db.session.query(Job.category.distinct().label("category"))
+    categories = [row.category for row in query.all()]
+
+    dash = {'jobs': jobs, 'employers': employers, 'applicants': applicants, 'jobs_applied': jobs_applied, 'categories': len(categories)}
     return render_template("admin/dashboard.html", title="Admin | Dashboard", user=user, dash=dash )
 
 @admin.route("/admin/job-categories/")
 @user_role_required('admin')
 def admin_job_categories():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
-    jobs = Job.query.all()
-    return render_template("admin/dashboard.html", title="Admin | Jobs List", user=user)
+    user = current_user.admins
+    query = db.session.query(Job.category.distinct().label('category'))
+    categories = [row.category for row in query.all()]
+    return render_template("admin/categories.html", title="Admin | Jobs List", user=user, categories=categories)
 
 @admin.route("/admin/jobs-list/")
 @user_role_required('admin')
 def admin_jobs():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     jobs = Job.query.all()
     return render_template("admin/jobs.html", title="Admin | Jobs List", user=user, jobs=jobs)
+
+@admin.route("/admin/jobs-applied/")
+@user_role_required('admin')
+def admin_jobs_applied():
+    pass
 
 @admin.route("/admin/jobs/new-job/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_job_add():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     form = Job_Add()
     if form.validate_on_submit():
         company = Employer.query.filter_by(id=form.company_id.data).first()
         if company:    
             salary = form.salary.data if form.salary.data else 0
-            job = Job(title=form.title.data.strip().capitalize(), category=form.category.data, type=form.type.data, description=form.description.data, salary=salary, company=company)
+            job = Job(title=form.title.data.strip(), category=form.category.data, type=form.type.data, description=form.description.data, salary=salary, company=company)
             db.session.add(job)
             db.session.commit()
             
@@ -57,13 +67,13 @@ def admin_job_add():
 @admin.route("/admin/jobs/<int:job_id>/update-job/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_job_update(job_id):
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     updated = Job.query.get_or_404(job_id)
     form = Job_Update()
 
     if form.validate_on_submit():
-        updated.title = form.title.data.strip().capitalize()
-        updated.category = form.category.data.strip().capitalize()
+        updated.title = form.title.data.strip()
+        updated.category = form.category.data.strip()
         updated.type = form.type.data 
         updated.description = form.description.data
         updated.salary = form.salary.data if form.salary.data else 0
@@ -94,20 +104,20 @@ def admin_job_remove(job_id):
 @admin.route("/admin/notifications/")
 @user_role_required('admin')
 def admin_notifications():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     return render_template("admin/dashboard.html", title="Admin | Notifications")
 
 @admin.route("/admin/employers/")
 @user_role_required('admin')
 def admin_companies():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     users = Employer.query.all()
     return render_template("admin/employers.html", title="Admin | Manage Employers", user=user, companies=users)
 
 @admin.route("/admin/employers/new-employer/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_company_add():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     form = Employer_Add()
     if form.validate_on_submit():
         pw_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -117,11 +127,11 @@ def admin_company_add():
 
         if form.logo.data:
             logo = save_file('employer/logo/', form.logo.data) 
-            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, logo=logo, user=user)
             db.session.add(employer)
             db.session.commit()
         else:
-            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, employer=user)
+            employer = Employer(name=form.name.data.strip().upper(), location=form.location.data.strip().capitalize(), phone=form.phone.data, tagline=form.tagline.data, description=form.description.data, website=form.website.data, user=user)
             db.session.add(employer)
             db.session.commit()
         
@@ -135,11 +145,10 @@ def admin_company_remove(company_id):
     user = Employer.query.get_or_404(company_id)
     jobs = user.jobs
 
-    for job in jobs:
-         db.session.delete(job)
+    Job.query.filter_by(company=user).delete()
          
     db.session.delete(user)
-    db.session.delete(user.employer)
+    db.session.delete(user.user)
     db.session.commit()
 
     if user.logo and user.logo != "company.png":
@@ -156,7 +165,7 @@ def admin_company_remove(company_id):
 @admin.route("/admin/employers/<int:company_id>/update-employer/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_company_update(company_id):
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     updated = Employer.query.get_or_404(company_id)
     jobs = len(updated.jobs)
     form = Employer_Update()
@@ -164,7 +173,7 @@ def admin_company_update(company_id):
     form.id.data = int(company_id)
     if form.validate_on_submit():
         updated.name = form.name.data.strip().upper()
-        updated.employer.email = form.email.data.lower()
+        updated.user.email = form.email.data.lower()
         updated.phone = form.phone.data 
         updated.location = form.location.data 
         updated.tagline = form.tagline.data 
@@ -185,7 +194,7 @@ def admin_company_update(company_id):
         return redirect(url_for('.admin_companies'))
   
     form.name.data = updated.name 
-    form.email.data = updated.employer.email
+    form.email.data = updated.user.email
     form.phone.data = updated.phone
     form.location.data = updated.location
     form.tagline.data = updated.tagline
@@ -198,14 +207,14 @@ def admin_company_update(company_id):
 @admin.route("/admin/applicants/")
 @user_role_required('admin')
 def admin_applicants():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     users = Applicant.query.all()
     return render_template("admin/applicants.html", title="Admin | Manage Applicants", user=user, applicants=users)
 
 @admin.route("/admin/applicants/new-applicant/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_applicant_add():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     form = Applicant_Add()
     if form.validate_on_submit():
         resume = save_file('applicant/resume/', form.resume.data)
@@ -214,7 +223,7 @@ def admin_applicant_add():
         user = User(email=form.email.data.lower(), user_role='applicant', password=pw_hash)
         db.session.add(user)
         
-        applicant = Applicant(f_name=form.f_name.data.strip().capitalize(), l_name=form.l_name.data.strip().capitalize(), phone=form.phone.data, resume=resume, applicant=user)
+        applicant = Applicant(f_name=form.f_name.data.strip().capitalize(), l_name=form.l_name.data.strip().capitalize(), phone=form.phone.data, resume=resume, user=user)
         db.session.add(applicant)
         db.session.commit()
         
@@ -228,7 +237,7 @@ def admin_applicant_remove(applicant_id):
     user = Applicant.query.get_or_404(applicant_id)
 
     db.session.delete(user)
-    db.session.delete(user.applicant)
+    db.session.delete(user.user)
     db.session.commit()
 
     if user.resume:
@@ -252,7 +261,7 @@ def admin_applicant_remove(applicant_id):
 @admin.route("/admin/applicants/<int:applicant_id>/update-applicant/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_applicant_update(applicant_id):
-    user = current_user.admins[0]
+    user = current_user.admins
     updated = Applicant.query.get_or_404(applicant_id)
     form = Applicant_Update()
 
@@ -260,7 +269,7 @@ def admin_applicant_update(applicant_id):
     if form.validate_on_submit():
         updated.f_name = form.f_name.data.strip().capitalize()
         updated.l_name = form.l_name.data.strip().capitalize()
-        updated.applicant.email = form.email.data.lower()
+        updated.user.email = form.email.data.lower()
         updated.phone = form.phone.data 
 
         if form.resume.data:
@@ -279,7 +288,7 @@ def admin_applicant_update(applicant_id):
   
     form.f_name.data = updated.f_name 
     form.l_name.data = updated.l_name
-    form.email.data = updated.applicant.email
+    form.email.data = updated.user.email
     form.phone.data = updated.phone
     
     return render_template("admin/update_applicants.html", title="Admin | Update Applicants", form=form, user=user, updated=updated)
@@ -287,7 +296,7 @@ def admin_applicant_update(applicant_id):
 @admin.route("/admin/settings/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_settings():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     admins = Admin.query.all()
     form = Admin_Update()
 
@@ -315,7 +324,7 @@ def admin_settings():
 @admin.route("/admin/settings/add-admin/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_add():
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     form = Admins_Add()
     if form.validate_on_submit():
         pw_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -323,7 +332,7 @@ def admin_add():
         user = User(email=form.email.data.lower(), user_role='admin', password=pw_hash)
         db.session.add(user)
         
-        admin = Admin(name=form.name.data.strip().capitalize(), phone=form.phone.data, admin=user)
+        admin = Admin(name=form.name.data.strip().capitalize(), phone=form.phone.data, user=user)
         db.session.add(admin)
         db.session.commit()
         
@@ -335,13 +344,13 @@ def admin_add():
 @admin.route("/admin/<int:admin_id>/update-admin/", methods=['GET', 'POST'])
 @user_role_required('admin')
 def admin_update(admin_id):
-    user = Admin.query.filter_by(user_id=current_user.id).first()
+    user = current_user.admins
     updated = Admin.query.get_or_404(admin_id)
     form = Admins_Edit()
     form.id.data = int(admin_id)
     if form.validate_on_submit():
         updated.name = form.name.data.strip().capitalize()
-        updated.admin.email = form.email.data.lower()
+        updated.user.email = form.email.data.lower()
         updated.phone = form.phone.data 
 
         db.session.commit()
@@ -350,7 +359,7 @@ def admin_update(admin_id):
         return redirect(url_for('.admin_settings'))
         
     form.name.data = updated.name 
-    form.email.data = updated.admin.email
+    form.email.data = updated.user.email
     form.phone.data = updated.phone 
     return render_template("admin/update.html", title="Admin | Settings", form=form, user=user, updated=updated)
 
@@ -360,7 +369,7 @@ def admin_remove(admin_id):
     user = Admin.query.get_or_404(admin_id)
 
     db.session.delete(user)
-    db.session.delete(user.admin)
+    db.session.delete(user.user)
     db.session.commit()
 
     if user.image and user.image != "anony.png":
