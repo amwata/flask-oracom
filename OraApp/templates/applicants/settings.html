@@ -1,53 +1,31 @@
 {% extends 'base.html' %}
 
-{% block navMenus %}
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ms-auto align-items-center">
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('main.home')}}">Home</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('jobs.job_list')}}">Jobs</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('employer.company_list')}}">Companies</a>
-            </li>
-            <li>
-                <a class="nav-link" id="home" href="{{url_for('main.about')}}">About</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Login</a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-                    <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="dropdown-toggle d-block btn btn-sm btn-brand peach text-light ms-md-3" href="#"
-                    id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Register</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{url_for('employer.employer_signup')}}">Employer</a>
-                    <a class="dropdown-item" href="{{url_for('applicant.applicant_signup')}}">Applicant</a>
-                </div>
-            </li>
-        </ul>
-    </div>     
-{% endblock %}
-
 {% block container %}
 
-    <section class="py-5">
+    <section class="py-3">
         <div class="container ">
-            <h5 class="text-light text-bold prim mb-3 p-3">Account Settings</h5>
+            <h5 class="text-light text-bold prim my-3 p-3">Account Settings</h5>
             <div class=" ">
                 <div class="form-ctn mx-auto mb-3">
+
+                    <!-- Image removal confirmation modal -->
+                    <div class="modal fade" id="remove-pic" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content bg-c-white t-dark">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="">Delete Image?</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <form action="{{ url_for('applicant.delete_image', applicant_id=user.id) }}" method="post">
+                                        <input type="submit" class="btn btn-sm btn-danger" value="Delete">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="d-flex p-3">
                         <div class="prof-update">
                             <div class="d-flex">

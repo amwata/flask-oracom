@@ -66,24 +66,25 @@
         </div>
         
         <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
-            <div class="col">
-                <div class="bg-white d-flex p-3">
-                    <div>
-                        <a href="" class="profile-img-ctn">
-                            <img class="" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
-                        </a>
-                    </div>
-                    <div class="ms-3 ">
-                        <a href="" class="m-0 h5 text-dark text-bold">Company Name</a>
-                        <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> location</p>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit...
-                        </p>
-                        <a href="" class="btn btn-sm btn-brand prim text-light">Learn More</a>
+            {% for company in companies %}
+                <div class="col">
+                    <div class="bg-white border d-flex p-3 h-100">
+                        <div>
+                            <a href="" class="profile-img-ctn prof-sm">
+                                <img src="{{ url_for('static', filename='employer/logo/' + company.logo) }}" alt="">
+                            </a>
+                        </div>
+                        <div class="ms-3 ">
+                            <a href="" class="m-0 h5 text-dark text-bold">{{ company.name }}</a>
+                            <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
+                            <p>
+                                {{ company.description }}
+                                ...<a href="" class="t-prim">Learn More</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                
-            </div>
+            {% endfor %}
         </div>
         <div class="my-3">
             <a href="" class="btn btn-sm btn-outline-primary">1</a>

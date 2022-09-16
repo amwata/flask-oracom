@@ -359,6 +359,9 @@ img {
 .section-header{
     margin-bottom: 16px;
 }
+.min-vh{
+    min-height: 100vh;
+}
 #hero p{
     color:rgb(93, 93, 93);
     font-weight: 500;
@@ -492,6 +495,41 @@ img {
     transition: .3s ease;
 }
 
+.admin-card{
+    background: var(--lighter);
+    padding:16px;
+    display:flex;
+    cursor:pointer;
+    align-items: center;
+    justify-content:space-between;
+    border-radius: 3px;
+}
+.admin-card.category-card{
+    display: block;
+}
+.admin-card:hover,
+.bg-c-white{
+    background: var(--white);
+}
+.admin-card.users-card{
+    background: var(--white);
+    border: 1px solid var(--faint-light);
+}
+.admin-card .no{
+    position:relative;
+    font-size:2rem;
+    color:var(--dark);
+    padding: 0;
+    font-weight:500;
+}
+ .admin-card .name{
+    color:var(--gray);
+    white-space:nowrap;
+}
+ .admin-card .icon-box{
+    font-size:2rem;
+    color:var(--faint-light);  
+}
 
 footer{
     background: #eee;

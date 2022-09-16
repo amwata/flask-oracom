@@ -16,7 +16,8 @@ def employer_account():
 @employer.route("/companies")
 @employer.route("/company/list")
 def company_list():
-    return render_template("employers/list.html", title="OraJobs | Companies List")
+    companies = Employer.query.all()
+    return render_template("employers/list.html", title="OraJobs | Companies List", companies=companies)
 
 @employer.route("/employer/posted-jobs")
 @user_role_required('employer')

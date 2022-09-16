@@ -9,7 +9,6 @@ from flask_login import login_user, current_user
 
 admin = Blueprint('admin', __name__)
 
-# @admin.route("/admin")
 @admin.route("/admin/dashboard/")
 @user_role_required('admin')
 def admin_account():
@@ -386,7 +385,7 @@ def admin_remove(admin_id):
 @user_role_required('admin')
 def delete_image(admin_id):
     user = Admin.query.get_or_404(admin_id)
-    if not user.admin == current_user:
+    if not user.user == current_user:
         abort(403)
 
     if user.image and user.image != "anony.png":

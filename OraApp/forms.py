@@ -84,6 +84,17 @@ class Applicant_Update(Applicant):
         if exists and exists.applicants.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
+class Applicant_User_Update(Applicant):
+    resume = FileField('Resume (pdf and doc files)', validators=[FileAllowed(['pdf', 'doc', 'docx'])])
+    password = None
+    submit = SubmitField('Update Account')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            exists = User.query.filter_by(email=email.data).first()  
+            if exists:
+                raise ValidationError('This email already in use!')
+
 class Employer_Signup(FlaskForm):
     name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
