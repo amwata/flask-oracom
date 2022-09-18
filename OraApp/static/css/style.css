@@ -366,11 +366,12 @@ img {
     color:rgb(93, 93, 93);
     font-weight: 500;
 }
-.category-card{
+
+#jobs-list .jobs-card,
+.category-card,
+.rad-3{
     height: 100%;
-}
-#jobs-list .jobs-card{
-    box-shadow: 0 0 10px 0 var(--faint-light);
+    border-radius: 5px;
 
 }
 .category-img-box{
@@ -380,6 +381,7 @@ img {
 }
 .category-card p{
     color: var(--dark);
+    margin: 0;
 }
 .category-img-box p{
     text-align: center;

@@ -28,14 +28,12 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
-
     from .main.routes import main
     from .applicants.routes import applicant
     from .employers.routes import employer
     from .jobs.routes import jobs
     from .admin.routes import admin
     from .errors.handlers import errors
-
 
     app.register_blueprint(main)
     app.register_blueprint(applicant)

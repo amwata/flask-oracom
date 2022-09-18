@@ -28,8 +28,8 @@ def admin_account():
 @user_role_required('admin')
 def admin_job_categories():
     user = current_user.admins
-    query = db.session.query(Job.category.distinct().label('category'))
-    categories = [row.category for row in query.all()]
+    query = db.session.query(Job.category.distinct().label('category')).all()
+    categories = [Job.query.filter_by(category=row).all() for row in query]
     return render_template("admin/categories.html", title="Admin | Jobs List", user=user, categories=categories)
 
 @admin.route("/admin/jobs-list/")

@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <form action="{{ url_for('applicant.delete_image', applicant_id=user.id) }}" method="post">
+                                    <form action="{{ url_for('employer.delete_image', employer_id=user.id) }}" method="post">
                                         <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                                     </form>
                                 </div>
@@ -30,20 +30,16 @@
                         <div class="prof-update">
                             <div class="d-flex">
                                 <div class="profile-img-ctn">
-                                    <img src="{{ url_for('static', filename='applicant/image/' + user.image) }}" alt="">
+                                    <img src="{{ url_for('static', filename='employer/logo/' + user.logo) }}" alt="">
                                 </div>
                                 <div class="ms-2">
-                                    <p class="m-0 text-bold mb-1">{{ user.l_name }} {{ user.f_name }}</p>
-                                    {% if user.image != 'anony.png' %}
+                                    <p class="m-0 text-bold mb-1">{{ user.name }}</p>
+                                    {% if user.logo != 'company.png' %}
                                         <button class="btn btn-sm btn-outline-secondary px-3" data-bs-toggle="modal" data-bs-target="#remove-pic" >Remove</button>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <a class="paper ms-auto text-dark " href="{{ url_for('static', filename='applicant/resume/' + user.resume) }}" target="_blank">
-                            <img src="{{ url_for('static', filename='img/paper.png') }}">
-                            <p class="text-center ">Resume</p> 
-                        </a>
                     </div>
                     <form class="p-3" method="POST" action="" enctype="multipart/form-data">
                         <!-- cross site request forgery token -->
@@ -56,35 +52,18 @@
                             <div class="form-group">
                                 <div class="field-ctn">
                                     <!-- input validation -->
-                                    {% if form.f_name.errors %}
-                                        {{form.f_name(class="form-control is-invalid")}}
+                                    {% if form.name.errors %}
+                                        {{form.name(class="form-control is-invalid")}}
                                         <div class="invalid-feedback">
-                                            {% for error in form.f_name.errors %}
+                                            {% for error in form.name.errors %}
                                                 <span>{{error}}</span>
                                             {% endfor %}
                                         </div>
                                     {% else %}
-                                        {{form.f_name(class="form-control")}}
+                                        {{form.name(class="form-control")}}
                                     {% endif %}
                                     <!-- input label -->
-                                    {{form.f_name.label(class="form-control-label")}}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="field-ctn">
-                                    <!-- input validation -->
-                                    {% if form.l_name.errors %}
-                                        {{form.l_name(class="form-control is-invalid")}}
-                                        <div class="invalid-feedback">
-                                            {% for error in form.l_name.errors %}
-                                                <span>{{error}}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% else %}
-                                        {{form.l_name(class="form-control")}}
-                                    {% endif %}
-                                    <!-- input label -->
-                                    {{form.l_name.label(class="form-control-label")}}
+                                    {{form.name.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="form-group">
@@ -121,26 +100,81 @@
                                     {{form.phone.label(class="form-control-label")}}
                                 </div>
                             </div>
-                            <div class="form-group form-file-group">
+                            <div class="form-group">
                                 <div class="field-ctn">
-                                    <!-- resume file field -->
-                                    {{form.resume.label(class="form-label")}}
-                                    {{form.resume(class="form-control form-control-sm")}}
-                                    {% if form.resume.errors %}
-                                        {% for error in form.resume.errors %}
-                                            <span class="text-danger">{{error}}</span><br>
-                                        {% endfor %}
+                                    <!-- input validation -->
+                                    {% if form.location.errors %}
+                                        {{form.location(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.location.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
                                     {% else %}
+                                        {{form.location(class="form-control")}}
                                     {% endif %}
+                                    <!-- input label -->
+                                    {{form.location.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.tagline.errors %}
+                                        {{form.tagline(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.tagline.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.tagline(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.tagline.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.description.errors %}
+                                        {{form.description(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.description.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.description(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.description.label(class="form-control-label")}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field-ctn">
+                                    <!-- input validation -->
+                                    {% if form.website.errors %}
+                                        {{form.website(class="form-control is-invalid")}}
+                                        <div class="invalid-feedback">
+                                            {% for error in form.website.errors %}
+                                                <span>{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{form.website(class="form-control")}}
+                                    {% endif %}
+                                    <!-- input label -->
+                                    {{form.website.label(class="form-control-label")}}
                                 </div>
                             </div>
                             <div class="form-group form-file-group">
                                 <div class="field-ctn">
-                                    <!-- image file field -->
-                                    {{form.image.label(class="form-label")}}
-                                    {{form.image(class="form-control form-control-sm")}}
-                                    {% if form.image.errors %}
-                                        {% for error in form.image.errors %}
+                                    <!-- logo file field -->
+                                    {{form.logo.label(class="form-label")}}
+                                    {{form.logo(class="form-control form-control-sm")}}
+                                    {% if form.logo.errors %}
+                                        {% for error in form.logo.errors %}
                                             <span class="text-danger">{{error}}</span><br>
                                         {% endfor %}
                                     {% else %}

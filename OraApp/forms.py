@@ -66,7 +66,7 @@ class Applicant_Signup(Applicant):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
 
 class Applicant_Add(Applicant):
-    submit = SubmitField('Add')
+    submit = SubmitField('Add Account')
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
@@ -114,7 +114,7 @@ class Employer_Signup(FlaskForm):
             raise ValidationError('This email is Taken! Sign in instead.')
 
 class Employer_Add(Employer_Signup):
-    submit = SubmitField('Add')
+    submit = SubmitField('Add Account')
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
@@ -124,12 +124,22 @@ class Employer_Add(Employer_Signup):
 class Employer_Update(Employer_Signup):
     id = HiddenField()
     password = None
-    submit = SubmitField('Update')
+    submit = SubmitField('Update Account')
 
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
         if exists and exists.employers.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
+
+class Employer_User_Update(Employer_Signup):
+    password = None
+    submit = SubmitField('Update Account')
+
+    def validate_email(self, email):
+        if email.data != current_user.email:
+            exists = User.query.filter_by(email=email.data).first()  
+            if exists:
+                raise ValidationError('This email already in use!')
 
 class Job_Add(FlaskForm):
     title = StringField('Job Title', validators=[DataRequired(), Length(min=2, max=100)])

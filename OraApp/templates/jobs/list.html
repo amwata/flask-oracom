@@ -60,32 +60,34 @@
     </div>
 </section>
 
-<section id="job-categories" class="bg-light py-5">
-    <div class="container">
-        <div class="p-3 mb-2 d-flex align-items-center">
-            <p class="h2">Top Job Categories</p>
-            <a href="{{ url_for('admin.admin_jobs') }}" class="btn btn-sm prim btn-brand text-light ms-auto "> View All</a>
-        </div> 
-        
-        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
-            <div class="col">
-                <a href="{{ url_for('admin.admin_job_categories') }}" class="bg-white border d-block p-3 category-card">
-                    <p class="h6"><i class="fa fa-bookmark t-prim"></i> categoty</p>
-                    <div class="category-img-box">
-                        <div class ="image-box my-3">
-                            <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
+{% if not jobs.page > 1 %}
+    <section id="job-categories" class="bg-light py-5">
+        <div class="container">
+            <div class="p-3 mb-2 d-flex align-items-center">
+                <p class="h2">Top Job Categories</p>
+                <a href="{{ url_for('admin.admin_jobs') }}" class="btn btn-sm prim btn-brand text-light ms-auto "> View All</a>
+            </div> 
+            
+            <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
+                <div class="col">
+                    <a href="{{ url_for('admin.admin_job_categories') }}" class="bg-white border d-block p-3 category-card">
+                        <p class="h6"><i class="fa fa-bookmark t-prim"></i> categoty</p>
+                        <div class="category-img-box">
+                            <div class ="image-box my-3">
+                                <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
+                            </div>
+                            
+                            <div class ="views">
+                                <p class="m-0 p-0 h5">22</p>
+                                <p class="text-muted p-0 m-0" >Total Jobs</p>
+                            </div>
                         </div>
-                        
-                        <div class ="views">
-                            <p class="m-0 p-0 h5">22</p>
-                            <p class="text-muted p-0 m-0" >Total Jobs</p>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+{% endif %}
 
 <section id="jobs-list" class="bg-light py-5">
     <div class="container">
@@ -95,24 +97,28 @@
         
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
             {% if jobs %}
-                {% for job in jobs %}
+                {% for job in jobs.items %}
                     <div class="col">
-                        <div class="bg-white p-3 jobs-card">
-                            <div class="text-end border-bottom mb-1">
-                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
-                            </div>
-                            <div class="my-2">
-                                <a href="" class="profile-img-ctn prof-sm">
-                                    <img src="{{ url_for('static', filename='employer/logo/' + job.company.logo) }}" alt="">
-                                </a>
+                        <div class="bg-white border p-3 jobs-card h-100">
+                            <div class="d-flex">
+                                <div class="">
+                                    <a href="{{ url_for('employer.profile', company_id=job.company.id) }}" class="profile-img-ctn prof-sm">
+                                        <img src="{{ url_for('static', filename='employer/logo/' + job.company.logo) }}" alt="">
+                                    </a>
+                                </div>
+                                <div class="w-100 ms-2">
+                                    <div class="border-bottom">
+                                        <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="">
-                                <p class="text-muted m-0">{{ job.company.name }}</p>
-                                <h4 class="d-block text-dark m-0">{{ job.title }}</h4>
+                                <p class="text-muted m-0">{{ job.company.name.capitalize() }}</p>
+                                <h3 class="d-block text-dark">{{ job.title }}</h3>
                                 <small class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small>
                                 <p class="d-flex m-0 align-items-end">
                                     <small class="text-muted"><i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not specified' }}</small>
-                                    <a href="" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>
                                 </p>
                             </div>
                         </div>
@@ -122,13 +128,19 @@
                 <p>No Posted Jobs yet. Check later.</p>
             {% endif %}
         </div>
-        <div class="my-3">
-            <a href="" class="btn btn-sm btn-outline-primary">1</a>
-            ...
-            <a href="" class="btn btn-sm btn-primary">2</a>
-
-        </div>
-
+        {% if jobs.total > jobs.per_page %}
+            {% for page_num in jobs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if jobs.page == page_num %}
+                        <a href="{{ url_for('jobs.job_list', page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
+                    {% else %}
+                        <a href="{{ url_for('jobs.job_list', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
 </section>
 

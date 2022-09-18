@@ -66,31 +66,40 @@
         </div>
         
         <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
-            {% for company in companies %}
+            {% for company in companies.items %}
                 <div class="col">
-                    <div class="bg-white border d-flex p-3 h-100">
+                    <div class="bg-white border rad-3 d-flex p-3 h-100">
                         <div>
-                            <a href="" class="profile-img-ctn prof-sm">
+                            <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="profile-img-ctn prof-sm">
                                 <img src="{{ url_for('static', filename='employer/logo/' + company.logo) }}" alt="">
                             </a>
                         </div>
                         <div class="ms-3 ">
-                            <a href="" class="m-0 h5 text-dark text-bold">{{ company.name }}</a>
+                            <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="m-0 h3 text-dark">{{ company.name.capitalize() }}</a>
                             <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
                             <p>
                                 {{ company.description }}
-                                ...<a href="" class="t-prim">Learn More</a>
+                                ...<a href="{{ url_for('employer.profile', company_id=company.id) }}" class="t-prim">Learn More</a>
                             </p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-        <div class="my-3">
-            <a href="" class="btn btn-sm btn-outline-primary">1</a>
-            ...
-            <a href="" class="btn btn-sm btn-primary">2</a>
-        </div>
+        {% if companies.total > companies.per_page %}
+            {% for page_num in companies.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if companies.page == page_num %}
+                        <a href="{{ url_for('employer.company_list', page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
+                    {% else %}
+                        <a href="{{ url_for('employer.company_list', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        
     </div>
 </section>
 

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block logged_applicant %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+{% endblock %}
+                          
+{% block logged_out %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Login</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
+            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
+        </ul>
+    </li>
+{% endblock %}
+
+{% block container %}
+
+<section id="company-profile" class="bg-light py-3 min-vh">
+    <div class="container">
+        <h4 class="bg-teal-lgrad text-light p-3 my-3 mb-4">Profile for <b>{{ company.name.capitalize() }}</b></h4>
+        <div class="row row-cols-1 g-3">
+            <div class="col">
+                <div class="bg-white d-flex p-3 border">
+                    <div>
+                        <div class="profile-img-ctn">
+                            <img src="{{ url_for('static', filename='employer/logo/' + company.logo) }}" alt="">
+                        </div>
+                    </div>
+                    <div class="ps-3 w-100">
+                        <div class="border-bottom">
+                            <small class="text-muted">Posted Jobs: {{ company.jobs.total }}</small>
+                        </div>
+                        <div class="m-0 h2 text-dark">{{ company.name.capitalize() }}</div>
+                        <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
+                        <h5>About {{ company.name.capitalize() }}</h5>
+                        <p class="text-muted m-0">{{ company.tagline }}</p>
+                        <p>
+                            {{ company.description }}
+                        </p>
+                        <div class="">
+                            <h5 class="">Contact Information</h5>
+                            <ul class="ps-3">
+                                <li>
+                                    <a href="mailto:{{ company.user.email }}" target="_blank" class="text-dark text-muted"><i class="fa fa-envelope-o t-prim"></i> {{ company.user.email }}</a>
+                                </li>
+                                <li>
+                                    <a href="tel:{{ company.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ company.phone }}</a>
+                                </li>
+                                {% if company.website %}
+                                    <li>
+                                        <a href="http://{{ company.website }}" target = "_blank" class="text-dark text-muted"><i class="fa fa-globe t-prim"></i> {{ company.website }}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="bg-white p-3 border">
+                    <h3>Posted Jobs: <span class="text-muted">{{ company.jobs.all or 'No Posted Jobs Yet.' }}</span></h3>
+                    {% for job in company.jobs %}
+                        <div class="d-flex rad-3 border my-3 p-3 align-items-end">
+                            <div>
+                                <p class="m-0 h3">
+                                    {{ job.title }}
+                                </p>
+                                <p class="text-muted mb-2">
+                                    {{ job.category }}
+                                </p>
+                                <p class=" m-0">
+                                    <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                </p>
+                            </div>
+                            <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+{% endblock %}
+{% block script %}{% endblock %}

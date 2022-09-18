@@ -13,7 +13,6 @@ applicant = Blueprint('applicant', __name__)
 @user_role_required('applicant')
 def applicant_account():
     user = current_user.applicants
-
     return render_template("applicants/account.html", title="Applicant | Account", user=user)
 
 @applicant.route("/applicant/settings", methods=['GET','POST'])

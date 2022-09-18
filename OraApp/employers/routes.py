@@ -1,45 +1,106 @@
 
-from flask import render_template, Blueprint, url_for, flash, redirect, request
+from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
-from OraApp.forms import User_Login, Employer_Signup
+from OraApp.forms import User_Login, Employer_Signup, Employer_User_Update
 from OraApp.models import User, Employer 
-from OraApp.utils import save_file, user_role_required
+from OraApp.utils import save_file, user_role_required, remove_file
 from flask_login import login_user, current_user
 
 employer = Blueprint('employer', __name__)
 
-@employer.route("/employer/account")
+@employer.route("/employer/account/")
 @user_role_required('employer')
 def employer_account():
-    return "<h1>Employer account<h1>"
+    user = current_user.employers
+    return render_template("employers/account.html", title="Employer | Account", user=user)
 
-@employer.route("/companies")
-@employer.route("/company/list")
+@employer.route("/company/<int:company_id>/profile/")
+def profile(company_id):
+    company = Employer.query.get_or_404(company_id)
+    return render_template("employers/profile.html", title="OraJobs | Company Profile", company=company)
+
+@employer.route("/companies/")
+@employer.route("/company/list/")
 def company_list():
-    companies = Employer.query.all()
-    return render_template("employers/list.html", title="OraJobs | Companies List", companies=companies)
+    page = request.args.get('page', 1, type=int)
+    companies = Employer.query.paginate(page=page, per_page=15)
+    return render_template("employers/list.html", title="OraJobs | Companies", companies=companies)
 
-@employer.route("/employer/posted-jobs")
+@employer.route("/employer/posted-jobs/")
 @user_role_required('employer')
 def posted_jobs():
     pass
 
-@employer.route("/employer/applicants")
+@employer.route("/employer/applicants/")
 @user_role_required('employer')
 def applicants():
     pass
 
-@employer.route("/employer/notifications")
+@employer.route("/employer/notifications/")
 @user_role_required('employer')
 def notifications():
     pass
 
-@employer.route("/employer/settings")
+@employer.route("/employer/settings/", methods=['GET', 'POST'])
 @user_role_required('employer')
 def settings():
-    pass
+    user = Employer.query.filter_by(user_id=current_user.id).first()
+    form = Employer_User_Update()
 
-@employer.route("/employer/login", methods=['GET', 'POST'])
+    if form.validate_on_submit():
+        user.name = form.name.data.strip().upper()
+        user.user.email = form.email.data.lower()
+        user.phone = form.phone.data 
+        user.location = form.location.data 
+        user.tagline = form.tagline.data 
+        user.description = form.description.data 
+        user.website = form.website.data 
+
+        if form.logo.data:
+            new_file = save_file('employer/logo/', form.logo.data)
+            if new_file:
+                if user.logo != 'company.png':
+                    old_file = f'employer/logo/{str(user.logo)}'
+                    remove_file(old_file)
+                
+                user.logo = new_file
+
+        db.session.commit()
+        flash(f'Account Updated Successfully.', 'success')
+        return redirect(url_for('.settings'))
+  
+    form.name.data = user.name 
+    form.email.data = user.user.email
+    form.phone.data = user.phone
+    form.location.data = user.location
+    form.tagline.data = user.tagline
+    form.description.data = user.description
+    form.website.data = user.website
+
+    return render_template("employers/settings.html", title="OraJobs | Employer Settings", form=form, user = user)
+
+@employer.route("/employer/<int:employer_id>/delete-logo", methods=['POST'])
+@user_role_required('employer')
+def delete_image(employer_id):
+    user = Employer.query.get_or_404(employer_id)
+    if not user.user == current_user:
+        abort(403)
+
+    if user.logo and user.logo != "company.png":
+        file = f'employer/logo/{str(user.logo)}'
+        try:
+            remove_file(file)
+            user.logo = 'company.png'
+            db.session.commit()
+            flash(f'Logo Removed Successfully!', category='success')
+        except FileNotFoundError:
+            user.logo = 'company.png'
+            db.session.commit()
+            flash(f'File not Found!', category='danger')
+    
+    return redirect(url_for('.settings'))
+
+@employer.route("/employer/login/", methods=['GET', 'POST'])
 def employer_login():
     if current_user.is_authenticated and current_user.user_role == 'employer':
         return redirect(url_for('.employer_account'))
@@ -56,7 +117,7 @@ def employer_login():
     return render_template("employers/login.html", title="OraJobs | Employer Login", form=form)
 
 
-@employer.route("/employer/signup", methods=['GET', 'POST'])
+@employer.route("/employer/signup/", methods=['GET', 'POST'])
 def employer_signup():
     if current_user.is_authenticated and current_user.user_role == 'employer':
         return redirect(url_for('.employer_account'))
