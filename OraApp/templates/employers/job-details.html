@@ -1,47 +1,4 @@
-{% extends 'base.html' %}
-
-{% block logged_applicant %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-{% endblock %}
-                          
-{% block logged_out %}
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Home</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('jobs.job_list')}}">Jobs</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
-    </li>
-    <li>
-        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.about')}}">About Us</a>
-    </li>
-    <li class="nav-item dropdown">
-        <a class="nav-link ps-sm-auto ps-2 dropdown-toggle" href="#" id="navbarDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            Login</a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{url_for('employer.employer_login')}}">Employer</a></li>
-            <li><a class="dropdown-item" href="{{url_for('applicant.applicant_login')}}">Applicant</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="{{url_for('admin.admin_login')}}">Admin</a></li>
-        </ul>
-    </li>
-{% endblock %}
+{% extends 'base.html' %}   
 
 {% block container %}
 
@@ -53,9 +10,9 @@
                 <div class="bg-white p-3 border">
                     <div class="d-flex">
                         <div>
-                            <a href="{{ url_for('employer.profile', company_id=job.company.id) }}" class="profile-img-ctn">
+                            <div class="profile-img-ctn">
                                 <img src="{{ url_for('static', filename='employer/logo/' + job.company.logo) }}" alt="">
-                            </a>
+                            </div>
                         </div>
                         <div class="ps-3 w-100">
                             <div class="border-bottom mb-1">
@@ -84,7 +41,7 @@
                         <p>
                             {{ job.description }}
                         </p>
-                        <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light d-sm-inline-block d-block">Send Application</a>
+                        <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-success disabled text-light d-sm-inline-block d-block">No Applicants Yet</a>
                     </div>
                 </div>
             </div>

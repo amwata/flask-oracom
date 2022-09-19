@@ -58,7 +58,7 @@
                     </div>
                     <div class="ps-3 w-100">
                         <div class="border-bottom">
-                            <small class="text-muted">Posted Jobs: {{ company.jobs.total }}</small>
+                            <small class="text-muted">Posted Jobs: {{ company.jobs | length }}</small>
                         </div>
                         <div class="m-0 h2 text-dark">{{ company.name.capitalize() }}</div>
                         <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
@@ -69,7 +69,7 @@
                         </p>
                         <div class="">
                             <h5 class="">Contact Information</h5>
-                            <ul class="ps-3">
+                            <ul class="p-0">
                                 <li>
                                     <a href="mailto:{{ company.user.email }}" target="_blank" class="text-dark text-muted"><i class="fa fa-envelope-o t-prim"></i> {{ company.user.email }}</a>
                                 </li>
@@ -88,7 +88,7 @@
             </div>
             <div class="col">
                 <div class="bg-white p-3 border">
-                    <h3>Posted Jobs: <span class="text-muted">{{ company.jobs.all or 'No Posted Jobs Yet.' }}</span></h3>
+                    <h3>Posted Jobs: <span class="text-muted">{{ company.jobs | length or 'No Posted Jobs Yet.' }}</span></h3>
                     {% for job in company.jobs %}
                         <div class="d-flex rad-3 border my-3 p-3 align-items-end">
                             <div>

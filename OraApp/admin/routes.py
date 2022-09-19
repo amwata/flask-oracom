@@ -28,9 +28,11 @@ def admin_account():
 @user_role_required('admin')
 def admin_job_categories():
     user = current_user.admins
-    query = db.session.query(Job.category.distinct().label('category')).all()
-    categories = [Job.query.filter_by(category=row).all() for row in query]
-    return render_template("admin/categories.html", title="Admin | Jobs List", user=user, categories=categories)
+    page = request.args.get('page', 1, type=int)
+    query = db.session.query(Job.category.distinct().label('category')).paginate(page=page, per_page=15)
+    jobs = Job.query
+    categories = [row.category for row in query.items]
+    return render_template("admin/categories.html", title="Admin | Job Categories", user=user, jobs=jobs, categories=categories,pages=query)
 
 @admin.route("/admin/jobs-list/")
 @user_role_required('admin')
@@ -38,6 +40,14 @@ def admin_jobs():
     user = current_user.admins
     jobs = Job.query.all()
     return render_template("admin/jobs.html", title="Admin | Jobs List", user=user, jobs=jobs)
+
+@admin.route("/admin/job-categories/<string:category>")
+@user_role_required('admin')
+def admin_filtered_jobs(category):
+    user = current_user.admins
+    jobs = Job.query.filter_by(category=category).all() or abort(404)
+    head = f'Jobs in {category}: {len(jobs)}'
+    return render_template("admin/jobs.html", title="Admin | Jobs List", user=user, jobs=jobs, head=head)
 
 @admin.route("/admin/jobs-applied/")
 @user_role_required('admin')

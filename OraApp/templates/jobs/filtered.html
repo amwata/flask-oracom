@@ -60,48 +60,10 @@
     </div>
 </section>
 
-{% if jobs.page == 1 %}
-    <section id="job-categories" class="bg-light py-5">
-        <div class="container">
-            <div class="p-3 mb-2 d-flex align-items-center">
-                <p class="h2">Top Job Categories</p>
-                <a href="{{ url_for('jobs.categories') }}" class="btn btn-sm prim btn-brand text-light ms-auto "> View All</a>
-            </div> 
-            
-            <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
-                
-                {% if categories %}
-                    {% for category in categories[:4] %}
-                        <div class="col">
-                            <a href="{{ url_for('jobs.filtered', category=category) }}" class="admin-card category-card bg-white border d-block p-3 ">
-                                <p class="h6"><i class="fa fa-bookmark t-prim"></i> {{category}}</p>
-                                <div class="category-img-box">
-                                    <div class ="image-box my-3">
-                                        <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">
-                                    </div>
-                                    
-                                    <div class ="views">
-                                        <p class="h5 m-0 p-0">{{ filtered.filter_by(category=category).all() | length
-                                        }}</p>
-                                        <small class="text-muted p-0 m-0" >Total Jobs</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No available Job Categories</p>
-                {% endif %}
-                
-            </div>
-        </div>
-    </section>
-{% endif %}
-
 <section id="jobs-list" class="bg-light py-5">
     <div class="container">
         <div class="section-header">
-            <h2 class="">Recent Jobs</h2>
+            <h2 class="">{{ head }}</h2>
         </div>
         
         <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
@@ -141,9 +103,9 @@
             {% for page_num in jobs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                 {% if page_num %}
                     {% if jobs.page == page_num %}
-                        <a href="{{ url_for('jobs.job_list', page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
+                        <a href="{{ url_for('jobs.filtered', category=jobs.items[0].category, page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
                     {% else %}
-                        <a href="{{ url_for('jobs.job_list', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                        <a href="{{ url_for('jobs.filtered', category=jobs.items[0].category, page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
                     {% endif %}
                 {% else %}
                     ...

@@ -49,10 +49,16 @@
     <div class="container-fluid bg-teal-lgrad text-light text-center py-3">
         <h2 class="">Search Companies</h2>
         <div class="d-flex py-3">
-            <div class="mx-auto text-light bg-secondary px-4 py-3">
-                <form class="my-2 search-form">
-                    <input type="text" placeholder="Name or Location" class="d-block d-sm-inline my-2" required>
-                    <button type="submit" class="btn btn-sm btn-brand peach text-light px-3 d-block d-sm-inline ms-sm-1"> <i class="fa fa-search"></i> Search </button>
+            <div class="mx-auto text-light bg-secondary px-5 py-3">
+                <form class="m-0 p-0">
+                    <div class="d-sm-flex align-items-center">
+                        <div>
+                            <input type="text" placeholder="Name or Location" class="d-block my-2 p-1" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-sm btn-brand peach text-light px-3 d-block ms-sm-1"> <i class="fa fa-search"></i> Search </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -78,8 +84,8 @@
                             <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="m-0 h3 text-dark">{{ company.name.capitalize() }}</a>
                             <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
                             <p>
-                                {{ company.description }}
-                                ...<a href="{{ url_for('employer.profile', company_id=company.id) }}" class="t-prim">Learn More</a>
+                                {{ company.description|truncate(75) }}
+                                <a href="{{ url_for('employer.profile', company_id=company.id) }}" class="t-prim">Learn More <i class="fa fa-angle-right"></i></a>
                             </p>
                         </div>
                     </div>

@@ -4,12 +4,12 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light text-bold bg-teal-lgrad my-3 p-3">Account Activities</h5>
-            <a href="{{ url_for('jobs.job_list') }}" class="btn btn-sm btn-brand peach my-2 text-light">Post a Job</a>
+            <h5 class="text-light bg-teal-lgrad my-3 p-3">Account Activities</h5>
+            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm btn-brand peach my-2 text-light">Post Jobs <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
 
             <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
                 <div class="col">
-                    <a href="{{ url_for('admin.admin_jobs_applied') }}" class="admin-card users-card">
+                    <a href="{{ url_for('employer.posted_jobs') }}" class="admin-card users-card">
                         <div class ="views">
                             <div class ="no">67</div>
                             <div class ="name">Posted Jobs</div>

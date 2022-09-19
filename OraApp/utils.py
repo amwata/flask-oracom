@@ -34,7 +34,7 @@ def user_role_required(role):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated or current_user.user_role != role:
-                url = request.url.rsplit("/")[-1]
+                url = request.url
                 flash(f'{role.capitalize()} Login Required for this Page!', category='info')
                 return redirect(url_for(f'{role.lower()}.{role.lower()}_login', next= url))
             return f(*args, **kwargs)

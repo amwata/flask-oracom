@@ -1,8 +1,8 @@
 
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
-from OraApp.forms import User_Login, Employer_Signup, Employer_User_Update
-from OraApp.models import User, Employer 
+from OraApp.forms import User_Login, Employer_Signup, Employer_User_Update, Job_Add, Job_Update
+from OraApp.models import User, Employer, Job
 from OraApp.utils import save_file, user_role_required, remove_file
 from flask_login import login_user, current_user
 
@@ -26,9 +26,77 @@ def company_list():
     companies = Employer.query.paginate(page=page, per_page=15)
     return render_template("employers/list.html", title="OraJobs | Companies", companies=companies)
 
-@employer.route("/employer/posted-jobs/")
+@employer.route("/employer/jobs/<int:job_id>/details/")
+@user_role_required('employer')
+def job_details(job_id):
+    job = Job.query.get_or_404(job_id)
+    return render_template("employers/job-details.html", title="OraJobs | Job Details", job=job)
+
+@employer.route("/employer/posted-jobs")
 @user_role_required('employer')
 def posted_jobs():
+    user = current_user.employers
+    page = request.args.get('page', 1, type=int)
+    jobs = Job.query.filter_by(company=user).order_by(Job.date_posted.desc()).paginate(page=page, per_page=15)
+
+    return render_template("employers/jobs.html", title="OraJobs | Posted Jobs", jobs=jobs)
+
+@employer.route("/employer/post-jobs/", methods=['GET', 'POST'])
+@user_role_required('employer')
+def post_jobs():
+    user = current_user.employers
+    form = Job_Add()
+    form.company_id.data = user.id
+    if form.validate_on_submit():
+        salary = form.salary.data if form.salary.data else 0
+        job = Job(title=form.title.data.strip(), category=form.category.data, type=form.type.data, description=form.description.data, salary=salary, company=user)
+        db.session.add(job)
+        db.session.commit()
+        
+        flash(f'New Job Added Successfully!', 'success')
+        return redirect(url_for('.posted_jobs'))
+    h = 'New Job'
+    return render_template("employers/post_jobs.html", title="Employer | Post Jobs", form=form, h=h)
+
+@employer.route("/employer/jobs/<int:job_id>/update", methods=['GET', 'POST'])
+@user_role_required('employer')
+def edit_jobs(job_id):
+    job = Job.query.get_or_404(job_id)
+    form = Job_Update()
+
+    if form.validate_on_submit():
+        job.title = form.title.data.strip()
+        job.category = form.category.data.strip()
+        job.type = form.type.data 
+        job.description = form.description.data
+        job.salary = form.salary.data if form.salary.data else 0
+
+        db.session.commit()
+        flash(f'Job Updated Successfully.', 'success')
+        return redirect(url_for('.posted_jobs'))
+  
+    form.title.data = job.title 
+    form.category.data = job.category
+    form.salary.data = job.salary
+    form.type.data = job.type
+    form.description.data = job.description
+    h = 'Update Job'
+    return render_template("employers/post_jobs.html", title="Employer | Update Job", form=form, job=job, h=h)
+
+@employer.route("/employer/<int:job_id>/remove-job/", methods=['POST'])
+@user_role_required('employer')
+def remove_job(job_id):
+    job = Job.query.get_or_404(job_id)
+
+    db.session.delete(job)
+    db.session.commit()
+            
+    flash(f'Job Removed Successfully!', 'success')
+    return redirect(url_for('.posted_jobs'))
+
+@employer.route("/employer/candidates/")
+@user_role_required('employer')
+def candidates():
     pass
 
 @employer.route("/employer/applicants/")

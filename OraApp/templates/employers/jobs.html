@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+    <section class="py-3 bg-light min-vh">
+        <div class="container ">
+            <h5 class="text-light bg-teal-lgrad my-3 p-3">Posted Jobs</h5>
+            <div class="row row-cols-1 g-2">
+                <div class="col">
+                    <div class="bg-white p-3 border">
+                        <div class="d-flex align-items-center">
+                            <h3>Posted Jobs: <span class="text-muted">{{ jobs.items | length or 'No Posted Jobs Yet.' }}</span></h3>
+                            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Add New Job</a>
+                        </div>
+                        {% for job in jobs.items %}
+
+                        <div class="modal fade" id="remove-job{{job.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content bg-c-white t-dark">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="">Delete Job?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <form action="{{ url_for('employer.remove_job', job_id=job.id) }}" method="post">
+                                            <input type="submit" class="btn btn-sm btn-danger" value="Remove">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="d-flex rad-3 border my-3 p-3 align-items-end">
+                                <div class="">
+                                    <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class="m-0 h3 text-dark">
+                                        {{ job.title }}
+                                    </a>
+                                    <p class="text-muted mb-2">
+                                        {{ job.category }} | <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm p-0 px-2">{{ job.type }}</a>
+                                    </p>
+                                    <p class=" m-0">
+                                        <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="{{ url_for('employer.edit_jobs', job_id=job.id) }}" class="btn btn-sm btn-warning "><i class="fa fa-pencil"></i></a>
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-sm btn-danger " data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>
+            {% if jobs.total > jobs.per_page %}
+                {% for page_num in jobs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num %}
+                        {% if jobs.page == page_num %}
+                            <a href="{{ url_for('employer.posted_jobs', page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
+                        {% else %}
+                            <a href="{{ url_for('employer.posted_jobs', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                        {% endif %}
+                    {% else %}
+                        ...
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

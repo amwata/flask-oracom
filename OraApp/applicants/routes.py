@@ -56,6 +56,11 @@ def settings():
 
     return render_template("applicants/settings.html", title="OraJobs | Applicant Settings", form=form, user = user)
 
+@applicant.route("/applicant/application/<int:job_id>", methods=['GET','POST'])
+@user_role_required('applicant')
+def apply_for_job(job_id):
+    pass
+
 @applicant.route("/applicant/<int:applicant_id>/delete-image", methods=['POST'])
 @user_role_required('applicant')
 def delete_image(applicant_id):
