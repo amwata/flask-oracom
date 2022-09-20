@@ -12,7 +12,8 @@ employer = Blueprint('employer', __name__)
 @user_role_required('employer')
 def employer_account():
     user = current_user.employers
-    return render_template("employers/account.html", title="Employer | Account", user=user)
+    jobs = Job.query.filter_by(company=user).all()
+    return render_template("employers/account.html", title="Employer | Account", user=user, jobs=jobs)
 
 @employer.route("/company/<int:company_id>/profile/")
 def profile(company_id):
@@ -30,6 +31,8 @@ def company_list():
 @user_role_required('employer')
 def job_details(job_id):
     job = Job.query.get_or_404(job_id)
+    if not job.company == current_user.employers:
+        abort(403)
     return render_template("employers/job-details.html", title="OraJobs | Job Details", job=job)
 
 @employer.route("/employer/posted-jobs")
@@ -62,8 +65,11 @@ def post_jobs():
 @user_role_required('employer')
 def edit_jobs(job_id):
     job = Job.query.get_or_404(job_id)
-    form = Job_Update()
 
+    if not job.company == current_user.employers:
+        abort(403)
+
+    form = Job_Update()
     if form.validate_on_submit():
         job.title = form.title.data.strip()
         job.category = form.category.data.strip()
@@ -87,6 +93,8 @@ def edit_jobs(job_id):
 @user_role_required('employer')
 def remove_job(job_id):
     job = Job.query.get_or_404(job_id)
+    if not job.company == current_user.employers:
+        abort(403)
 
     db.session.delete(job)
     db.session.commit()
@@ -112,7 +120,7 @@ def notifications():
 @employer.route("/employer/settings/", methods=['GET', 'POST'])
 @user_role_required('employer')
 def settings():
-    user = Employer.query.filter_by(user_id=current_user.id).first()
+    user = current_user.employers
     form = Employer_User_Update()
 
     if form.validate_on_submit():
@@ -170,12 +178,12 @@ def delete_image(employer_id):
 
 @employer.route("/employer/login/", methods=['GET', 'POST'])
 def employer_login():
-    if current_user.is_authenticated and current_user.user_role == 'employer':
+    if current_user.is_authenticated and current_user.employers:
         return redirect(url_for('.employer_account'))
     form = User_Login()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.user_role == 'employer' and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and user.employers and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             flash(f'Login successs.', 'info')
 
@@ -187,7 +195,7 @@ def employer_login():
 
 @employer.route("/employer/signup/", methods=['GET', 'POST'])
 def employer_signup():
-    if current_user.is_authenticated and current_user.user_role == 'employer':
+    if current_user.is_authenticated and current_user.employers:
         return redirect(url_for('.employer_account'))
     form = Employer_Signup()
     if form.validate_on_submit():

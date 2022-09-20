@@ -2,7 +2,7 @@
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
 from OraApp.forms import Applicant_User_Update, User_Login, Applicant_Signup, Applicant_User_Update
-from OraApp.models import User, Applicant 
+from OraApp.models import User, Applicant, Job, jobs_applied
 from OraApp.utils import save_file, remove_file, user_role_required
 from flask_login import login_user, current_user
 
@@ -18,7 +18,7 @@ def applicant_account():
 @applicant.route("/applicant/settings", methods=['GET','POST'])
 @user_role_required('applicant')
 def settings():
-    user = Applicant.query.filter_by(user_id=current_user.id).first()
+    user = current_user.applicants
     form = Applicant_User_Update()
 
     if form.validate_on_submit():
@@ -56,10 +56,36 @@ def settings():
 
     return render_template("applicants/settings.html", title="OraJobs | Applicant Settings", form=form, user = user)
 
+
+@applicant.route("/applicant/jobs-applied")
+@user_role_required('applicant')
+def jobs_applied():
+    user = current_user.applicants
+    page = request.args.get('page', 1, type=int)
+    # jobs = Job.query.filter_by(company=user).order_by(Job.date_posted.desc()).paginate(page=page, per_page=15)
+    jobs = Job.query.all()
+
+    # applied = Applicant.query.join(Job).all()
+    # .join(Job).filter((jobs_applied.c.applicant_id == Applicant.id) & (jobs_applied.c.job_id == Job.id)).all()
+    # flash(f'{applied}', 'primary')
+
+    # jobs = db.session.query(Job, jobs_applied, Applicant).select_from(Job).join(jobs_applied).join(Applicant).filter(Applicant.id==3).all()
+    # applied_jobs = db.session.query(Job).select_from(Job).join(jobs_applied).join(Applicant).filter(Applicant.id==user.id).paginate(page=page, per_page=1)
+    applications = db.session.query(jobs_applied).filter_by(applicant_id=user.id).all()
+
+    return render_template("applicants/jobs.html", title="OraJobs | Applied Jobs", jobs=jobs)
+
 @applicant.route("/applicant/application/<int:job_id>", methods=['GET','POST'])
 @user_role_required('applicant')
 def apply_for_job(job_id):
-    pass
+    user = current_user.applicants
+    job = Job.query.get_or_404(job_id)
+    
+    user.applied_jobs.append(job)
+    db.session.commit()
+
+    flash(f'Application sent Successfully!', 'success')
+    return redirect(url_for('.jobs_applied'))
 
 @applicant.route("/applicant/<int:applicant_id>/delete-image", methods=['POST'])
 @user_role_required('applicant')
@@ -82,11 +108,6 @@ def delete_image(applicant_id):
     
     return redirect(url_for('.settings'))
 
-@applicant.route("/applicant/jobs-applied")
-@user_role_required('applicant')
-def jobs_applied():
-    pass
-
 @applicant.route("/applicant/notifications")
 @user_role_required('applicant')
 def notifications():
@@ -95,12 +116,12 @@ def notifications():
 
 @applicant.route("/applicant/login", methods=['GET', 'POST'])
 def applicant_login():
-    if current_user.is_authenticated and current_user.user_role == 'applicant':
+    if current_user.is_authenticated and current_user.applicants:
         return redirect(url_for('.applicant_account'))
     form = User_Login()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.user_role == 'applicant' and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and user.applicants and bcrypt.check_password_hash(user.password, form.password.data):
             match = Applicant.query.filter_by(user_id=user.id).first()
             login_user(user, remember=form.remember.data)
             flash(f'Logged in as {match.l_name}!', 'success')
@@ -111,7 +132,7 @@ def applicant_login():
 
 @applicant.route("/applicant/signup", methods=['POST', 'GET'])
 def applicant_signup():
-    if current_user.is_authenticated and current_user.user_role == 'applicant':
+    if current_user.is_authenticated and current_user.applicants:
         return redirect(url_for('.applicant_account'))
     form = Applicant_Signup()
     if form.validate_on_submit():

@@ -355,6 +355,8 @@ def admin_add():
 def admin_update(admin_id):
     user = current_user.admins
     updated = Admin.query.get_or_404(admin_id)
+    if updated.user == current_user:
+        abort(403)
     form = Admins_Edit()
     form.id.data = int(admin_id)
     if form.validate_on_submit():
@@ -376,6 +378,9 @@ def admin_update(admin_id):
 @user_role_required('admin')
 def admin_remove(admin_id):
     user = Admin.query.get_or_404(admin_id)
+
+    if user.user == current_user:
+        abort(403)
 
     db.session.delete(user)
     db.session.delete(user.user)
@@ -414,12 +419,12 @@ def delete_image(admin_id):
 
 @admin.route("/admin/login", methods=['GET', 'POST'])
 def admin_login():
-    if current_user.is_authenticated and current_user.user_role == 'admin':
+    if current_user.is_authenticated and current_user.admins:
         return redirect(url_for('.admin_account'))
     form = User_Login()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and user.user_role == 'admin' and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and user.admins and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             flash(f'Admin Login successs.', 'success')
 

@@ -36,5 +36,5 @@ def filtered(category):
     page = request.args.get('page', 1, type=int)
     jobs = Job.query.filter_by(category=category).order_by(Job.date_posted.desc()).paginate(page=page, per_page=15) or abort(404)
     
-    head = f'Jobs in {category}: {len(jobs.items)}'
+    head = f'Jobs in {category}'
     return render_template("jobs/filtered.html", title="OraJobs | Jobs List", jobs=jobs, head=head)

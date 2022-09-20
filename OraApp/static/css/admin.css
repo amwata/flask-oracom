@@ -233,8 +233,6 @@ html[data-theme="dark"] .admin-nav a.admin-nav-item:hover{
     position:relative;
     top: 52px;
     min-width:100%;
-    /* padding:15px;
-    display:grid; */
 }
 .admin-content-box .content{
     overflow: hidden;

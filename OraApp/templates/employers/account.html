@@ -11,11 +11,11 @@
                 <div class="col">
                     <a href="{{ url_for('employer.posted_jobs') }}" class="admin-card users-card">
                         <div class ="views">
-                            <div class ="no">67</div>
+                            <div class ="no"> {{ jobs|length }} </div>
                             <div class ="name">Posted Jobs</div>
                         </div>
                         <div class ="icon-box">
-                            <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            <i class="fa fa-thumb-tack" aria-hidden="true"></i>
                         </div>
                     </a>
                 </div>

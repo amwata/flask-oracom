@@ -20,8 +20,10 @@ class User(db.Model, UserMixin):
 jobs_applied = db.Table(
     'jobs_applied',
     db.Column('job_id',db.Integer, db.ForeignKey('jobs.id'), nullable=False),
-    db.Column('job_title', db.String(20), nullable=False),
-    db.Column('applicant_id',db.Integer, db.ForeignKey('applicants.id'), nullable=False)
+    db.Column('applicant_id',db.Integer, db.ForeignKey('applicants.id'), nullable=False),
+    db.Column('date_applied', db.DateTime(timezone=True), nullable=False, default=datetime.utcnow),
+    db.Column('shortlisted', db.Boolean, nullable=False, server_default='0'),
+    db.PrimaryKeyConstraint('job_id', 'applicant_id')
 )
 
 class Applicant(db.Model):
@@ -31,11 +33,10 @@ class Applicant(db.Model):
     l_name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     resume = db.Column(db.String(25), nullable=False)
-    image = db.Column(db.String(25),  nullable=False, default='anony.png')
+    image = db.Column(db.String(25),  nullable=False, server_default='anony.png')
     applied_jobs = db.relationship('Job', secondary=jobs_applied, backref='applicants', lazy=True)
     date_joined = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
-
 
 class Employer(db.Model):
     __tablename__ = 'employers'
@@ -46,18 +47,17 @@ class Employer(db.Model):
     tagline = db.Column(db.String(60), nullable=False)
     description = db.Column(db.Text, nullable=False)
     website = db.Column(db.String(60))
-    logo = db.Column(db.String(25),  nullable=False, default='company.png')
+    logo = db.Column(db.String(25),  nullable=False, server_default='company.png')
     date_joined = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     jobs = db.relationship('Job', backref='company', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
-
 
 class Admin(db.Model):
     __tablename__ = 'admins'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
-    image = db.Column(db.String(20),  nullable=False, default='anony.png')
+    image = db.Column(db.String(20),  nullable=False, server_default='anony.png')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
 
 class Job(db.Model):
@@ -65,7 +65,7 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(20), nullable=False)
     category = db.Column(db.String(60), nullable=False)
-    salary = db.Column(db.Float(20), nullable=False, default=0)
+    salary = db.Column(db.Float(20), nullable=False, server_default='0')
     type = db.Column(db.String(20), nullable=False)
     description = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
