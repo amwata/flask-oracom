@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block logged_applicant %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('jobs.job_list')}}">Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('applicant.jobs_applied')}}">Jobs Applied</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.company_list')}}">Companies</a>
+    </li>
+{% endblock %}
+
+{% block container %}
+
+    <section class="py-3 bg-light min-vh">
+        <div class="container ">
+            {% if jobs %}
+                <h4 class="text-light bg-teal-lgrad my-3 p-3">You are Shortlisted for the following Job Positions <i class="fa fa-check-square-o" aria-hidden="true"></i></h4>
+            {% else %}
+                <h4 class="text-light bg-teal-lgrad my-3 p-3">You are not Listed for any Job Positions Yet</h4>
+            {% endif %}
+                <div class="row row-cols-1 g-2">
+                <div class="col">
+                    <div class="bg-white p-3 border">
+                        <div class="d-flex align-items-center">
+                            <h5>Shortlisted in {{ jobs|length }} Jobs</h5>
+                            <a href="{{ url_for('jobs.job_list') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Find More Jobs</a>
+                        </div>
+                        {% for job in jobs %}
+                            <div class="d-flex rad-3 border my-3 p-3 align-items-end">
+                                <div class="">
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="m-0 h3 text-dark">
+                                        {{ job.title }}
+                                    </a>
+                                    <p class="text-muted mb-2">
+                                        {{ job.company.name.capitalize() }} | <i class="fa fa-map-marker t-prim"></i> {{job.company.location}}
+                                    </p>
+                                    <p class=" m-0">
+                                        <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                    </p>
+                                </div>
+                                <div class="ms-auto">
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm">{{ job.type }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>
+          
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

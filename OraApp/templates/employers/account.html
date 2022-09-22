@@ -4,7 +4,7 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light bg-teal-lgrad my-3 p-3">Account Activities</h5>
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Account Activities</h3>
             <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm btn-brand peach my-2 text-light">Post Jobs <i class="fa fa-paper-plane" aria-hidden="true"></i></a>
 
             <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
@@ -20,13 +20,24 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-card  users-card">
+                    <a href="{{ url_for('employer.applicants') }}" class="admin-card  users-card">
                         <div class ="views">
-                            <div class ="no">8</div>
+                            <div class ="no">{{ applicants|length }}</div>
                             <div class ="name">Applicants</div>
                         </div>
                         <div class ="icon-box">
                             <i class="fa fa-users" aria-hidden="true"></i>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('employer.listed_applicants') }}" class="admin-card  users-card">
+                        <div class ="views">
+                            <div class ="no">{{ listed|length }}</div>
+                            <div class ="name">Shortlisted Applicants</div>
+                        </div>
+                        <div class ="icon-box">
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </div>
                     </a>
                 </div>

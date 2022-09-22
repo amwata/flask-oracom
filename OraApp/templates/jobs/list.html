@@ -116,8 +116,12 @@
                                     </a>
                                 </div>
                                 <div class="w-100 ms-2">
-                                    <div class="border-bottom">
+                                    <div class="border-bottom d-flex align-items-center">
                                         <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+
+                                        {% if current_user.is_authenticated and current_user.applicants and job in current_user.applicants.applied_jobs %}
+                                            <span class="text-success ms-auto">Applied <i class="fa fa-check-square-o"></i></span>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

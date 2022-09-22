@@ -1,0 +1,49 @@
+{% extends 'admin/layout.html' %}
+{% block categories %}
+    <a href="{{ url_for('admin.admin_applicants') }}" class="admin-nav-item active"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Applications Sent</h5>
+            <div class=" ">
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h4 class="m-0" >Applied <b>Jobs:</b> {{ jobs|length }}</h4>
+                    </div>
+
+                    <table class="table table-hover bg-c-lighter t-dark">
+                        <tr>
+                            <th>Employer</th>
+                            <th>Job Title</th>
+                            <th>Applicant Name</th>
+                            <th>Date Applied</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for job, user, date, status in jobs %}
+                            <tr>
+                                <td>{{ job.company.name }}</td>
+                                <td>{{ job.title }}</td>
+                                <td>{{ user.f_name }} {{ user.l_name }}</td>
+                                <td>{{ date.strftime("%d-%m-%Y") }}</td>
+                                <td>
+                                    {% if status %}
+                                        <span class="text-success">Shortlisted</span>
+                                    {% else %}
+                                        <span class="text-warning">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

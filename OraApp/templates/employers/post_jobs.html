@@ -5,10 +5,13 @@
         <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
     </li>
     <li>
-        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.post_jobs')}}">Post Jobs</a>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
     </li>
     <li>
         <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
     </li>
 {% endblock %} 
 
@@ -16,7 +19,7 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light bg-teal-lgrad my-3 p-3">Job Details</h5>
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Job Details</h3>
             <div class="row row-cols-1 g-2">
                 <div class="form-ctn-100 mx-auto mb-3 bg-c-white">
                     <form class="px-3 py-4" method='POST' action="" >

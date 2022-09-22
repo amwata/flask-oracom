@@ -30,15 +30,17 @@
                             </div>
                         </div>
                     </div>
-                        <div class="pt-2">
+                        <div class="d-flex pt-2 align-items-center">
                             <div class="profile-img-ctn">
                                 <img src="{{ url_for('static', filename='admin/image/' + user.image) }}" alt="">
                             </div>
-                            <p class="p-0 text-bold text-center m-0">{{ user.name }}</p>
+                            <div class="ms-2">
+                                <p class="text-bold m-0">{{ user.name }}</p>
+                                {% if user.image != 'anony.png' %}
+                                    <button class="btn btn-sm btn-outline-secondary px-2 p-0 " data-bs-toggle="modal" data-bs-target="#remove-pic" >Remove</button>
+                                {% endif %}
+                            </div>
                         </div>
-                        {% if user.image != 'anony.png' %}
-                            <button class="btn btn-sm btn-outline-secondary px-2 p-0 ms-3 my-auto" data-bs-toggle="modal" data-bs-target="#remove-pic" >Remove</button>
-                        {% endif %}
                     </div>
                     
                 </div>    

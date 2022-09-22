@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     admins = db.relationship('Admin', backref='user', uselist=False, lazy=True)
     employers = db.relationship('Employer', backref='user', uselist=False, lazy=True)
 
-# Association Table for connecting applicants to jobs table in a many-to-many relationship
+# Association Table for connecting applicants to jobs table using a many-to-many relationship
 jobs_applied = db.Table(
     'jobs_applied',
     db.Column('job_id',db.Integer, db.ForeignKey('jobs.id'), nullable=False),

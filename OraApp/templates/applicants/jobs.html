@@ -19,26 +19,26 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light prim my-3 p-3">Applications <i class="fa fa-send" aria-hidden="true"></i></h5>
+            <h3 class="text-light prim my-3 p-3">Applications <i class="fa fa-send" aria-hidden="true"></i></h3>
             <div class="row row-cols-1 g-2">
                 <div class="col">
                     <div class="bg-white p-3 border">
                         <div class="d-flex align-items-center">
-                            <h3>Jobs Applied: <span class="text-muted">{{ jobs.items | length or 'No Applications Sent.' }}</span></h3>
+                            <h4>Jobs Applied: <span class="text-muted">{{ jobs.total or 'No Applications Sent.' }}</span></h4>
                             <a href="{{ url_for('jobs.job_list') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Find More Jobs</a>
                         </div>
-                        {% for job in jobs.items %}
+                        {% for job, date, status in jobs.items %}
 
                             <div class="modal fade" id="remove-job{{job.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content bg-c-white t-dark">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="">Remove Application?</h5>
+                                            <h5 class="modal-title" id="">Remove Job from List?</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <form action="{{ url_for('employer.remove_job', job_id=job.id) }}" method="post">
+                                            <form action="{{ url_for('applicant.remove_job', job_id=job.id) }}" method="post">
                                                 <input type="submit" class="btn btn-sm btn-danger" value="Remove">
                                             </form>
                                         </div>
@@ -48,17 +48,21 @@
 
                             <div class="d-flex rad-3 border my-3 p-3 align-items-end">
                                 <div class="">
-                                    <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class="m-0 h3 text-dark">
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="m-0 h3 text-dark">
                                         {{ job.title }}
                                     </a>
                                     <p class="text-muted mb-2">
-                                        <i class="fa fa-map-marker t-prim"></i> {{ job.company.location }} | <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm p-0 px-2">{{ job.type }}</a>
+                                        {{ job.company.name.capitalize() }} | <i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}
                                     </p>
-                                    <p class=" m-0">
-                                        <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
-                                    </p>
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm p-0 px-2">{{ job.type }}</a>
                                 </div>
                                 <div class="ms-auto">
+                                    <p class="text-muted m-0"><small>Applied {{ date.strftime("%d %b, %Y") }}</small></p>
+                                    {% if status %}
+                                        <p class="text-success">Shortlisted</p>
+                                    {% else %}
+                                        <p class="text-warning">Pending</p>
+                                    {% endif %}
                                     <a href="#" class="btn btn-sm btn-danger " data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"><span class="d-sm-inline d-none">Remove</span> <i class="fa fa-trash"></i></a>
                                 </div>
                             </div>

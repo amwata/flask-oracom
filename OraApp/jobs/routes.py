@@ -1,6 +1,6 @@
 
 from OraApp import db
-from OraApp.models import Job
+from OraApp.models import Job, jobs_applied
 from flask import render_template, Blueprint, request, abort
 
 jobs = Blueprint('jobs', __name__)
@@ -9,7 +9,8 @@ jobs = Blueprint('jobs', __name__)
 @jobs.route("/jobs/<int:job_id>/details/")
 def profile(job_id):
     job = Job.query.get_or_404(job_id)
-    return render_template("jobs/profile.html", title="OraJobs | Job Details", job=job)
+    query = db.session.query(jobs_applied.c.shortlisted).filter_by(job_id=job_id)
+    return render_template("jobs/profile.html", title="OraJobs | Job Details", job=job, query=query)
 
 @jobs.route("/jobs/")
 @jobs.route("/jobs/list/")

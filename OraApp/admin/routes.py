@@ -2,7 +2,7 @@
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
 from OraApp.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit, Job_Add, Job_Update
-from OraApp.models import Admin, User, Job, Employer, Applicant
+from OraApp.models import Admin, User, Job, Employer, Applicant, jobs_applied
 from OraApp.utils import user_role_required, save_file, remove_file
 from flask_login import login_user, current_user
 
@@ -16,12 +16,12 @@ def admin_account():
     jobs = len(Job.query.all())
     employers = len(Employer.query.all())
     applicants = len(Applicant.query.all())
-    jobs_applied = 0
+    applied = len(db.session.query(jobs_applied).all())
 
     query = db.session.query(Job.category.distinct().label("category"))
     categories = [row.category for row in query.all()]
 
-    dash = {'jobs': jobs, 'employers': employers, 'applicants': applicants, 'jobs_applied': jobs_applied, 'categories': len(categories)}
+    dash = {'jobs': jobs, 'employers': employers, 'applicants': applicants, 'jobs_applied': applied, 'categories': len(categories)}
     return render_template("admin/dashboard.html", title="Admin | Dashboard", user=user, dash=dash )
 
 @admin.route("/admin/job-categories/")
@@ -29,9 +29,10 @@ def admin_account():
 def admin_job_categories():
     user = current_user.admins
     page = request.args.get('page', 1, type=int)
-    query = db.session.query(Job.category.distinct().label('category')).paginate(page=page, per_page=15)
+    query = db.session.query(Job.category.distinct().label('category')).paginate(page=page, per_page=3)
     jobs = Job.query
     categories = [row.category for row in query.items]
+    
     return render_template("admin/categories.html", title="Admin | Job Categories", user=user, jobs=jobs, categories=categories,pages=query)
 
 @admin.route("/admin/jobs-list/")
@@ -52,7 +53,10 @@ def admin_filtered_jobs(category):
 @admin.route("/admin/jobs-applied/")
 @user_role_required('admin')
 def admin_jobs_applied():
-    pass
+    user = current_user.admins
+    jobs = db.session.query(Job, Applicant, jobs_applied.c.date_applied, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).order_by(jobs_applied.c.date_applied.desc()).all()
+
+    return render_template("admin/jobs_applied.html", title="OraJobs | Applied Jobs", jobs=jobs, user=user)
 
 @admin.route("/admin/jobs/new-job/", methods=['GET', 'POST'])
 @user_role_required('admin')

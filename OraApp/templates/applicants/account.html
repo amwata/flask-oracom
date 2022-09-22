@@ -4,14 +4,14 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light prim my-3 p-3">Account Activities</h5>
+            <h3 class="text-light prim my-3 p-3">Account Activities</h3>
             <a href="{{ url_for('jobs.job_list') }}" class="btn btn-sm btn-brand peach my-2 text-light">Find Jobs</a>
 
             <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
                 <div class="col">
-                    <a href="{{ url_for('admin.admin_jobs_applied') }}" class="admin-card users-card">
+                    <a href="{{ url_for('applicant.jobs_applied') }}" class="admin-card users-card">
                         <div class ="views">
-                            <div class ="no">67</div>
+                            <div class ="no">{{ jobs|length }}</div>
                             <div class ="name">Jobs Applied</div>
                         </div>
                         <div class ="icon-box">
@@ -20,9 +20,9 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="{{ url_for('admin.admin_job_categories') }}" class="admin-card  users-card">
+                    <a href="{{ url_for('applicant.shortlisted_jobs') }}" class="admin-card  users-card">
                         <div class ="views">
-                            <div class ="no">8</div>
+                            <div class ="no">{{ shortlists|length }}</div>
                             <div class ="name">Shortlisted Jobs</div>
                         </div>
                         <div class ="icon-box">

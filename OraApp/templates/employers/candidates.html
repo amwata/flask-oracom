@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block logged_employer %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.applicants')}}">Applicants</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
+    </li>
+{% endblock %} 
+
+{% block container %}
+
+    <section class="py-3 bg-light min-vh">
+        <div class="container ">
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Candidates <i class="fa fa-users" aria-hidden="true"></i></h3>
+            <div class="row row-cols-1 g-2">
+                <div class="col">
+                    <div class="bg-white p-3 border">
+                        <div class="d-flex align-items-center">
+                            <h4>Received Applications</span></h4>
+                            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Find Candidates <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        </div>
+                        {% for user, job, listed in applicants %}
+                            <div class="d-flex rad-3 border my-3 p-3">
+                                
+                                <div class="prof-update">
+                                    <div class="d-flex">
+                                        <div class="profile-img-ctn prof-sm">
+                                            <img src="{{ url_for('static', filename='applicant/image/' + user.image) }}" alt="">
+                                        </div>
+                                        <div class="ms-2">
+                                            <p class="m-0 text-bold">{{ user.l_name }} {{ user.f_name }}</p>
+                                            <p class="m-0 text-muted">
+                                                <a href="mailto:{{ user.user.email }}" target="_blank" class="text-dark text-muted"><i class="fa fa-envelope-o t-prim"></i> {{ user.user.email }}</a>
+                                            </p>
+                                            <p class="text-muted">
+                                                <a href="tel:{{ user.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ user.phone }}</a>
+
+                                            </p>
+                                            <button class="btn btn-sm btn-brand prim text-light" data-bs-toggle="modal" data-bs-target="#remove-pic" >Send Message <i class="fa fa-send"></i></button>
+                                            <p>{{ user, job, listed }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ms-auto">
+                                    <a class="paper  text-dark " href="{{ url_for('static', filename='applicant/resume/' + user.resume) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='img/paper.png') }}">
+                                    </a>
+                                    <p class="text-center m-0"><small>Resume</small></p> 
+                                </div>
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>
+           
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

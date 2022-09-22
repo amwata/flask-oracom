@@ -84,7 +84,16 @@
                         <p>
                             {{ job.description }}
                         </p>
-                        <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light d-sm-inline-block d-block">Send Application</a>
+                        {% if current_user.is_authenticated and current_user.applicants and job in current_user.applicants.applied_jobs %}
+                            <a href="#" class="btn btn-sm btn-success disabled text-light d-sm-inline-block d-block px-5">Applied <i class="fa fa-check-square-o"></i></a>
+                            {% if query.filter_by(applicant_id=current_user.applicants.id).first()[0] %}
+                                <span class="text-success ms-2">Shortlisted</span>
+                            {% else %}
+                                <span class="text-warning ms-2">Pending</span>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light d-sm-inline-block d-block">Send Application</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

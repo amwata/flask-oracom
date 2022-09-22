@@ -1,15 +1,30 @@
 {% extends 'base.html' %}
 
+{% block logged_employer %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
+    </li>
+{% endblock %} 
+
 {% block container %}
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h5 class="text-light bg-teal-lgrad my-3 p-3">Posted Jobs <i class="fa fa-thumb-tack" aria-hidden="true"></i></h5>
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Posted Jobs <i class="fa fa-thumb-tack" aria-hidden="true"></i></h3>
             <div class="row row-cols-1 g-2">
                 <div class="col">
                     <div class="bg-white p-3 border">
                         <div class="d-flex align-items-center">
-                            <h3>Posted Jobs: <span class="text-muted">{{ jobs.items | length or 'No Posted Jobs Yet.' }}</span></h3>
+                            <h4>Your Jobs: <span class="text-muted">{{ jobs.items | length or 'No Posted Jobs Yet.' }}</span></h4>
                             <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Add New Job</a>
                         </div>
                         {% for job in jobs.items %}
@@ -44,6 +59,24 @@
                                     </p>
                                 </div>
                                 <div class="ms-auto">
+                                        {% if list.filter_by(job_id=job.id).all()|length %}
+                                            {% if list.filter_by(job_id=job.id).all()|length > 1 %}
+                                                <p class="text-primary">
+                                                    <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class=""> 
+                                                        {{ list.filter_by(job_id=job.id).all()|length }} Applicants
+                                                    </a>
+                                                </p>
+                                            {% else %}
+                                                <p class="text-primary">
+                                                    <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class=""> 
+                                                        {{ list.filter_by(job_id=job.id).all()|length }} Applicant
+                                                    </a>
+                                                </p>
+                                            {% endif %}
+                                        {% else %}
+                                            <p class="text-muted"> No Applicants </p>
+                                        {% endif %}
+                                    
                                     <a href="{{ url_for('employer.edit_jobs', job_id=job.id) }}" class="btn btn-sm btn-warning"><span class="d-sm-inline d-none">Update</span> <i class="fa fa-pencil"></i></a>
                                     <a href="#" class="btn btn-sm btn-danger " data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"><span class="d-sm-inline d-none">Remove</span> <i class="fa fa-trash"></i></a>
                                 </div>

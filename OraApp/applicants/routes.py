@@ -2,7 +2,7 @@
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
 from OraApp.forms import Applicant_User_Update, User_Login, Applicant_Signup, Applicant_User_Update
-from OraApp.models import User, Applicant, Job, jobs_applied
+from OraApp.models import User, Applicant, Job, jobs_applied as applied
 from OraApp.utils import save_file, remove_file, user_role_required
 from flask_login import login_user, current_user
 
@@ -13,7 +13,11 @@ applicant = Blueprint('applicant', __name__)
 @user_role_required('applicant')
 def applicant_account():
     user = current_user.applicants
-    return render_template("applicants/account.html", title="Applicant | Account", user=user)
+    jobs = user.applied_jobs
+    query = db.session.query(applied).join(Applicant).filter(Applicant.id==user.id).all() 
+    shortlists = [ i for i in query if i.shortlisted]
+
+    return render_template("applicants/account.html", title="Applicant | Account", user=user, jobs=jobs, shortlists=shortlists)
 
 @applicant.route("/applicant/settings", methods=['GET','POST'])
 @user_role_required('applicant')
@@ -56,25 +60,6 @@ def settings():
 
     return render_template("applicants/settings.html", title="OraJobs | Applicant Settings", form=form, user = user)
 
-
-@applicant.route("/applicant/jobs-applied")
-@user_role_required('applicant')
-def jobs_applied():
-    user = current_user.applicants
-    page = request.args.get('page', 1, type=int)
-    # jobs = Job.query.filter_by(company=user).order_by(Job.date_posted.desc()).paginate(page=page, per_page=15)
-    jobs = Job.query.all()
-
-    # applied = Applicant.query.join(Job).all()
-    # .join(Job).filter((jobs_applied.c.applicant_id == Applicant.id) & (jobs_applied.c.job_id == Job.id)).all()
-    # flash(f'{applied}', 'primary')
-
-    # jobs = db.session.query(Job, jobs_applied, Applicant).select_from(Job).join(jobs_applied).join(Applicant).filter(Applicant.id==3).all()
-    # applied_jobs = db.session.query(Job).select_from(Job).join(jobs_applied).join(Applicant).filter(Applicant.id==user.id).paginate(page=page, per_page=1)
-    applications = db.session.query(jobs_applied).filter_by(applicant_id=user.id).all()
-
-    return render_template("applicants/jobs.html", title="OraJobs | Applied Jobs", jobs=jobs)
-
 @applicant.route("/applicant/application/<int:job_id>", methods=['GET','POST'])
 @user_role_required('applicant')
 def apply_for_job(job_id):
@@ -85,6 +70,35 @@ def apply_for_job(job_id):
     db.session.commit()
 
     flash(f'Application sent Successfully!', 'success')
+    return redirect(url_for('.jobs_applied'))
+
+@applicant.route("/applicant/jobs-applied")
+@user_role_required('applicant')
+def jobs_applied():
+    user = current_user.applicants
+    page = request.args.get('page', 1, type=int)
+    jobs = db.session.query(Job, applied.c.date_applied, applied.c.shortlisted).select_from(Job).join(applied).join(Applicant).filter(Applicant.id==user.id).order_by(applied.c.date_applied.desc()).paginate(page=page, per_page=15)
+
+    return render_template("applicants/jobs.html", title="OraJobs | Applied Jobs", jobs=jobs)
+
+@applicant.route("/applicant/shortlisted-jobs")
+@user_role_required('applicant')
+def shortlisted_jobs():
+    user = current_user.applicants
+    jobs = db.session.query(Job).join(applied).join(Applicant).filter((Applicant.id==user.id) & (applied.c.shortlisted)).all() 
+
+    return render_template("applicants/shortlists.html", title="OraJobs | Applied Jobs", jobs=jobs)
+
+@applicant.route("/applicant/<int:job_id>/remove-job/", methods=['POST'])
+@user_role_required('applicant')
+def remove_job(job_id):
+    user = current_user.applicants
+    job = Job.query.get_or_404(job_id)
+    user.applied_jobs.remove(job)
+
+    db.session.commit()
+            
+    flash(f'Job removed from the list successfully', 'success')
     return redirect(url_for('.jobs_applied'))
 
 @applicant.route("/applicant/<int:applicant_id>/delete-image", methods=['POST'])

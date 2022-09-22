@@ -32,9 +32,13 @@
                 <img src="{{url_for('static', filename='img/oracom.png')}}" alt="Oracom">
                 <b>Ora<span class="t-prim">Jobs</span></b>
             </a>
+            <span class="d-md-none d-block ms-auto">
+                <a class="t-peach" href="{{url_for('employer.notifications')}}"><i class="fa fa-bell"></i></a>
+            </span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="navbar-nav ms-auto align-items-center">
                     {% if current_user.is_authenticated and current_user.applicants %}
@@ -73,10 +77,13 @@
                                 <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('main.home')}}">Account</a>
                             </li>
                             <li>
-                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Post Jobs</a>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
                             </li>
                             <li>
                                 <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.applicants')}}">Applicants</a>
+                            </li>
+                            <li>
+                                <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
                             </li>
                         {% endblock %} 
                         <li>

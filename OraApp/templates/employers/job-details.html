@@ -41,7 +41,15 @@
                         <p>
                             {{ job.description }}
                         </p>
-                        <a href="{{ url_for('applicant.apply_for_job', job_id=job.id) }}" class="btn btn-sm btn-success disabled text-light d-sm-inline-block d-block">No Applicants Yet</a>
+                        {% if applicants %}
+                            {% if applicants|length > 1 %}
+                                <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class="btn btn-sm px-3 btn-success text-light d-sm-inline-block d-block"> {{ applicants|length }} Applicants</a>
+                            {% else %}
+                            <a href="{{ url_for('employer.applicants_per_job', job_id=job.id) }}" class="btn btn-sm px-3 btn-success text-light d-sm-inline-block d-block"> {{ applicants|length }} Applicant</a>
+                            {% endif %}
+                        {% else %}
+                            <a href="#" class="btn btn-sm px-3 btn-success disabled text-light d-sm-inline-block d-block">No Applicants Yet</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
