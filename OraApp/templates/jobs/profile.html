@@ -59,23 +59,30 @@
                         </div>
                         <div class="ps-3 w-100">
                             <div class="border-bottom mb-1">
-                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> {{ job.date_posted.strftime("%d %b, %Y") }}</small>
+                                <a href="{{ url_for('employer.profile', company_id=job.company.id) }}" class="text-bold">
+                                    {{ job.company.name.capitalize() }}
+                                </a>
+                                <small class="text-muted"><i class="fa fa-calendar t-prim"></i> Posted {{ job.date_posted.strftime("%d %b, %Y") }}</small>
                             </div>
                             <div class="m-0 h2 text-dark">{{ job.title }}</div>
-                            <p class="text-muted m-0">{{ job.company.name.capitalize() }} <small><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small></p>
+                            <p class="text-muted m-0"><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</p>
                         </div>
                     </div>
                     <div>
                         <div class="my-5 d-flex align-items-center">
                             <div class="border-end  pe-4 py-2">
                                 <p class="text-muted m-0">
-                                    <small><i class="fa fa-puzzle-piece t-prim"></i> Job Category</small>
+                                    <span><i class="fa fa-puzzle-piece t-prim"></i> Job Category</span>
                                 </p>
                                 <p class="text-bold">{{ job.category }}</p>
                             </div>
                             <div class="ps-4 py-2 ">
                                 <p class="text-muted m-0">
-                                    <small><i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified '}}</small>
+                                    {% if job.salary %}
+                                        <span><i class="fa fa-money t-prim"></i> KSh. {{ job.salary | numberFormat}}</span>
+                                    {% else %}
+                                        <span><i class="fa fa-money t-prim"></i> KSh. Not Specified</span>
+                                    {% endif %}
                                 </p>
                                 <p class="text-bold">{{ job.type }}</p>
                             </div>

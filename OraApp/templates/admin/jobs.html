@@ -31,7 +31,13 @@
                                 <td>{{ job.title }}</td>
                                 <td>{{ job.category }}</td>
                                 <td>{{ job.type }}</td>
-                                <td>{{ job.salary or 'Not Specified'}}</td>
+                                <td>
+                                    {% if job.salary %}
+                                        <span> {{ job.salary | numberFormat}}</span>
+                                    {% else %}
+                                        <span> Not Specified</span>
+                                    {% endif %}
+                                </td>
                                 <td>
                                     <a href="{{ url_for('admin.admin_job_update', job_id=job.id) }}" class="btn btn-sm btn-warning"> <i class="fa fa-pencil"></i> </a>
                                     <a href="" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#remove-job{{job.id}}"> <i class="fa fa-trash"></i> </a>

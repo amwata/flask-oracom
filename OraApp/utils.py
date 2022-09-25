@@ -1,9 +1,10 @@
 import secrets, os
-from flask import current_app, url_for, redirect, flash, request
+from flask import current_app, url_for, redirect, flash, request, render_template
 from PIL import Image
 from flask_login import current_user
 from functools import wraps
-from OraApp.models import User
+from OraApp import mail
+from flask_mail import Message
 
 
 def save_file(dir, file):
@@ -28,7 +29,6 @@ def remove_file(file):
     file_path = os.path.join(current_app.root_path, f'static/{file}')
     os.remove(file_path)
 
-
 def user_role_required(role):
     def decorator(f):
         @wraps(f)
@@ -41,3 +41,14 @@ def user_role_required(role):
         return decorated_function
     return decorator
     
+def send_pwd_reset_email(user):
+    token = user.get_reset_token() 
+
+    subject = 'Password Reset Request'
+    sender = 'noreply@gmail.com'
+    recipients = [user.email]
+    body = render_template('email.html', token=token)
+
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.body = body
+    mail.send(msg)

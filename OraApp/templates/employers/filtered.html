@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block logged_employer %}
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('main.home')}}">Account</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.posted_jobs')}}">Your Jobs</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2 active" href="{{url_for('employer.applicants')}}">Applicants</a>
+    </li>
+    <li>
+        <a class="nav-link ps-sm-auto ps-2" href="{{url_for('employer.post_jobs')}}">Add Jobs</a>
+    </li>
+{% endblock %} 
+
+{% block container %}
+
+    <section class="py-3 bg-light min-vh">
+        <div class="container ">
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Applicants <i class="fa fa-users" aria-hidden="true"></i></h3>
+            <div class="row row-cols-1 g-2">
+                <div class="col">
+                    <div class="bg-white p-3 border">
+                        <div class="d-sm-flex d-block align-items-center">
+                            <h3>Applicants for <b>{{ job.title }}</b>: <span class="text-muted">{{ applicants|length }}</span></h3>
+                            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-outline-success">Add Jobs <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        </div>
+                        {% for user, listed, date in applicants %}
+
+                            <div class="modal fade" id="text-user{{user.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Send Message</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body py-5">
+                                            <form action="{{ url_for('employer.send_message', applicant_id=user.id) }}" method="post">
+                                              <div class="mb-3">
+                                                <label for="subject" class="col-form-label">Subject:</label>
+                                                <input type="text" class="form-control" id="subject">
+                                              </div>
+                                              <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                              </div>
+                                              <button type="submit" class="btn btn-sm btn-primary mb-4 px-3">Send <i class="fa fa-send"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex rad-3 border my-3 p-3">
+                                <div class="prof-update">
+                                    <div class="d-flex">
+                                        <div class="profile-img-ctn prof-sm">
+                                            <img src="{{ url_for('static', filename='applicant/image/' + user.image) }}" alt="">
+                                        </div>
+                                        <div class="ms-2">
+                                            <p class="m-0 text-bold">{{ user.l_name }} {{ user.f_name }}</p>
+                                            <p class="m-0 text-muted">
+                                                <a href="mailto:{{ user.user.email }}" target="_blank" class="text-dark text-muted"><i class="fa fa-envelope-o t-prim"></i> {{ user.user.email }}</a>
+                                            </p>
+                                            <p class="text-muted">
+                                                <a href="tel:{{ user.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ user.phone }}</a>
+                                            </p>
+                                            <p class="">
+                                                <small class="">Applied {{ date.strftime("%d %b, %Y") }}</small>
+                                            </p>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#text-user{{user.id}}" >Message <i class="fa fa-send"></i></button>
+                                            {% if not listed %}
+                                                <a href="{{ url_for('employer.list_applicant', applicant_id=user.id, job_id=job.id) }}" class="btn btn-sm btn-success">
+                                                    Shortlist <i class="fa fa-user-plus"></i>
+                                                </a>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-success disabled" >Listed <i class="fa fa-check-square-o"></i></button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ms-auto">
+                                    <a class="paper  text-dark " href="{{ url_for('static', filename='applicant/resume/' + user.resume) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='img/paper.png') }}">
+                                    </a>
+                                    <p class="text-center m-0"><small>Resume</small></p> 
+                                </div>
+                                
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>
+           
+        </div>
+    </section>
+
+{% endblock %}
+{% block script %}{% endblock %}

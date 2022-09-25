@@ -5,7 +5,6 @@ from flask import render_template, Blueprint, request, abort
 
 jobs = Blueprint('jobs', __name__)
 
-
 @jobs.route("/jobs/<int:job_id>/details/")
 def profile(job_id):
     job = Job.query.get_or_404(job_id)
@@ -37,5 +36,5 @@ def filtered(category):
     page = request.args.get('page', 1, type=int)
     jobs = Job.query.filter_by(category=category).order_by(Job.date_posted.desc()).paginate(page=page, per_page=15) or abort(404)
     
-    head = f'Jobs in {category}'
+    head = f'{category} Jobs'
     return render_template("jobs/filtered.html", title="OraJobs | Jobs List", jobs=jobs, head=head)

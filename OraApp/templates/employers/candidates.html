@@ -19,17 +19,41 @@
 
     <section class="py-3 bg-light min-vh">
         <div class="container ">
-            <h3 class="text-light bg-teal-lgrad my-3 p-3">Candidates <i class="fa fa-users" aria-hidden="true"></i></h3>
+            <h3 class="text-light bg-teal-lgrad my-3 p-3">Applicants <i class="fa fa-users" aria-hidden="true"></i></h3>
             <div class="row row-cols-1 g-2">
                 <div class="col">
                     <div class="bg-white p-3 border">
-                        <div class="d-flex align-items-center">
-                            <h4>Received Applications</span></h4>
-                            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-success my-2 text-light">Find Candidates <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                        <div class="d-sm-flex d-block align-items-center">
+                            <h3>Received Applications: <span class="text-muted">{{ applicants.total }}</span></h3>
+                            <a href="{{ url_for('employer.post_jobs') }}" class="btn btn-sm ms-auto btn-outline-success">Add Jobs <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                         </div>
-                        {% for user, job, listed in applicants %}
+                        {% for user, job, listed, date in applicants.items %}
+
+                            <div class="modal fade" id="text-user{{user.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content bg-c-white t-dark">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="">Send Message</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body py-5">
+                                            <form action="{{ url_for('employer.send_message', applicant_id=user.id) }}" method="post">
+                                              <div class="mb-3">
+                                                <label for="subject" class="col-form-label">Subject:</label>
+                                                <input type="text" class="form-control" id="subject">
+                                              </div>
+                                              <div class="mb-3">
+                                                <label for="message-text" class="col-form-label">Message:</label>
+                                                <textarea class="form-control" id="message-text"></textarea>
+                                              </div>
+                                              <button type="submit" class="btn btn-sm btn-primary mb-4 px-3">Send <i class="fa fa-send"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="d-flex rad-3 border my-3 p-3">
-                                
                                 <div class="prof-update">
                                     <div class="d-flex">
                                         <div class="profile-img-ctn prof-sm">
@@ -42,10 +66,22 @@
                                             </p>
                                             <p class="text-muted">
                                                 <a href="tel:{{ user.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ user.phone }}</a>
-
                                             </p>
-                                            <button class="btn btn-sm btn-brand prim text-light" data-bs-toggle="modal" data-bs-target="#remove-pic" >Send Message <i class="fa fa-send"></i></button>
-                                            <p>{{ user, job, listed }}</p>
+                                            <p class="">
+                                                Applied for 
+                                                <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class=""> 
+                                                    {{ job.title }}
+                                                </a>
+                                                <small class="">{{ date.strftime("%d %b, %Y") }}</small>
+                                            </p>
+                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#text-user{{user.id}}" >Message <i class="fa fa-send"></i></button>
+                                            {% if not listed %}
+                                                <a href="{{ url_for('employer.list_applicant', applicant_id=user.id, job_id=job.id) }}" class="btn btn-sm btn-success">
+                                                    Shortlist <i class="fa fa-user-plus"></i>
+                                                </a>
+                                            {% else %}
+                                                <button class="btn btn-sm btn-success disabled" >Listed <i class="fa fa-check-square-o"></i></button>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -58,6 +94,19 @@
                                 
                             </div>
                         {% endfor %}
+                        {% if applicants.total > applicants.per_page %}
+                            {% for page_num in applicants.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                                {% if page_num %}
+                                    {% if applicants.page == page_num %}
+                                        <a href="{{ url_for('employer.applicants', page=page_num) }}" class="btn btn-sm btn-primary my-3">{{ page_num }}</a>
+                                    {% else %}
+                                        <a href="{{ url_for('employer.applicants', page=page_num) }}" class="btn btn-sm btn-outline-primary my-3">{{ page_num }}</a>
+                                    {% endif %}
+                                {% else %}
+                                    ...
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>  
             </div>

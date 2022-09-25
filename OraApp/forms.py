@@ -167,5 +167,18 @@ class Job_Search(FlaskForm):
 class Contact_Form(FlaskForm):
     pass
 
+class Forgot_Password(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Send Email')
+    def validate_email(self, email):
+        exists = User.query.filter_by(email=email.data).first()  
+        if not exists:
+            raise ValidationError('This email is Not Registered! Use your account\'s verified Email.') 
+
+
 class Reset_Password(FlaskForm):
-    pass
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
+    submit = SubmitField('Reset Password')
+
+    

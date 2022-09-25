@@ -108,7 +108,7 @@
                             <!-- submit button  -->
                             {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
                             <small class="text-muted">
-                                <a class="ms-3 t-prim" href="">Forgot Password?</a>
+                                <a class="ms-3 t-prim" href="{{ url_for('applicant.password_reset_request') }}">Forgot Password?</a>
                             </small>
                         </div>
                     </form>

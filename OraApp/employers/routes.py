@@ -114,7 +114,7 @@ def applicants():
     user = current_user.employers
     page = request.args.get('page', 1, type=int)
 
-    query = db.session.query(Applicant, Job.title, jobs_applied.c.shortlisted).select_from(Applicant).join(jobs_applied).order_by(jobs_applied.c.date_applied).join(Job).filter_by(company=user).all()
+    query = db.session.query(Applicant, Job, jobs_applied.c.shortlisted, jobs_applied.c.date_applied).select_from(Applicant).join(jobs_applied).order_by(jobs_applied.c.date_applied).join(Job).filter_by(company=user).paginate(page=page, per_page=15)
 
     return render_template("employers/candidates.html", title="Employer | Applicants", applicants=query)
 
@@ -122,11 +122,12 @@ def applicants():
 @user_role_required('employer')
 def applicants_per_job(job_id):
     job = Job.query.get_or_404(job_id)
+    page = request.args.get('page', 1, type=int)
     if not job.company == current_user.employers:
         abort(403)
-    applicants = db.session.query(Applicant, Job.title, jobs_applied.c.shortlisted).select_from(Applicant).join(jobs_applied).filter_by(job_id=job_id).join(Job).order_by(jobs_applied.c.date_applied).all()
+    applicants = db.session.query(Applicant, jobs_applied.c.shortlisted, jobs_applied.c.date_applied).select_from(Applicant).join(jobs_applied).filter_by(job_id=job_id).join(Job).order_by(jobs_applied.c.date_applied).all()
 
-    return render_template("employers/candidates.html", title="OraJobs | Applicants per Job", applicants=applicants)
+    return render_template("employers/filtered.html", title="OraJobs | Applicants per Job", applicants=applicants, job=job)
 
 @employer.route("/employer/applicants/shortlisted")
 @user_role_required('employer')
@@ -134,14 +135,33 @@ def listed_applicants():
     user = current_user.employers
     page = request.args.get('page', 1, type=int)
 
-    query = db.session.query(Applicant, jobs_applied.c.shortlisted).select_from(Applicant).join(jobs_applied).filter_by(shortlisted=True).join(Job).filter_by(company=user).all()
+    query = db.session.query(Applicant, Job).select_from(Applicant).join(jobs_applied).filter_by(shortlisted=True).join(Job).filter_by(company=user).paginate(page=page, per_page=15)
 
-    return render_template("employers/candidates.html", title="Employer | Shortlists", applicants=query)
+    return render_template("employers/listed.html", title="Employer | Shortlists", applicants=query)
 
 @employer.route("/employer/candidates/")
 @user_role_required('employer')
 def candidates():
     pass
+
+@employer.route("/employer/send-message/<int:applicant_id>", methods=['GET', 'POST'])
+@user_role_required('employer')
+def send_message(applicant_id):
+    pass
+
+@employer.route("/employer/list-applicant/<int:job_id>/<int:applicant_id>")
+@user_role_required('employer')
+def list_applicant(job_id, applicant_id):
+    user = current_user.employers
+    job = Job.query.get_or_404(job_id)
+    if not job.company == user:
+        abort(403)
+
+    query = db.session.query(jobs_applied).filter((jobs_applied.c.job_id==job_id)&(jobs_applied.c.applicant_id==applicant_id)).update(dict(shortlisted = True))
+    db.session.commit()
+    flash('Applicant listed Successfully', 'success')
+
+    return redirect(url_for('.listed_applicants'))
 
 @employer.route("/employer/notifications/")
 @user_role_required('employer')

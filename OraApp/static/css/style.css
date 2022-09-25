@@ -391,6 +391,59 @@ img {
     width: 70px;  
 }
 
+.company-profile .profile-logo-ctn{
+    position:relative;
+    z-index: 2;
+    
+}
+
+.company-profile .profile-logo-ctn .backlayer{
+    position: absolute;
+    width: 200px;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .backlayer::before{
+    position: absolute;
+    content: '';
+    width: 100px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    background:linear-gradient(rgba(0, 110, 255, 0.3), rgba(238, 0, 255, 0.2));
+    z-index: -2;
+    transform: translateX(-25%);
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .backlayer::after{
+    position: absolute;
+    content: '';
+    width: 70px;
+    height: 70px;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient( rgba(238, 0, 255, 0.3), rgba(0, 255, 255, .2));
+    z-index: -1;
+    border-radius: 50%;
+}
+
+.company-profile .profile-logo-ctn .logo-ctn{
+    background: var(--white);
+    width: 130px;
+    height: 130px;
+    overflow: hidden;
+}
+
+.company-profile .profile-logo-ctn .logo-ctn img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 #jobs-list .list-card .list-img,
 .profile-img-ctn{
     background: var(--light);

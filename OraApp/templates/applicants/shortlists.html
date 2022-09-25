@@ -41,7 +41,11 @@
                                         {{ job.company.name.capitalize() }} | <i class="fa fa-map-marker t-prim"></i> {{job.company.location}}
                                     </p>
                                     <p class=" m-0">
-                                        <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                        {% if job.salary %}
+                                            <i class="fa fa-money t-prim"></i> KSh. {{ (job.salary | numberFormat)}}
+                                        {% else %}
+                                            <i class="fa fa-money t-prim"></i> KSh. Not Specified
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <div class="ms-auto">

@@ -69,7 +69,7 @@
                             <a class="text-dark d-none d-sm-block" href="{{url_for('applicant.settings')}}"><i class="fa fa-wrench"></i></a>
                         </li>    
                         <li>
-                            <a class="d-block btn btn-sm btn-brand prim text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
+                            <a class="d-block btn btn-sm btn-brand peach text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
                         </li>
                     {% elif current_user.is_authenticated and current_user.employers %}
                         {% block logged_employer %}
@@ -99,7 +99,7 @@
                             <a class="text-dark d-none d-sm-block" href="{{url_for('employer.settings')}}"><i class="fa fa-wrench"></i></a>
                         </li>  
                         <li>
-                            <a class="d-block btn btn-sm btn-brand prim text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
+                            <a class="d-block btn btn-sm btn-brand peach text-light ms-md-3" href="{{url_for('main.logout')}}">Logout <i class="fa fa-sign-out"></i></a>
                         </li>    
                     {% else %}
                         {% block logged_out %}

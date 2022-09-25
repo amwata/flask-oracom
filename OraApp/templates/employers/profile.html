@@ -47,46 +47,52 @@
 
 <section id="company-profile" class="bg-light py-3 min-vh">
     <div class="container">
-        <h4 class="bg-teal-lgrad text-light p-3 my-3 mb-4">Profile for <b>{{ company.name.capitalize() }}</b></h4>
+        <h3 class="bg-teal-lgrad text-light p-3 mt-3">{{ company.name.capitalize() }}</h3>
         <div class="row row-cols-1 g-3">
-            <div class="col">
-                <div class="bg-white d-flex p-3 border">
-                    <div>
-                        <div class="profile-img-ctn">
+            <div class="row row-cols-lg-2 row-cols-1 p-0 m-0 company-profile py-3">
+
+                <div class="col p-0 py-lg-0 py-5">
+                    <div class="d-flex align-items-center justify-content-center w-100 h-100 profile-logo-ctn py-5">
+                       <div class="backlayer"></div>
+                        <div class="logo-ctn rad-3">
                             <img src="{{ url_for('static', filename='employer/logo/' + company.logo) }}" alt="">
                         </div>
                     </div>
-                    <div class="ps-3 w-100">
-                        <div class="border-bottom">
-                            <small class="text-muted">Posted Jobs: {{ company.jobs | length }}</small>
-                        </div>
-                        <div class="m-0 h2 text-dark">{{ company.name.capitalize() }}</div>
-                        <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
-                        <h5>About {{ company.name.capitalize() }}</h5>
-                        <p class="text-muted m-0">{{ company.tagline }}</p>
-                        <p>
+                </div>
+                <div class="col profile-content p-0">
+                   <div class="p-3">
+                        <p class="text-bold t-prim m-0">ABOUT {{ company.name.upper() }}</h5>
+                        <h1 class=" ">{{ company.tagline }}</h1>
+                        <p class="my-4">
                             {{ company.description }}
                         </p>
-                        <div class="">
-                            <h5 class="">Contact Information</h5>
-                            <ul class="p-0">
-                                <li>
+                        <div class=" bg-white p-3 border rad-3">
+                            <ul class="p-0 row row-cols-2">
+                                <li class="col">
+                                    <p class="text-muted m-0"><i class="fa fa-map-marker t-prim"></i> {{ company.location }}</p>
+                                </li>
+                                <li class="col">
                                     <a href="mailto:{{ company.user.email }}" target="_blank" class="text-dark text-muted"><i class="fa fa-envelope-o t-prim"></i> {{ company.user.email }}</a>
                                 </li>
-                                <li>
+                                <li class="col">
                                     <a href="tel:{{ company.phone }}" target="_blank" class="text-dark text-muted"><i class="fa fa-phone t-prim"></i> {{ company.phone }}</a>
                                 </li>
                                 {% if company.website %}
-                                    <li>
+                                    <li class="col">
                                         <a href="http://{{ company.website }}" target = "_blank" class="text-dark text-muted"><i class="fa fa-globe t-prim"></i> {{ company.website }}</a>
                                     </li>
                                 {% endif %}
                             </ul>
                         </div>
-                    </div>
+                        <div class="my-3">
+                            <a href="#jobs" class="btn btn-sm btn-brand prim text-light">Posted Jobs: {{ company.jobs | length }}</a>
+                        </div>
+                   </div>
+                    
                 </div>
+
             </div>
-            <div class="col">
+            <div id="jobs" class="col" >
                 <div class="bg-white p-3 border">
                     <h3>Posted Jobs: <span class="text-muted">{{ company.jobs | length or 'No Posted Jobs Yet.' }}</span></h3>
                     {% for job in company.jobs %}
@@ -99,7 +105,11 @@
                                     {{ job.category }}
                                 </p>
                                 <p class=" m-0">
-                                    <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                    {% if job.salary %}
+                                        <span><i class="fa fa-money t-prim"></i> KSh. {{ job.salary | numberFormat}}</span>
+                                    {% else %}
+                                        <span><i class="fa fa-money t-prim"></i> KSh. Not Specified</span>
+                                    {% endif %}
                                 </p>
                             </div>
                             <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>

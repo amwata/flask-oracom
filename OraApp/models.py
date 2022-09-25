@@ -1,6 +1,9 @@
+
+from flask import current_app
 from datetime import datetime
 from OraApp import db, login_manager
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 @login_manager.user_loader
 def load_user(id):
@@ -15,6 +18,20 @@ class User(db.Model, UserMixin):
     applicants = db.relationship('Applicant', backref='user', uselist=False, lazy=True)
     admins = db.relationship('Admin', backref='user', uselist=False, lazy=True)
     employers = db.relationship('Employer', backref='user', uselist=False, lazy=True)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
+        return s.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 # Association Table for connecting applicants to jobs table using a many-to-many relationship
 jobs_applied = db.Table(
@@ -33,7 +50,7 @@ class Applicant(db.Model):
     l_name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     resume = db.Column(db.String(25), nullable=False)
-    image = db.Column(db.String(25),  nullable=False, server_default='anony.png')
+    image = db.Column(db.String(25),  nullable=False, default='anony.png')
     applied_jobs = db.relationship('Job', secondary=jobs_applied, backref='applicants', lazy=True)
     date_joined = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)

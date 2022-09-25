@@ -51,13 +51,14 @@
                                     <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="m-0 h3 text-dark">
                                         {{ job.title }}
                                     </a>
-                                    <p class="text-muted mb-2">
+                                    <p class="text-muted">
                                         {{ job.company.name.capitalize() }} | <i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}
                                     </p>
-                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm p-0 px-2">{{ job.type }}</a>
+                                    <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm">{{ job.type }}</a>
+                                    <small class=" ms-2">Applied {{ date.strftime("%d %b, %Y") }}</small>
+
                                 </div>
                                 <div class="ms-auto">
-                                    <p class="text-muted m-0"><small>Applied {{ date.strftime("%d %b, %Y") }}</small></p>
                                     {% if status %}
                                         <p class="text-success">Shortlisted</p>
                                     {% else %}

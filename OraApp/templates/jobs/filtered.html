@@ -66,7 +66,7 @@
             <h2 class="">{{ head }}: <span class="text-muted">{{ jobs.total }}</span></h2>
         </div>
         
-        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-3">
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">
             {% if jobs %}
                 {% for job in jobs.items %}
                     <div class="col">
@@ -88,11 +88,18 @@
                                 </div>
                             </div>
                             <div class="">
-                                <p class="text-muted m-0">{{ job.company.name.capitalize() }}</p>
-                                <h3 class="d-block text-dark">{{ job.title }}</h3>
-                                <small class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</small>
+                                <h3 class="d-block text-dark m-0">{{ job.title }}</h3>
+                                <p class="text-muted"><i class="fa fa-map-marker t-prim"></i> {{ job.company.location }}</p>
                                 <p class="d-flex m-0 align-items-end">
-                                    <small class="text-muted"><i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not specified' }}</small>
+                                    {% if job.salary %}
+                                        <span>
+                                            <i class="fa fa-money t-prim"></i> KSh. {{ (job.salary | numberFormat)}}
+                                        </span>
+                                    {% else %}
+                                        <span>
+                                            <i class="fa fa-money t-prim"></i> KSh. Not Specified
+                                        </span>
+                                    {% endif %}
                                     <a href="{{ url_for('jobs.profile', job_id=job.id) }}" class="btn btn-sm btn-brand prim text-light ms-auto">{{ job.type }}</a>
                                 </p>
                             </div>

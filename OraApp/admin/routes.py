@@ -29,7 +29,7 @@ def admin_account():
 def admin_job_categories():
     user = current_user.admins
     page = request.args.get('page', 1, type=int)
-    query = db.session.query(Job.category.distinct().label('category')).paginate(page=page, per_page=3)
+    query = db.session.query(Job.category.distinct().label('category')).paginate(page=page, per_page=15)
     jobs = Job.query
     categories = [row.category for row in query.items]
     

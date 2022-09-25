@@ -1,9 +1,9 @@
 
 from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
 from OraApp import db, bcrypt
-from OraApp.forms import Applicant_User_Update, User_Login, Applicant_Signup, Applicant_User_Update
+from OraApp.forms import Applicant_User_Update, User_Login, Applicant_Signup, Applicant_User_Update, Forgot_Password, Reset_Password
 from OraApp.models import User, Applicant, Job, jobs_applied as applied
-from OraApp.utils import save_file, remove_file, user_role_required
+from OraApp.utils import save_file, remove_file, user_role_required, send_pwd_reset_email
 from flask_login import login_user, current_user
 
 
@@ -60,7 +60,7 @@ def settings():
 
     return render_template("applicants/settings.html", title="OraJobs | Applicant Settings", form=form, user = user)
 
-@applicant.route("/applicant/application/<int:job_id>", methods=['GET','POST'])
+@applicant.route("/applicant/application/<int:job_id>")
 @user_role_required('applicant')
 def apply_for_job(job_id):
     user = current_user.applicants
@@ -170,4 +170,37 @@ def applicant_signup():
         login_user(user, remember=True)
         return redirect(url_for('.settings'))
     return render_template("applicants/signup.html", title="OraJobs | Applicant Signup", form=form)
+
+@applicant.route("/applicant/reset-password", methods=['GET', 'POST'])
+def password_reset_request():
+    if current_user.is_authenticated and current_user.applicants:
+        return redirect(url_for('.applicant_account'))
+    form = Forgot_Password()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_pwd_reset_email(user)
+        flash('A password reset link has been sent to your email', 'info')
+        return redirect(url_for('.applicant_login'))
+    return render_template("forgot_password.html", title="Applicant | Reset Password", form=form)
+
+@applicant.route("/applicant/reset-password/<string:token>", methods=['GET', 'POST'])
+def password_reset_link(token):
+    if current_user.is_authenticated and current_user.applicants:
+        return redirect(url_for('.applicant_account'))
+    user = User.verify_reset_token(token)
+    if not user:
+        flash('The link is either invalid or has expired!', 'warning')
+        return redirect(url_for('.password_reset_request'))
+          
+    form = Reset_Password()
+    if form.validate_on_submit():
+        pw_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = pw_hash
+        db.session.commit()
+
+        flash('Your Password has been updated', 'success')
+        return redirect(url_for('.applicant_login'))
+    
+    return render_template("reset_password.html", title="Applicant | Reset Password", form=form)
 

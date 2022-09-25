@@ -5,11 +5,13 @@ from flask_login import LoginManager
 import os
 from os import path
 from sqlalchemy import create_engine
+from flask_mail import Mail
 
 dir = 'OraApp'
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 login_manager = LoginManager()
+mail = Mail()
 
 db_name = 'jobsdb'
 db_user = os.environ.get('DB_USER')
@@ -20,13 +22,21 @@ xmp_soc = '' #'?unix_socket=/opt/lampp/var/mysql/mysql.sock'
 
 def create_app():
     app = Flask(__name__)
+
     app.config['SECRET_KEY'] = secret_key
     # sqlite db uri...app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_name}"
     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_pwd}@localhost/{db_name}{xmp_soc}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USER')
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PWD')
+
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    mail.init_app(app)
 
     from .main.routes import main
     from .applicants.routes import applicant
@@ -41,6 +51,10 @@ def create_app():
     app.register_blueprint(admin)
     app.register_blueprint(jobs)
     app.register_blueprint(errors)
+
+    @app.template_filter()
+    def numberFormat(value):
+        return format(int(value), ',d') 
 
     # db.create_all(app=app)
     # create_db(app)

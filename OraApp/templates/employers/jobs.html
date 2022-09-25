@@ -55,7 +55,11 @@
                                         {{ job.category }} | <a href="{{ url_for('employer.job_details', job_id=job.id) }}" class="btn btn-brand prim text-light btn-sm p-0 px-2">{{ job.type }}</a>
                                     </p>
                                     <p class=" m-0">
-                                        <i class="fa fa-money t-prim"></i> KSh. {{ job.salary or 'Not Specified' }}
+                                        {% if job.salary %}
+                                            <span><i class="fa fa-money t-prim"></i> KSh. {{ job.salary | numberFormat}}</span>
+                                        {% else %}
+                                            <span><i class="fa fa-money t-prim"></i> KSh. Not Specified</span>
+                                        {% endif %}
                                     </p>
                                 </div>
                                 <div class="ms-auto">
