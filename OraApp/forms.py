@@ -96,7 +96,7 @@ class Applicant_User_Update(Applicant):
                 raise ValidationError('This email already in use!')
 
 class Employer_Signup(FlaskForm):
-    name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=20)])
+    name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=60)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     location = StringField('Location', validators=[DataRequired()])
     phone = IntegerField('Phone Number', validators=[DataRequired()])
@@ -173,7 +173,7 @@ class Forgot_Password(FlaskForm):
     def validate_email(self, email):
         exists = User.query.filter_by(email=email.data).first()  
         if not exists:
-            raise ValidationError('This email is Not Registered! Use your account\'s verified Email.') 
+            raise ValidationError('Email Not Registered! Use your account\'s verified Email.') 
 
 
 class Reset_Password(FlaskForm):

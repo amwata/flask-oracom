@@ -171,7 +171,7 @@ def applicant_signup():
         return redirect(url_for('.settings'))
     return render_template("applicants/signup.html", title="OraJobs | Applicant Signup", form=form)
 
-@applicant.route("/applicant/reset-password", methods=['GET', 'POST'])
+@applicant.route("/applicant/password-reset", methods=['GET', 'POST'])
 def password_reset_request():
     if current_user.is_authenticated and current_user.applicants:
         return redirect(url_for('.applicant_account'))
@@ -179,12 +179,20 @@ def password_reset_request():
 
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        send_pwd_reset_email(user)
-        flash('A password reset link has been sent to your email', 'info')
-        return redirect(url_for('.applicant_login'))
+        if user:
+            try:
+                send_pwd_reset_email(user, 'applicant', user.applicants.f_name)
+                flash('A password reset link has been sent to your email', 'info')
+                return redirect(url_for('.applicant_login'))
+            except:
+                flash('Something went wrong! Please Try Again.', 'warning')
+                return redirect(url_for('.password_reset_request'))
+        else:
+            flash('Email not registered. Send the email you registered your account with.', 'warning')
+            return redirect(url_for('.password_reset_request'))
     return render_template("forgot_password.html", title="Applicant | Reset Password", form=form)
 
-@applicant.route("/applicant/reset-password/<string:token>", methods=['GET', 'POST'])
+@applicant.route("/applicant/password-reset/<string:token>", methods=['GET', 'POST'])
 def password_reset_link(token):
     if current_user.is_authenticated and current_user.applicants:
         return redirect(url_for('.applicant_account'))

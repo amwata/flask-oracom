@@ -28,7 +28,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_pwd}@localhost/{db_name}{xmp_soc}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USER')
     app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PWD')

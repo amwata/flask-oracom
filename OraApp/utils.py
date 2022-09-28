@@ -41,14 +41,17 @@ def user_role_required(role):
         return decorated_function
     return decorator
     
-def send_pwd_reset_email(user):
+def send_pwd_reset_email(user, role, name):
     token = user.get_reset_token() 
 
-    subject = 'Password Reset Request'
-    sender = 'noreply@gmail.com'
+    subject = 'Password Reset'
+    sender = ('OraJobs', 'ora.jobs.x@gmail.com')
     recipients = [user.email]
-    body = render_template('email.html', token=token)
 
-    msg = Message(subject, sender=sender, recipients=recipients)
-    msg.body = body
+    link = url_for(f'{role}.password_reset_link', token=token, _external=True)
+    resend = url_for(f'{role}.password_reset_request', _external=True)
+    img = url_for('static', filename='img/oj.png', _external=True)
+
+    html = render_template('email.html', token=token, link=link, name=name, img=img, resend=resend)
+    msg = Message(subject=subject, sender=sender, recipients=recipients, html=html)
     mail.send(msg)

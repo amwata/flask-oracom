@@ -163,6 +163,20 @@ def list_applicant(job_id, applicant_id):
 
     return redirect(url_for('.listed_applicants'))
 
+@employer.route("/employer/list-applicant/<int:job_id>/<int:applicant_id>",  methods=['POST'])
+@user_role_required('employer')
+def unlist_applicant(job_id, applicant_id):
+    user = current_user.employers
+    job = Job.query.get_or_404(job_id)
+    if not job.company == user:
+        abort(403)
+
+    query = db.session.query(jobs_applied).filter((jobs_applied.c.job_id==job_id)&(jobs_applied.c.applicant_id==applicant_id)).update(dict(shortlisted = False))
+    db.session.commit()
+    flash('Applicant removed from your list Successfully', 'success')
+
+    return redirect(url_for('.listed_applicants'))
+
 @employer.route("/employer/notifications/")
 @user_role_required('employer')
 def notifications():

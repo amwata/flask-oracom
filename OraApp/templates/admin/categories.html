@@ -19,7 +19,7 @@
                         {% for category in categories %}
                             <div class="col">
                                 <a href="{{ url_for('admin.admin_filtered_jobs', category=category) }}" class="admin-card category-card">
-                                    <p class="h6"><i class="fa fa-bookmark t-prim"></i> {{category}}</p>
+                                    <p class="h6"><i class="fa fa-tags me-2 t-prim"></i> {{category}}</p>
                                     <div class="category-img-box">
                                         <div class ="image-box my-3">
                                             <img class="rounded-circle" src="{{url_for('static', filename='img/job_search.png')}}" alt="">

@@ -29,24 +29,18 @@
                         </div>
                         {% for user, job in applicants.items %}
 
-                            <div class="modal fade" id="text-user{{user.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
+                            <!-- Image removal confirmation modal -->
+                            <div class="modal fade" id="unlist-applicant{{user.id}}" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
                                     <div class="modal-content bg-c-white t-dark">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="">Send Message</h5>
+                                            <h6 class="modal-title" id="">Remove Applicant from List?</h6>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body py-5">
-                                            <form action="{{ url_for('employer.send_message', applicant_id=user.id) }}" method="post">
-                                              <div class="mb-3">
-                                                <label for="subject" class="col-form-label">Subject:</label>
-                                                <input type="text" class="form-control" id="subject">
-                                              </div>
-                                              <div class="mb-3">
-                                                <label for="message-text" class="col-form-label">Message:</label>
-                                                <textarea class="form-control" id="message-text"></textarea>
-                                              </div>
-                                              <button type="submit" class="btn btn-sm btn-primary mb-4 px-3">Send <i class="fa fa-send"></i></button>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form action="{{ url_for('employer.unlist_applicant', job_id=job.id, applicant_id=user.id) }}" method="post">
+                                                <input type="submit" class="btn btn-sm btn-danger" value="Delete">
                                             </form>
                                         </div>
                                     </div>
@@ -74,15 +68,15 @@
                                                     <i class="fa fa-check-square-o"></i>
                                                 </a>
                                             </p>
-                                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#text-user{{user.id}}" >Message <i class="fa fa-send"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ms-auto">
+                                <div class="ms-auto d-flex flex-column align-items-center">
                                     <a class="paper  text-dark " href="{{ url_for('static', filename='applicant/resume/' + user.resume) }}" target="_blank">
                                         <img src="{{ url_for('static', filename='img/paper.png') }}">
                                     </a>
                                     <p class="text-center m-0"><small>Resume</small></p> 
+                                    <button class="btn btn-sm btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#unlist-applicant{{user.id}}" >Remove <i class="fa fa-trash"></i></button>
                                 </div>
                                 
                             </div>

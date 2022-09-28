@@ -50,7 +50,7 @@ class Applicant(db.Model):
     l_name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     resume = db.Column(db.String(25), nullable=False)
-    image = db.Column(db.String(25),  nullable=False, default='anony.png')
+    image = db.Column(db.String(25),  nullable=False, server_default='anony.png')
     applied_jobs = db.relationship('Job', secondary=jobs_applied, backref='applicants', lazy=True)
     date_joined = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
