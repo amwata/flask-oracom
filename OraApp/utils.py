@@ -45,7 +45,7 @@ def send_pwd_reset_email(user, role, name):
     token = user.get_reset_token() 
 
     subject = 'Password Reset'
-    sender = ('OraJobs', 'ora.jobs.x@gmail.com')
+    sender = ('OraJobs', 'saseda0@gmail.com')
     recipients = [user.email]
 
     link = url_for(f'{role}.password_reset_link', token=token, _external=True)
