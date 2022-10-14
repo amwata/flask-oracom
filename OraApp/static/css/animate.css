@@ -1,17 +1,38 @@
-#hero h1,
+#hero .h1-1,
 #hero p{
 	opacity:0;
 	transform:translateY(30px);
 	transition:all .6s ease;
 }
-#hero h1:nth-child(2){
-	transition-delay:.2s;
-}
-#hero p{
+#hero .h1-1{
 	transition-delay:.3s;
 }
-#hero.inview h1,
+
+#hero p{
+	transition-delay:.5s;
+}
+#hero.inview .h1-1,
 #hero.inview p{
 	opacity:1;
 	transform:translateY(0);
+}
+#hero .hero-img{
+	transform:scale(.8);
+	transition:transform .3s ease-in;
+}
+#hero.inview .hero-img{
+	transform:scale(1);
+}
+
+#hero .h1-2 span{
+	position:relative;
+	display:inline-block;
+	transform:translateY(90px);
+	opacity:0;
+	transition-delay:.4s;
+}
+#hero.inview .h1-2 span{
+	transform:translateY(0);
+	opacity:1;
+	transition:all .42s calc(.03s * var(--i)) ease;
 }

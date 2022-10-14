@@ -31,18 +31,16 @@
 {% block container %}
 
     <section class="hero-form-section bg-light">
-        <div class="container-fluid prim text-light text-center py-5">
-            <h3 class="m-0">Applicant Login</h3>
-        </div>
-        <div class="container py-3">
-            <div class="d-flex">
+        <div class="container-fluid prim text-light py-3">
+            <h2 class="text-center">Applicant Login</h2>
+            <div class="d-flex py-3">
                 <div class="mx-auto d-sm-flex text-light bg-secondary align-items-center justify-content-between p-3">
                     <div class="me-sm-5">
                         <h4 class="text-white">Not Registered?</h4>
                         <p class="m-0">Begin your job hunt! Find and apply for job vacancies.</p>
                     </div>
                     <div class="sign-up-btn my-2">
-                        <a href="{{url_for('applicant.applicant_signup')}}" class="btn btn-sm btn-brand peach text-light px-4">Sign Up <i class="fa fa-sign-in"></i></a>
+                        <a href="{{url_for('applicant.applicant_signup')}}" class="btn btn-sm btn-brand peach text-light px-4">Log In <i class="fa fa-sign-in"></i></a>
                     </div>
                 </div>
             </div>
@@ -107,7 +105,7 @@
                         <div class="">
                             <!-- submit button  -->
                             {{form.submit(class="btn btn-brand prim text-light d-inline px-4")}}
-                            <small class="text-muted">
+                            <small class="">
                                 <a class="ms-3 t-prim" href="{{ url_for('applicant.password_reset_request') }}">Forgot Password?</a>
                             </small>
                         </div>
