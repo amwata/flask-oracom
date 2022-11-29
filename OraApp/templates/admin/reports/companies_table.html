@@ -1,0 +1,21 @@
+
+
+    <table class="table table-hover t-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Location</th>
+            <th>Date Registered</th>
+            <th>Total Jobs</th>
+        </tr>
+        {% for data in companies %}
+            <tr>
+                <td>{{ data.name }}</td>
+                <td>{{ data.user.email }}</td>
+                <td>{{ data.location }}</td>
+                <td>{{ data.date_joined.strftime("%d-%m-%Y") }}</td>
+                <td>{{ data.jobs | length }}</td>
+            </tr>
+            
+        {% endfor %}
+    </table>

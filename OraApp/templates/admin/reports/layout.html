@@ -1,0 +1,28 @@
+{% extends 'admin/layout.html' %}
+{% block reports %}
+    <a href="{{ url_for('admin.reports') }}" class="admin-nav-item active"><i class="fa fa-print" aria-hidden="true"></i> Reports</a>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container">
+        <div class="content">
+            <h4 class="bg-teal-lgrad text-light p-3 my-3">{{ title1 }}</h4>
+            <div class=" ">
+                <div class="p-3 my-3 bg-c-white">
+                    <div class="bg-c-lighter my-3 p-3 d-flex">
+                        <h5 class="" >{{ title2 }}</h5>
+                        <form action="{{ url_for('admin.print_report', report=filter) }}" method="post" class="ms-auto">
+                            <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-print" aria-hidden="true"></i> Print</button>
+                        </form>
+                    </div>
+                    {% block table %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}{% endblock %}

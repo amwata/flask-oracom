@@ -1,0 +1,6 @@
+
+{% extends 'admin/reports/base_pdf.html' %}
+{% block table %}
+    <p>Total Registered Employers: {{ companies|length }}</p>
+    {% include 'admin/reports/companies_table.html' %}
+{% endblock %}

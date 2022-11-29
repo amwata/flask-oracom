@@ -50,10 +50,11 @@
         <h2 class="">Search Companies</h2>
         <div class="d-flex py-3">
             <div class="mx-auto text-light bg-secondary px-5 py-3">
-                <form class="m-0 p-0">
+                <form class="m-0 p-0" method="post" action="{{ url_for('employer.company_search') }}">
+                    {{ form1.hidden_tag() }}
                     <div class="d-sm-flex align-items-center">
                         <div>
-                            <input type="text" placeholder="Name or Location" class="d-block my-2 p-1" required>
+                            <input type="text" name="name" placeholder="Name or Location" class="d-block my-2 p-1" required>
                         </div>
                         <div>
                             <button type="submit" class="btn btn-sm btn-brand peach text-light px-3 d-block ms-sm-1"> <i class="fa fa-search"></i> Search </button>
@@ -68,7 +69,7 @@
 <section id="companies" class="bg-light py-5">
     <div class="container">
         <div class="section-header">
-            <h2 class=" ">List of Companies </h2>
+            <h2 class=" ">{{ head }} </h2>
         </div>
         
         <div class="row row-cols-xxl-4 row-cols-lg-3 row-cols-md-2 row-cols-1 g-2">

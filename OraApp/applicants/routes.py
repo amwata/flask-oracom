@@ -9,6 +9,7 @@ from flask_login import login_user, current_user
 
 applicant = Blueprint('applicant', __name__)
 
+# Applicant Dashboard
 @applicant.route("/applicant/account")
 @user_role_required('applicant')
 def applicant_account():
@@ -19,6 +20,7 @@ def applicant_account():
 
     return render_template("applicants/account.html", title="Applicant | Account", user=user, jobs=jobs, shortlists=shortlists)
 
+# Applicant Account Settings
 @applicant.route("/applicant/settings", methods=['GET','POST'])
 @user_role_required('applicant')
 def settings():
@@ -127,7 +129,7 @@ def delete_image(applicant_id):
 def notifications():
     pass
 
-
+# Signing in Applicant user
 @applicant.route("/applicant/login", methods=['GET', 'POST'])
 def applicant_login():
     if current_user.is_authenticated and current_user.applicants:
@@ -144,6 +146,7 @@ def applicant_login():
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
     return render_template("applicants/login.html", title="OraJobs | Applicant Login", form=form)
 
+# Applicant user registration
 @applicant.route("/applicant/signup", methods=['POST', 'GET'])
 def applicant_signup():
     if current_user.is_authenticated and current_user.applicants:
@@ -171,6 +174,7 @@ def applicant_signup():
         return redirect(url_for('.settings'))
     return render_template("applicants/signup.html", title="OraJobs | Applicant Signup", form=form)
 
+# Applicant User password reset request
 @applicant.route("/applicant/password-reset", methods=['GET', 'POST'])
 def password_reset_request():
     if current_user.is_authenticated and current_user.applicants:
@@ -192,6 +196,7 @@ def password_reset_request():
             return redirect(url_for('.password_reset_request'))
     return render_template("forgot_password.html", title="Applicant | Reset Password", form=form)
 
+# Applicant user password reset token
 @applicant.route("/applicant/password-reset/<string:token>", methods=['GET', 'POST'])
 def password_reset_link(token):
     if current_user.is_authenticated and current_user.applicants:

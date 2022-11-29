@@ -1,14 +1,16 @@
 
-from flask import render_template, Blueprint, url_for, flash, redirect, request, abort
+from flask import render_template, Blueprint, url_for, flash, redirect, request, abort, make_response
 from OraApp import db, bcrypt
-from OraApp.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit, Job_Add, Job_Update
+from OraApp.forms import Applicant_Add, Applicant_Update, Employer_Add, Employer_Update, User_Login, Admin_Update, Admins_Add, Admins_Edit, Job_Add, Job_Update, Forgot_Password, Reset_Password
 from OraApp.models import Admin, User, Job, Employer, Applicant, jobs_applied
-from OraApp.utils import user_role_required, save_file, remove_file
+from OraApp.utils import user_role_required, save_file, remove_file, send_pwd_reset_email
 from flask_login import login_user, current_user
+import pdfkit
 
 
 admin = Blueprint('admin', __name__)
 
+# admin dashboard
 @admin.route("/admin/dashboard/")
 @user_role_required('admin')
 def admin_account():
@@ -114,11 +116,96 @@ def admin_job_remove(job_id):
     flash(f'Job Removed Successfully!', 'success')
     return redirect(url_for('.admin_jobs'))
 
-@admin.route("/admin/notifications/")
+# reports page
+@admin.route("/admin/reports/")
 @user_role_required('admin')
-def admin_notifications():
+def reports():
     user = current_user.admins
-    return render_template("admin/dashboard.html", title="Admin | Notifications")
+
+    return render_template("admin/reports/index.html", title="Admin | Reports", user=user)
+
+@admin.route("/admin/report/<string:report>")
+@user_role_required('admin')
+def filtered_report(report):
+    if report == 'companies':
+        user = current_user.admins
+        users = Employer.query.all()
+        title1 = 'Registered Employers'
+        title2 = 'Report on Registered Employers'
+        return render_template("admin/reports/companies_page.html", title="Admin | Employers Report", user=user, companies=users, title1=title1, title2=title2, filter=report)
+    elif report == 'applicants':
+        user = current_user.admins
+        users = Applicant.query.all()
+        title1 = 'Registered Applicants'
+        title2 = 'Report on Registered Applicants'
+        return render_template("admin/reports/applicants_page.html", title="Admin | Applicants Report", user=user, applicants=users, title1=title1, title2=title2, filter=report)
+    elif report == 'jobs':
+        user = current_user.admins
+        jobs = Job.query.all()
+        title1 = 'Posted Jobs'
+        title2 = 'Report on Posted Jobs'
+        return render_template("admin/reports/jobs_page.html", title="Admin | Jobs Report", user=user, jobs=jobs, title1=title1, title2=title2, filter=report)
+    elif report == 'applications':
+        user = current_user.admins
+        applied = db.session.query(Job, Applicant, jobs_applied.c.date_applied, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).order_by(jobs_applied.c.date_applied.desc()).all()
+
+        title1 = 'Jobs Applied'
+        title2 = 'Report on Jobs Applied'
+        return render_template("admin/reports/applications_page.html", title="Admin | Applications Report", user=user, applied=applied, title1=title1, title2=title2, filter=report)
+    elif report == 'locations':
+        user = current_user.admins
+        locations = db.session.query(Employer.location.distinct()).all()
+        companies = [ Employer.query.filter_by(location=str(c[0])).all() for c in locations]
+        jobs = [ j[0].jobs for j in companies]
+        # applicants = [ j[0].jobs for j in companies]
+
+        # jobs = db.session.query(Job, Applicant, jobs_applied.c.date_applied, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).order_by(jobs_applied.c.date_applied.desc()).all()
+
+        title1 = 'Employers Location'
+        title2 = 'Report on Employers per Location'
+        return render_template("admin/reports/locations_page.html", title="Admin | Employers Locations Report", user=user, locations=jobs.flat(), title1=title1, title2=title2, filter=report)
+    else:
+        abort(404)
+
+@admin.route("/admin/print_report/<string:report>", methods=['POST'])
+@user_role_required('admin')
+def print_report(report):
+    if report == 'companies':
+        user = current_user.admins
+        users = Employer.query.all()
+        title1 = 'Registered Employers'
+        title2 = 'Report on Registered Employers'
+        rendered = render_template("admin/reports/companies_pdf.html", title="Admin | Employers Report", user=user, companies=users, title1=title1, title2=title2)
+    elif report == 'applicants':
+        user = current_user.admins
+        users = Applicant.query.all()
+        title1 = 'Registered Applicants'
+        title2 = 'Report on Registered Applicants'
+        rendered = render_template("admin/reports/applicants_pdf.html", title="Admin | Applicants Report", user=user, applicants=users, title1=title1, title2=title2)
+    elif report == 'jobs':
+        user = current_user.admins
+        jobs = Job.query.all()
+        title1 = 'Posted Jobs'
+        title2 = 'Report on Posted Jobs'
+        rendered = render_template("admin/reports/jobs_pdf.html", title="Admin | Jobs Report", user=user, jobs=jobs, title1=title1, title2=title2)
+    elif report == 'applications':
+        user = current_user.admins
+        applied = db.session.query(Job, Applicant, jobs_applied.c.date_applied, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).order_by(jobs_applied.c.date_applied.desc()).all()
+        
+        list = db.session.query(Applicant, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).filter(jobs_applied.c.shortlisted).all()
+        applicants = db.session.query(jobs_applied.c.applicant_id.distinct()).all()
+        jobs = db.session.query(jobs_applied.c.job_id.distinct()).all()
+        
+        title1 = 'Jobs Applied'
+        title2 = 'Report on Jobs Applied'
+        rendered = render_template("admin/reports/applications_pdf.html", title="Admin | Applications Report", user=user, applied=applied, title1=title1, title2=title2, filter=report, list=list, applicants=applicants, jobs=jobs)
+    else:
+        abort(404)
+    pdf = pdfkit.from_string(rendered, False)
+    response = make_response(pdf)
+    response.headers['content-Type'] = 'application/pdf'
+    response.headers['content-Disposition'] = f'inline: filename={report}.pdf'
+    return response
 
 @admin.route("/admin/employers/")
 @user_role_required('admin')
@@ -436,3 +523,46 @@ def admin_login():
         else:
             flash(f'Invalid Email or Password! Please Try Again.', 'danger')
     return render_template("admin/login.html", title="OraJobs | Admin Login", form=form)
+
+# Admin User password reset request
+@admin.route("/admin/password-reset", methods=['GET', 'POST'])
+def password_reset_request():
+    if current_user.is_authenticated and current_user.admins:
+        return redirect(url_for('.admin_account'))
+    form = Forgot_Password()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            try:
+                send_pwd_reset_email(user, 'admin', user.admins.name)
+                flash('A password reset link has been sent to your email', 'info')
+                return redirect(url_for('.admin_login'))
+            except:
+                flash('Something went wrong! Please Try Again.', 'warning')
+                return redirect(url_for('.password_reset_request'))
+        else:
+            flash('Email not registered. Send the email you registered your account with.', 'warning')
+            return redirect(url_for('.password_reset_request'))
+    return render_template("forgot_password.html", title="Admin | Reset Password", form=form)
+
+# Admin user password reset token
+@admin.route("/admin/password-reset/<string:token>", methods=['GET', 'POST'])
+def password_reset_link(token):
+    if current_user.is_authenticated and current_user.admins:
+        return redirect(url_for('.admin_account'))
+    user = User.verify_reset_token(token)
+    if not user:
+        flash('The link is either invalid or has expired!', 'warning')
+        return redirect(url_for('.password_reset_request'))
+          
+    form = Reset_Password()
+    if form.validate_on_submit():
+        pw_hash = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = pw_hash
+        db.session.commit()
+
+        flash('Your Password has been updated', 'success')
+        return redirect(url_for('.admin_login'))
+    
+    return render_template("reset_password.html", title="Admin | Reset Password", form=form)

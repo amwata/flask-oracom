@@ -1,0 +1,143 @@
+{% extends 'admin/layout.html' %}
+
+{% block reports %}
+    <a href="{{ url_for('admin.reports') }}" class="admin-nav-item active"><i class="fa fa-print" aria-hidden="true"></i> Reports</a>
+{% endblock %}
+
+{% block container %}
+    <style type="text/css">
+        table{
+            width: 80%;
+            margin: 16px auto;
+        }
+        
+        table tr td{
+            width:50%;
+            padding: 8px 40px 8px 10px;
+            text-align: left; 
+            border: 1px solid #aaa;
+        }
+       
+    </style>
+    <div class="container">
+        <div class="content">
+            <h5 class="bg-teal-lgrad text-light p-3 my-3">Reports</h5>
+            <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 g-2">
+                <div class="col">
+                    <a href="{{ url_for('admin.filtered_report', report='companies') }}" class="admin-card">
+                        <div class ="views">
+                            <div class ="icon-box">
+                                <i class="fa fa-building-o" aria-hidden="true"></i>
+                            </div>
+                            <div class ="name report-card-txt">Registered Employers</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('admin.filtered_report', report='applicants') }}" class="admin-card">
+                        <div class ="views">
+                            <div class ="icon-box">
+                                <i class="fa fa-group" aria-hidden="true"></i>
+                            </div>
+                            <div class ="name report-card-txt">Registered Applicants</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('admin.filtered_report', report='jobs') }}" class="admin-card">
+                        <div class ="views">
+                            <div class ="icon-box">
+                                <i class="fa fa-thumb-tack" aria-hidden="true"></i>
+                            </div>
+                            <div class ="name report-card-txt">Posted Jobs</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('admin.filtered_report', report='applications') }}" class="admin-card">
+                        <div class ="views">
+                            <div class ="icon-box">
+                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            </div>
+                            <div class ="name report-card-txt">Jobs Applied</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="{{ url_for('admin.filtered_report', report='locations') }}" class="admin-card">
+                        <div class ="views">
+                            <div class ="icon-box">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            </div>
+                            <div class ="name report-card-txt">Employers per Location</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-3 my-3 bg-c-white">
+                <div class="bg-c-lighter my-3 p-3 d-flex">
+                    <h4 class="" >Summery Report on OraJobs</h4>
+                    <form action="{{ url_for('admin.print_report', report='summery') }}" method="post" class="ms-auto">
+                        <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-print" aria-hidden="true"></i> Print</button>
+                    </form>
+                </div>
+                <div>
+                    <table >
+                        <tr>
+                            <td>Registered Employers</td>
+                            <td>
+                                {{ employers }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Registered Job-Seekers</td>
+                            <td>
+                                {{ seekers }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Posted Jobs</td>
+                            <td>
+                                {{ jobs }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Applications</td>
+                            <td>
+                                {{ applications }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Jobs Applied</td>
+                            <td>
+                                {{ applied }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Total Applicants</td>
+                            <td>
+                                {{ applicants }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Shortlisted Applicants</td>
+                            <td>
+                                {{ list }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Available Employers Locations</td>
+                            <td>
+                                {{ area }}
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}{% endblock %}

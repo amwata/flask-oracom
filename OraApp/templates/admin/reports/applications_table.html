@@ -1,0 +1,27 @@
+
+
+    <table class="table table-hover t-dark">
+        <tr>
+            <th>Job Title</th>
+            <th>Employer</th>
+            <th>Applicant</th>
+            <th>Date Applied</th>
+            <th>Status</th>
+        </tr>
+        {% for job, user, date, status in applied %}
+            <tr>
+                <td>{{ job.title }}</td>
+                <td>{{ job.company.name }}</td>
+                <td>{{ user.f_name }} {{ user.l_name }}</td>
+                <td>{{ date.strftime("%d-%m-%Y") }}</td>
+                <td>
+                    {% if status %}
+                        <span class="text-success">Shortlisted</span>
+                    {% else %}
+                        <span class="text-warning">Pending</span>
+                    {% endif %}
+                </td>
+            </tr>
+            <p></p>
+        {% endfor %}
+    </table>

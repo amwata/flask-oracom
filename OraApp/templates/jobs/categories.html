@@ -45,20 +45,7 @@
 
 {% block container %}
 
-<section id=" " class="">
-    <div class="container-fluid bg-teal-lgrad text-light text-center py-3">
-        <h2 class="m-0">Find Jobs!!!</h2>
-        <div class="d-flex py-3">
-            <div class="mx-auto text-light bg-secondary px-5 py-3">
-                <form class="my-2 search-form">
-                    <input type="text" placeholder="Job Title" class="d-block d-sm-inline" required>
-                    <input type="text" placeholder="Location" class="d-block d-sm-inline my-2 ms-sm-1">
-                    <button type="submit" class="btn btn-sm btn-brand peach text-light px-3 d-block d-sm-inline ms-sm-1"> <i class="fa fa-search"></i> Search </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+{% include 'job-search.html' %}
 
 <section id="job-categories" class="bg-light py-5">
     <div class="container">

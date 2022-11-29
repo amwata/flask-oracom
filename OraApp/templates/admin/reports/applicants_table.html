@@ -1,0 +1,19 @@
+
+
+    <table class="table table-hover t-dark">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date Registered</th>
+            <th>Total Jobs Applied</th>
+        </tr>
+        {% for data in applicants %}
+            <tr>
+                <td>{{ data.f_name +" "+ data.l_name }}</td>
+                <td>{{ data.user.email }}</td>
+                <td>{{ data.date_joined.strftime("%d-%m-%Y") }}</td>
+                <td>{{ data.applied_jobs|length }}</td>
+            </tr>
+            
+        {% endfor %}
+    </table>

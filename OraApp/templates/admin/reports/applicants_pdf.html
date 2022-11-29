@@ -1,0 +1,6 @@
+
+{% extends 'admin/reports/base_pdf.html' %}
+{% block table %}
+    <p>Total Registered Applicants: {{ applicants|length }}</p>
+    {% include 'admin/reports/applicants_table.html' %}
+{% endblock %}

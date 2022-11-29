@@ -9,6 +9,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 def load_user(id):
     return User.query.get(int(id))
 
+# users database model class for users table
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -43,6 +44,7 @@ jobs_applied = db.Table(
     db.PrimaryKeyConstraint('job_id', 'applicant_id')
 )
 
+# applicants database model class for applicants table
 class Applicant(db.Model):
     __tablename__ = 'applicants'
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +57,7 @@ class Applicant(db.Model):
     date_joined = db.Column(db.DateTime(timezone=True), nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
 
+# employers database model class for employers table
 class Employer(db.Model):
     __tablename__ = 'employers'
     id = db.Column(db.Integer, primary_key=True)
@@ -69,6 +72,7 @@ class Employer(db.Model):
     jobs = db.relationship('Job', backref='company', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
 
+# admin database model class for admins table
 class Admin(db.Model):
     __tablename__ = 'admins'
     id = db.Column(db.Integer, primary_key=True)
@@ -77,6 +81,7 @@ class Admin(db.Model):
     image = db.Column(db.String(20),  nullable=False, server_default='anony.png')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
 
+# Job database model class for jobs table
 class Job(db.Model):
     __tablename__ = 'jobs'
     id = db.Column(db.Integer, primary_key=True)
@@ -88,6 +93,7 @@ class Job(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     company_id = db.Column(db.Integer, db.ForeignKey('employers.id'), nullable=False)
 
+# Alerts database model class for notifications table
 class Notification(db.Model):
     __tablename__ = 'notifications'
     id = db.Column(db.Integer, primary_key=True)

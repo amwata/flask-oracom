@@ -5,7 +5,7 @@ from flask_wtf.file import FileField, FileAllowed
 from OraApp.models import User
 from flask_login import current_user
 
-
+# user login form
 class User_Login(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -46,6 +46,7 @@ class Admins_Edit(Admin):
         if exists and exists.admins.id != int(self.id.data):
             raise ValidationError(f'Email ({email.data}) already in use!')
 
+# Applicant data form
 class Applicant(FlaskForm):
     f_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=20)])
     l_name = StringField('Last Name', validators=[DataRequired(), Length(min=2, max=20)])
@@ -95,6 +96,7 @@ class Applicant_User_Update(Applicant):
             if exists:
                 raise ValidationError('This email already in use!')
 
+# Employer Registration form
 class Employer_Signup(FlaskForm):
     name = StringField('Company Name', validators=[DataRequired(), Length(min=2, max=60)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -161,11 +163,17 @@ class Job_Update(Job_Add):
     company_id = None
     submit = SubmitField('Update Job')
 
+# Job Search form
 class Job_Search(FlaskForm):
-    pass
+    title = StringField('Job Title/Category', validators=[DataRequired(), Length(min=2, max=100)])
+    location = StringField('Location', validators=[DataRequired(), Length(min=2, max=100)])
+    submit = SubmitField('Search')
 
-class Contact_Form(FlaskForm):
-    pass
+# Company search form
+class Company_Search(FlaskForm):
+    name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
+    location = StringField('Location', validators=[DataRequired(), Length(min=2, max=100)])
+    submit = SubmitField('Search')
 
 class Forgot_Password(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -181,4 +189,5 @@ class Reset_Password(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')]) 
     submit = SubmitField('Reset Password')
 
-    
+
+     

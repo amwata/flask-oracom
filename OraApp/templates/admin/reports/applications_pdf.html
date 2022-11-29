@@ -1,0 +1,10 @@
+
+{% extends 'admin/reports/base_pdf.html' %}
+{% block table %}
+    <p>Total Applications: {{ applied|length }} </p>
+    <p>Total Jobs Applied: {{ jobs|length }} </p>
+    <p>Total Applicants: {{ applicants|length }} </p>
+    <p>Shortlisted Applicants: {{ list|length }} </p>
+
+    {% include 'admin/reports/applications_table.html' %}
+{% endblock %}

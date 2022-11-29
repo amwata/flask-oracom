@@ -569,6 +569,9 @@ img {
     background: var(--white);
     border: 1px solid var(--faint-light);
 }
+.admin-card .report-card-txt{
+    color:var(--white);
+}
 .admin-card .no{
     position:relative;
     font-size:2rem;

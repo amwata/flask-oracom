@@ -13,19 +13,19 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 mail = Mail()
 
-db_name = 'jobsdb'
+db_name = 'orajobs_db' #'jobsdb'
 db_user = os.environ.get('DB_USER')
 db_pwd = os.environ.get('DB_PWD')
 secret_key = os.environ.get('SECRET_KEY')
-xmp_soc = '' #'?unix_socket=/opt/lampp/var/mysql/mysql.sock'
+xmp_soc = '?unix_socket=/opt/lampp/var/mysql/mysql.sock'
 
-
+# Flask App function with initialized configurations
 def create_app():
     app = Flask(__name__)
 
     app.config['SECRET_KEY'] = secret_key
     # sqlite db uri...app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_name}"
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_pwd}@localhost/{db_name}{xmp_soc}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:@localhost/{db_name}{xmp_soc}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 587

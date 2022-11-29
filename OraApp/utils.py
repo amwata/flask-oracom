@@ -6,7 +6,7 @@ from functools import wraps
 from OraApp import mail
 from flask_mail import Message
 
-
+# function to save file documents
 def save_file(dir, file):
     rand_hex = secrets.token_hex(8)
     _, file_ext = os.path.splitext(file.filename)
@@ -25,10 +25,12 @@ def save_file(dir, file):
         flash(message='Inappropriate File or Directory!', category='danger')
     return file_name
 
+# Delete saved files
 def remove_file(file):
     file_path = os.path.join(current_app.root_path, f'static/{file}')
     os.remove(file_path)
 
+# Authorize authenticated users
 def user_role_required(role):
     def decorator(f):
         @wraps(f)
@@ -40,7 +42,8 @@ def user_role_required(role):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-    
+
+#  sending email for reseting a user's password
 def send_pwd_reset_email(user, role, name):
     token = user.get_reset_token() 
 
@@ -52,6 +55,20 @@ def send_pwd_reset_email(user, role, name):
     resend = url_for(f'{role}.password_reset_request', _external=True)
     img = url_for('static', filename='img/oj.png', _external=True)
 
-    html = render_template('email.html', token=token, link=link, name=name, img=img, resend=resend)
+    html = render_template('email.html', link=link, name=name, img=img, resend=resend)
+    msg = Message(subject=subject, sender=sender, recipients=recipients, html=html)
+    mail.send(msg)
+
+#  sending email to shortlisted applicants
+def send_shortlist_email(email, obj):
+
+    subject = 'You are Shortlisted'
+    sender = ('OraJobs', 'saseda0@gmail.com')
+    recipients = [email]
+
+    jobs = url_for('jobs.job_list', _external=True)
+    # img = url_for('static', filename='img/oj.png', _external=True)
+
+    html = render_template('email.html', shortlist=obj, jobs=jobs)
     msg = Message(subject=subject, sender=sender, recipients=recipients, html=html)
     mail.send(msg)

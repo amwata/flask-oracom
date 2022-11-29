@@ -1,0 +1,21 @@
+
+
+    <table class="table table-hover t-dark">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Company</th>
+            <th>Date Posted</th>
+            <th>Total Applicants</th>
+        </tr>
+        {% for data in jobs %}
+            <tr>
+                <td>{{ data.title }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.company.name }}</td>
+                <td>{{ data.date_posted.strftime("%d-%m-%Y") }}</td>
+                <td>{{ data.applicants | length }}</td>
+            </tr>
+            
+        {% endfor %}
+    </table>

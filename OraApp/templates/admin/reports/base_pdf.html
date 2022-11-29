@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#3776AB">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+    
+        }
+    
+        body {
+            font-family: sans-serif;
+            background: white;
+        }
+        .text-success{
+            color: #198754;
+        }
+        .text-warning{
+            color: #ffc107;
+        }
+        .container{
+            padding: 40px 0;
+        }
+        /* .content{
+        } */
+        .box{
+            width: 80%;
+            margin: 0 auto;
+        }
+        .title{
+            padding: 8px 0;
+        }
+        .title h2{
+            margin-bottom: 30px;
+        }
+        table{
+            width: 100%;
+            margin: 16px 0;
+        }
+        table tr:nth-child(odd){
+            background: #efefef;
+        }
+        table tr td,
+        table tr th{
+            padding: 8px 4px;
+            text-align: left;
+            border: 1px solid #eee;
+        }
+    
+    </style>
+</head>
+    <body>
+        
+        <div class="container">
+            <div class="content">
+                <div class="box p-3 my-3">
+                    <div class=" my-3 p-3 title">
+                        <h2 >{{ title2 }}</h2>
+                    </div>
+                    {% block table %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

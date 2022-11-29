@@ -62,8 +62,8 @@
                 {% block applicants %}
                     <a href="{{ url_for('admin.admin_applicants') }}" class="admin-nav-item"><i class="fa fa-users" aria-hidden="true"></i> Applicants</a>
                 {% endblock %}
-                {% block notifications %}
-                    <a href="{{ url_for('admin.admin_notifications') }}" class="admin-nav-item"><i class="fa fa-comments-o" aria-hidden="true"></i> Notifications</a>
+                {% block reports %}
+                    <a href="{{ url_for('admin.reports') }}" class="admin-nav-item"><i class="fa fa-print" aria-hidden="true"></i> Reports</a>
                 {% endblock %}
                 {% block settings %}
                     <a href="{{ url_for('admin.admin_settings') }}" class="admin-nav-item"><i class="fa fa-wrench reflect-px"

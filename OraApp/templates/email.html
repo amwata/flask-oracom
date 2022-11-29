@@ -15,21 +15,59 @@
 				<span class="img-ctn"><img src="{{ img }}" alt=""></span>
 			</div>
 		</div>
-		<div class="main">
-			<h2 class="h2">Password Reset</h2>
-			<p>Hello {{ name}},</p>
-			<p>
-				We heard that you lost your OraJobs password. Sorry about that!
-				You can use the following button to reset your password:<br>
-				<a href="{{ link }}" target="_blank" class="btn" >Reset Password</a>
-			</p>
-			<p>This link will expire in 30 minutes. To get a new Password Reset link, visit:
-			<a href="{{ resend }}" >Request Password Reset </a></p>
-			<p>
-				Thanks,<br>
-				The OraJobs Team.
-			</p>
-		</div>
+
+		{% if shortlist %}
+			<div class="main">
+				<h2 class="h2">You are Shortlisted</h2>
+				<p>Hello {{ shortlist['Applicant'].l_name }},</p>
+				<p>
+					We are glad to inform you that you have been shortlisted for a job you applied for at {{ shortlist['Job'].company.name }}.
+				</p>
+				<p>Application details: </p>
+				<table class="tbl">
+					<tr>
+						<th>Job Applied</th>
+						<td>{{ shortlist['Job'].title }}</td>
+					</tr>
+					<tr>
+						<th>Date Applied</th>
+						<td>{{ shortlist['date_applied'].strftime("%d %b, %Y") }}</td>
+					</tr>
+					<tr>
+						<th>Job Category</th>
+						<td>{{ shortlist['Job'].category }}</td>
+					</tr>
+					<tr>
+						<th>Company</th>
+						<td>{{ shortlist['Job'].company.name }}</td>
+					</tr>
+				</table>
+
+				<p>
+					Selected candidates will be contacted.<br>
+					Thanks,<br>
+					The OraJobs Team.
+				</p>
+				<p>View more available job vacancies:<br>
+				<a href="{{ jobs }}" target="_blank" class="btn" >Find Jobs</a></p>
+			</div>
+		{% else %}
+			<div class="main">
+				<h2 class="h2">Password Reset</h2>
+				<p>Hello {{ name }},</p>
+				<p>
+					We heard that you lost your OraJobs password. Sorry about that!
+					You can use the following button to reset your password:<br>
+					<a href="{{ link }}" target="_blank" class="btn" >Reset Password</a>
+				</p>
+				<p>This link will expire in 30 minutes. To get a new Password Reset link, visit:
+				<a href="{{ resend }}" target="_blank" >Request Password Reset </a></p>
+				<p>
+					Thanks,<br>
+					The OraJobs Team.
+				</p>
+			</div>
+		{% endif %}
 		<div class="foot">
 			<p class="text-muted m-0"><small>If you did not request for password reset for your account, kindly ignore this email.</small></p>
 		</div>

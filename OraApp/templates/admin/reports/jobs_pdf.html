@@ -1,0 +1,6 @@
+
+{% extends 'admin/reports/base_pdf.html' %}
+{% block table %}
+    <p>Total Posted Jobs: {{ jobs|length }}</p>
+    {% include 'admin/reports/jobs_table.html' %}
+{% endblock %}
