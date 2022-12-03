@@ -5,11 +5,15 @@
             <th>Location</th>
             <th>Total Companies</th>
             <th>Total Jobs</th>
-            <th>Total Applicants</th>
+            <th>Total Applications</th>
         </tr>
-        <tr>
-            <p>
-                {{ locations}}
-            </p>
-        </tr>
+        {% for i in range(payload.locations|length) %}
+            <tr>
+                <td>{{ payload.locations[i][0] }}</td>
+                <td>{{ payload.companies[i]|length }}</td>
+                <td>{{ payload.jobs[i]|length }}</td>
+                <td>{{ payload.applications[i]|length }}</td>
+            </tr>
+            
+        {% endfor %}
     </table>

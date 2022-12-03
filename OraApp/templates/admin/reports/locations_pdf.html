@@ -1,6 +1,6 @@
 
 {% extends 'admin/reports/base_pdf.html' %}
 {% block table %}
-    <p>Company Locations: {{ locations|length }}</p>
+    <p>Companies Locations: {{ payload.locations|length }}</p>
     {% include 'admin/reports/locations_table.html' %}
 {% endblock %}

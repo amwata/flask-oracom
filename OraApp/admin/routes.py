@@ -122,7 +122,20 @@ def admin_job_remove(job_id):
 def reports():
     user = current_user.admins
 
-    return render_template("admin/reports/index.html", title="Admin | Reports", user=user)
+    locations = db.session.query(Employer.location.distinct()).all()
+    companies = [Employer.query.all()]
+    applicants = [Applicant.query.all()]
+    jobs = [Job.query.all()]
+    applications = [ sum([db.session.query(Applicant).all()], []) ]
+    applied = [ sum([db.session.query(Job).select_from(Job).join(jobs_applied).join(Applicant).all()], []) ]
+    listed = [ sum([db.session.query(Applicant).select_from(Job).join(jobs_applied).filter(jobs_applied.c.shortlisted == True).join(Applicant).all()], []) ]
+
+    payload = {'locations': locations, 'companies': sum(companies, []), 'jobs': sum(jobs, []), 'applications': sum(applications, []), 'listed': sum(listed, []), 'applied': sum(applied, []), 'applicants': sum(applicants, [])}
+
+    title1 = 'Summery Report on OraJobs'
+    title2 = 'Report on Employers per Location'
+
+    return render_template("admin/reports/index.html", title="Admin | Reports", user=user, payload=payload, title1=title1, title2=title2)
 
 @admin.route("/admin/report/<string:report>")
 @user_role_required('admin')
@@ -157,13 +170,13 @@ def filtered_report(report):
         locations = db.session.query(Employer.location.distinct()).all()
         companies = [ Employer.query.filter_by(location=str(c[0])).all() for c in locations]
         jobs = [ j[0].jobs for j in companies]
-        # applicants = [ j[0].jobs for j in companies]
+        applications = [ sum([db.session.query(Applicant).select_from(Job).join(jobs_applied).filter(jobs_applied.c.job_id==i.id).join(Applicant).all() for i in j], []) for j in jobs ]
 
-        # jobs = db.session.query(Job, Applicant, jobs_applied.c.date_applied, jobs_applied.c.shortlisted).select_from(Job).join(jobs_applied).join(Applicant).order_by(jobs_applied.c.date_applied.desc()).all()
+        payload = {'locations': locations, 'companies': companies, 'jobs': jobs, 'applications': applications}
 
         title1 = 'Employers Location'
         title2 = 'Report on Employers per Location'
-        return render_template("admin/reports/locations_page.html", title="Admin | Employers Locations Report", user=user, locations=jobs.flat(), title1=title1, title2=title2, filter=report)
+        return render_template("admin/reports/locations_page.html", title="Admin | Employers Locations Report", user=user, payload=payload, title1=title1, title2=title2, filter=report)
     else:
         abort(404)
 
@@ -199,6 +212,35 @@ def print_report(report):
         title1 = 'Jobs Applied'
         title2 = 'Report on Jobs Applied'
         rendered = render_template("admin/reports/applications_pdf.html", title="Admin | Applications Report", user=user, applied=applied, title1=title1, title2=title2, filter=report, list=list, applicants=applicants, jobs=jobs)
+    elif report == 'locations':
+        user = current_user.admins
+        locations = db.session.query(Employer.location.distinct()).all()
+        companies = [ Employer.query.filter_by(location=str(c[0])).all() for c in locations]
+        jobs = [ j[0].jobs for j in companies]
+        applications = [ sum([db.session.query(Applicant).select_from(Job).join(jobs_applied).filter(jobs_applied.c.job_id==i.id).join(Applicant).all() for i in j], []) for j in jobs ]
+
+        payload = {'locations': locations, 'companies': companies, 'jobs': jobs, 'applications': applications}
+
+        title1 = 'Employers Location'
+        title2 = 'Report on Employers per Location'
+        rendered = render_template("admin/reports/locations_pdf.html", title="Admin | Employers Locations Report", user=user, payload=payload, title1=title1, title2=title2, filter=report)
+    elif report == 'summery':
+        user = current_user.admins
+
+        locations = db.session.query(Employer.location.distinct()).all()
+        companies = [Employer.query.all()]
+        applicants = [Applicant.query.all()]
+        jobs = [Job.query.all()]
+        applications = [ sum([db.session.query(Applicant).all()], []) ]
+        applied = [ sum([db.session.query(Job).select_from(Job).join(jobs_applied).join(Applicant).all()], []) ]
+        listed = [ sum([db.session.query(Applicant).select_from(Job).join(jobs_applied).filter(jobs_applied.c.shortlisted == True).join(Applicant).all()], []) ]
+
+        payload = {'locations': locations, 'companies': sum(companies, []), 'jobs': sum(jobs, []), 'applications': sum(applications, []), 'listed': sum(listed, []), 'applied': sum(applied, []), 'applicants': sum(applicants, [])}
+
+        title1 = 'Summery Report on OraJobs'
+        title2 = 'Report on Employers per Location'
+
+        rendered = render_template("admin/reports/summery_pdf.html", title="Admin | Reports", user=user, payload=payload, title1=title1, title2=title2)
     else:
         abort(404)
     pdf = pdfkit.from_string(rendered, False)

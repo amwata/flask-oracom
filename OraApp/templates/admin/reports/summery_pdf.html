@@ -45,11 +45,12 @@
             text-align: center;
         }
         table{
-            width: auto;
+            width: 80%;
             margin: 16px auto;
         }
-       
+        
         table tr td{
+            width:50%;
             padding: 8px 40px 8px 10px;
             text-align: left; 
             border: 1px solid #aaa;
@@ -69,49 +70,43 @@
                         <tr>
                             <td>Registered Employers</td>
                             <td>
-                                {{ employers }}
+                                {{ payload.companies|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Registered Job-Seekers</td>
                             <td>
-                                {{ seekers }}
+                                {{ payload.applicants|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Posted Jobs</td>
                             <td>
-                                {{ jobs }}
+                                {{ payload.jobs|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Total Applications</td>
                             <td>
-                                {{ applications }}
+                                {{ payload.applications|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Total Jobs Applied</td>
                             <td>
-                                {{ applied }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Applicants</td>
-                            <td>
-                                {{ applicants }}
+                                {{ payload.applied|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Shortlisted Applicants</td>
                             <td>
-                                {{ list }}
+                                {{ payload.listed|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Available Employers Locations</td>
                             <td>
-                                {{ area }}
+                                {{ payload.locations|length }}
                             </td>
                         </tr>
                     </table>

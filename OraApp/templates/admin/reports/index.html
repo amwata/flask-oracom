@@ -77,59 +77,54 @@
 
             <div class="p-3 my-3 bg-c-white">
                 <div class="bg-c-lighter my-3 p-3 d-flex">
-                    <h4 class="" >Summery Report on OraJobs</h4>
+                    <h4 class="" >{{ title1 }}</h4>
                     <form action="{{ url_for('admin.print_report', report='summery') }}" method="post" class="ms-auto">
                         <button type="submit" class="btn btn-sm btn-primary" ><i class="fa fa-print" aria-hidden="true"></i> Print</button>
                     </form>
                 </div>
                 <div>
+                   
                     <table >
                         <tr>
                             <td>Registered Employers</td>
                             <td>
-                                {{ employers }}
+                                {{ payload.companies|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Registered Job-Seekers</td>
                             <td>
-                                {{ seekers }}
+                                {{ payload.applicants|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Posted Jobs</td>
                             <td>
-                                {{ jobs }}
+                                {{ payload.jobs|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Total Applications</td>
                             <td>
-                                {{ applications }}
+                                {{ payload.applications|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Total Jobs Applied</td>
                             <td>
-                                {{ applied }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Total Applicants</td>
-                            <td>
-                                {{ applicants }}
+                                {{ payload.applied|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Shortlisted Applicants</td>
                             <td>
-                                {{ list }}
+                                {{ payload.listed|length }}
                             </td>
                         </tr>
                         <tr>
                             <td>Available Employers Locations</td>
                             <td>
-                                {{ area }}
+                                {{ payload.locations|length }}
                             </td>
                         </tr>
                     </table>
