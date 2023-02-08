@@ -1,1 +1,1 @@
-# Online Job-Seeker Portal Project using Python - Flask Framework
+# Online Job-Seeker Portal Project using Flask - Python Framework
