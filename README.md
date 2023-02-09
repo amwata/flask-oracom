@@ -1,7 +1,8 @@
 # Online Job-Seeker Portal Project using Flask - Python Framework
 
 
-<b style="text-align:center">-------- Project Tree Structure---------</b>
+<b>-------- Project Tree Structure---------</b>
+
 <pre>
 ├── main.py (Main module that runs the project Application)
 ├── OraApp (Job Portal Application package)
