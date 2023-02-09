@@ -1,8 +1,7 @@
 # Online Job-Seeker Portal Project using Flask - Python Framework
 
 
--------- Project Tree Structure---------
-
+<b>-------- Project Tree Structure---------</b>
 
 <pre>
 ├── main.py (Main module that runs the project Application)
