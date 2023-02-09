@@ -4,7 +4,7 @@
 -------- Project Tree Structure---------
 
 
-```
+<pre>
 ├── main.py (Main module that runs the project Application)
 ├── OraApp (Job Portal Application package)
 │   ├── admin (Admin Package with routes module)
@@ -54,4 +54,4 @@
 ├── oracom-env (Project Virtual Environment with installed Flask App requirements)
 ├── README.md
 └── requirements.txt (List of Packages and Modules required for the Application)
-```
+</pre>
